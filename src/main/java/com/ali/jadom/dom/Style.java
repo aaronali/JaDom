@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import com.ali.jadom.dom.superelements.FlowingContent;
 import com.ali.jadom.dom.superelements.MetadataContent;
-import com.ibm.ca.logger.Logger;
+import com.ali.java.jalo.Logger;
 
 @Tag("style")
 public class Style extends DOMelement implements MetadataContent , FlowingContent{

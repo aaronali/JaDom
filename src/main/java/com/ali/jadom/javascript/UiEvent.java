@@ -2,8 +2,7 @@ package com.ali.jadom.javascript;
 
 import java.util.Date;
 
-import com.ali.jadom.dom.DOMelement;
-import com.ali.jadom.dom.Time;
+import com.ali.jadom.dom.DOMelement; 
 
 public class UiEvent extends DomEventAbstract implements DomEventInterface{ 
  
@@ -38,10 +37,6 @@ public class UiEvent extends DomEventAbstract implements DomEventInterface{
 
 	public synchronized final void setDetail(long detail) {
 		this.detail = detail;
-	}
-	
-	
-	
-	  
+	} 
 		 
 }

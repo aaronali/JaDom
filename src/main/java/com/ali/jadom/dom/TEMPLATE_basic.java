@@ -8,6 +8,11 @@ public class TEMPLATE_basic extends DOMelement {
 
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -685244283245116622L;
+
 	public TEMPLATE_basic( String divHTML) {
 		super(tag(TEMPLATE_basic.class), divHTML); 
 	}

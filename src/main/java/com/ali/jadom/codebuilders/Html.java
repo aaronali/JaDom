@@ -1,7 +1,7 @@
 package com.ali.jadom.codebuilders;
  
 import com.ali.jadom.dom.DOMelement;
-import com.ibm.ca.logger.Logger;
+import com.ali.java.jalo.Logger;
 
 public class Html {
 

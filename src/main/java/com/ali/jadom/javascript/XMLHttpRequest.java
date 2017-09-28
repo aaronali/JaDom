@@ -109,7 +109,7 @@ public class XMLHttpRequest extends DomFunction implements Serializable, EventTa
 	 * @return 
 	 * @return String of file contents
 	 */
-	private   String readscript(String filename){
+	private  String readscript(String filename){
 		String  result = new String(); 
 		Path file = Paths.get(filename);
 		 

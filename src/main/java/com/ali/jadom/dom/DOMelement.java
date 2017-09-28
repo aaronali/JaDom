@@ -1,7 +1,6 @@
 package com.ali.jadom.dom;
   
-
-import java.io.Console;
+ 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap; 
@@ -13,6 +12,7 @@ import com.ali.jadom.javascript.MediaEvent;
 import com.ali.jadom.javascript.MouseEventObject;
 import com.ali.jadom.javascript.UiEvent;
 import com.ali.jadom.javascript.XMLHttpRequest;
+import com.ali.java.jaFile.FileReader;
 import com.ali.jadom.javascript.DomEventInterface.EventPhase;
 import com.ali.jadom.dom.superelements.FlowingContent;
 import com.ali.jadom.dom.superelements.GlobalEventHandlers;
@@ -1609,9 +1609,11 @@ public abstract class DOMelement extends java.lang.Object  implements  GlobalEve
 	}
 	
 	public void innnHtmlFromUrl(String url){
-		this.nodevalue = com.ibm.ca.FileReader.FileReader.readUrl(url);
+		FileReader fr = new FileReader();
+		this.nodevalue = fr.readUrl(url);
 	}
 	public void innnHtmlFromFile(String url){
-		this.nodevalue = com.ibm.ca.FileReader.FileReader.readFile(url);
+		FileReader fr = new FileReader();
+		this.nodevalue = fr.readFile(url);
 	}
 }

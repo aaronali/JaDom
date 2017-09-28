@@ -2,8 +2,7 @@ package com.ali.jadom.javascript;
 
 import java.io.Serializable;
 
-import com.ali.jadom.dom.ApplicationManager;
-import com.ali.jadom.dom.superelements.GlobalEventHandlers;
+import com.ali.jadom.dom.ApplicationManager; 
 
 public class EventListener implements  EventListenerInterface , Serializable{
 

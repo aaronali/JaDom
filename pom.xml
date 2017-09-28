@@ -4,11 +4,10 @@
 
   <groupId>com.ali</groupId>
   <artifactId>jadom</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.3-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>jadom</name>
-  <url>http://maven.apache.org</url>
+  <name>jadom</name> 
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,12 +20,17 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-    
     <dependency>
       <groupId>com.ali.java</groupId>
-      <artifactId>logger</artifactId>
-      <version>[0.0,)</version>
-      <scope>test</scope>
+      <artifactId>jalo</artifactId>
+      <version>1.0.0</version> 
     </dependency>
+    <dependency>
+      <groupId>com.ali.java</groupId>
+      <artifactId>jafile</artifactId>
+      <version>1.0.0</version> 
+    </dependency>
+    
+ 
   </dependencies>
 </project>

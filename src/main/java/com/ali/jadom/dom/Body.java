@@ -26,7 +26,7 @@ public class Body extends DOMelement implements SectioningRoot {
 		super(tag(Body.class), bodyHTML); 
 	} 
 	
-	public Body(DOMelementInterface body){
+	public Body(IDOMelement body){
 		super((DOMelement)body);
 		this.bodyHTML =((Body)body).bodyHTML;
 	}

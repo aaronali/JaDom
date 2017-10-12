@@ -1,0 +1,43 @@
+
+if (document.defaultView.addEventListener) {                    // For all major browsers, except IE 8 and earlier
+    document.defaultView.addEventListener("load", sendWindoData, true);
+    document.defaultView.addEventListener("resize", sendWindoData, true);
+} else if (document.defaultView.attachEvent) {                  // For IE 8 and earlier versions
+    document.defaultView.attachEvent("load", sendWindoData, true);
+      document.defaultView.attachEvent("load", sendWindoData, true);
+} 
+
+function sendWindoData(){
+	  
+		var xhttp = new XMLHttpRequest();   
+		xhttp.open("POST", "/EasyJsp/", true); 
+		xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		var temp = document.defaultView
+		xhttp.send("&newWindow=true&undefined="+temp.undefined+"&screenX="+temp.screenX+"&screenY="+temp.screenY+"&length="+temp.length+"&hoffest="+temp.hoffset+"&closed=" + temp.closed + "&defaultStatus="+ temp.defaultStatus+"&frames="+temp.frames+"&fullscreen="+temp.fullscreen+"&hoffset="+temp.hoffset+"&innerHeight="+temp.innerHeight+"&innerWidth="+temp.innerWidth+"&length="+temp.length+"&mozInnerScreenX="+temp.mozInnerScreenX+"&InnerScreenY="+ temp.InnerScreenY+"&mozPaintCount="+ temp.mozPaintCount+"&name="+temp.name+"&opener="+ temp.opener +"&pageYOffset="+ temp.pageYOffset +"&pageXOffset=" + temp.pageXOffset + "&screenX="+temp.screenX +"&screenY="+ temp.screenY +"&scrollMaxX="+ temp.scrollMaxX +"&scrollMaxY="+temp.scrollMaxY+"&scrollX="+ temp.scollX+"&scrollY="+ temp.scrollY+"&status="+ temp.status + "&wOffset="+temp.wOffset+"&widHieght="+ temp.widHieght+"&wimHeight="+temp.wimHeight+"&winWidth="+temp.winWidth+"&wimHeight="+temp.wimHeight);
+		var xhttp1 = new XMLHttpRequest();   
+		temp = temp.location;
+		xhttp1.open("POST", "/EasyJsp/", true); 
+		xhttp1.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhttp1.send("&newLocation=true&caller="+temp.caller+"&name="+temp.name+"&hash="+temp.hash+"&host="+ encodeURI(temp.hostname)+"&href="+encodeURI(temp.href)+"&orgin="+ encodeURI(temp.orgin)+"&protocal="+ encodeURI(temp.protocol)+"&search="+encodeURI(temp.search));
+		xhttp = null;
+		xhttp1=null;
+		console.log("windows info sent on laod");
+	 
+}
+	
+function sendWindow(){
+		var xhttp = new XMLHttpRequest();  
+		var temp = document.defaultView; 
+		xhttp.open("POST", "/EasyJsp/", true); 
+		xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		//xhttp.send("&newLocation=true&caller="+temp.caller+"&name="+temp.name+"&hash="+temp.hash+"&host="+ encodeURI(temp.hostname)+"&href="+encodeURI(temp.href)+"&orgin="+ encodeURI(temp.orgin)+"&protocal="+ encodeURI(temp.protocol)+"&search="+encodeURI(temp.search));
+		xhttp.send("&newWindow=true&undefined="+temp.undefined+"&closed=" + temp.closed + "&defaultStatus="+ temp.defaultStatus+"&frames="+temp.frames+"&fullscreen="+temp.fullscreen+"&hoffset="+temp.hoffset+"&innerHeight="+temp.innerHeight+"&innerwidth="+temp.innerWidth+"&length="+temp.length+"&mozInnerScreenX="+temp.mozInnerScreenX+"&InnerScreenY="+ temp.InnerScreenY+"&mozPaintCount="+ temp.mozPaintCount+"&name="+temp.name+"&opener="+ temp.opener +"&pageYOffset="+ temp.pageYOffset +"&pageXOffset=" + temp.pageXOffset + "&screenX="+temp.screenX +"screenY&="+ temp.screenY +"&scrollMaxX="+ temp.scrollMaxX +"scrollMaxY="+temp.scrollMaxY+"&scollX="+ temp.scollX+"&scrollY="+ temp.scrollY+"&status="+ temp.status + "&wOffset="+temp.wOffset+"&widHieght="+ temp.widHieght+"&wimHeight="+temp.wimHeight+"&winWidth="+temp.winWidth+"&wimHeight="+temp.wimHeight);
+}
+
+function assign(){
+		var xhttp = new XMLHttpRequest();   
+		xhttp.open("POST", "/EasyJsp/", true); 
+		xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	 	xhttp.send("/location=true&undefined="+temp.undefined+"&closed=" + temp.closed + "&defaultStatus="+ temp.defaultStatus+"&frames="+temp.frames+"&fullscreen="+temp.fullscreen+"&hoffset="+temp.hoffset+"&innerHeight="+temp.innerHeight+"&innerwidth="+temp.innerWidth+"&length="+temp.length+"&mozInnerScreenX="+temp.mozInnerScreenX+"&InnerScreenY="+ temp.InnerScreenY+"&mozPaintCount="+ temp.mozPaintCount+"&name="+temp.name+"&opener="+ temp.opener +"&pageYOffset="+ temp.pageYOffset +"&pageXOffset=" + temp.pageXOffset + "&screenX="+temp.screenX +"screenY&="+ temp.screenY +"&scrollMaxX="+ temp.scrollMaxX +"scrollMaxY="+temp.scrollMaxY+"&scollX="+ temp.scollX+"&scrollY="+ temp.scrollY+"&status="+ temp.status + "&wOffset="+temp.wOffset+"&widHieght="+ temp.widHieght+"&wimHeight="+temp.wimHeight+"&winWidth="+temp.winWidth+"&wimHeight="+temp.wimHeight);
+
+}

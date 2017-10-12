@@ -18,7 +18,7 @@ public class Picture extends DOMelement implements FlowingContent, PhrasingConte
 		super(tag(Picture.class), ""); 
 	} 
 	
-	public Picture(DOMelementInterface element){
+	public Picture(IDOMelement element){
 		super((Picture)element);
 	}
 	/**

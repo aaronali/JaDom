@@ -22,7 +22,7 @@ public class Dfn extends DOMelement implements FlowingContent, PhrasingContent, 
 	 * 
 	 * @param element
 	 */
-	public Dfn(DOMelementInterface element){
+	public Dfn(IDOMelement element){
 		super((DOMelement)element);
 	}
 	

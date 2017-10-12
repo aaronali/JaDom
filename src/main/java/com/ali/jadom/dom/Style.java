@@ -21,7 +21,7 @@ public class Style extends DOMelement implements MetadataContent , FlowingConten
 	protected boolean styleScript = false;
 
 	public boolean isId=false;
-	MediaTypes[] mediaTypes=null;
+	MediaTypesEnum[] mediaTypes=null;
 	String mediaValue =null; 
 	
 	/**
@@ -48,17 +48,17 @@ public class Style extends DOMelement implements MetadataContent , FlowingConten
 		this.name = name;
 	}
 	
-	public Style(String name, String[]valueNames, String[]values, MediaTypes MediaTypes){ 
+	public Style(String name, String[]valueNames, String[]values, MediaTypesEnum MediaTypes){ 
 		super(tag(Style.class),"",ApplicationManager.FORCE_NO_ATTRIBUTE,
 				ApplicationManager.FORCE_NO_ATTRIBUTE,ApplicationManager.FORCE_NO_ATTRIBUTE,ApplicationManager.FORCE_NO_ATTRIBUTE);
 		this.valuesNames=valueNames;
 		this.values = values;
-		mediaTypes = new MediaTypes[1];
+		mediaTypes = new MediaTypesEnum[1];
 		mediaTypes[0] = MediaTypes;
 		this.name = name;
 	}
 	
-	public Style(String name, String[]valueNames, String[]values, MediaTypes[] mediaQueries,String mediaValues ){
+	public Style(String name, String[]valueNames, String[]values, MediaTypesEnum[] mediaQueries,String mediaValues ){
 		super(tag(Style.class),"",ApplicationManager.FORCE_NO_ATTRIBUTE,
 				ApplicationManager.FORCE_NO_ATTRIBUTE,ApplicationManager.FORCE_NO_ATTRIBUTE,ApplicationManager.FORCE_NO_ATTRIBUTE);
 		this.valuesNames=valueNames;

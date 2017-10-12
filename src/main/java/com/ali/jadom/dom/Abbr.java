@@ -22,7 +22,7 @@ public class Abbr extends DOMelement implements PhrasingContent, PalpableContent
 	 * Creates an abbreviation with the ame properties as the given element
 	 * @param abbr
 	 */
-	public Abbr(DOMelementInterface abbr){
+	public Abbr(IDOMelement abbr){
 		super((DOMelement)abbr);
 		this.title = ((Abbr)abbr).title;
 	}

@@ -32,7 +32,7 @@ public class A extends DOMelement implements PhrasingContent, InteractiveContent
 	/** link target value **/
 	protected String target;
 	/** link relationship to the document **/
-	protected RelType rel;
+	protected RelTypeEnum rel;
 	/** href language of the resource**/
 	protected String hreflang;
 	/** if link is a download and the file name of download **/
@@ -47,7 +47,7 @@ public class A extends DOMelement implements PhrasingContent, InteractiveContent
 	 * Creates an anchor tag with the same properties as the given element
 	 * @param ele DOMelementInterface&ltA&gt
 	 */
-	public A(DOMelementInterface ele){
+	public A(IDOMelement ele){
 		super((DOMelement)ele);
 		this.download =((A)ele).download;
 		this.href =((A)ele).href;
@@ -103,7 +103,7 @@ public class A extends DOMelement implements PhrasingContent, InteractiveContent
 		if(attributes.get("download")!=null)
 			this.download = attributes.get("downlaod");
 		if(attributes.get("rel")!=null)
-			this.rel = Enum.valueOf(RelType.class, attributes.get("rel"));
+			this.rel = Enum.valueOf(RelTypeEnum.class, attributes.get("rel"));
 		if(attributes.get("hreflang")!=null)
 			this.hreflang = attributes.get("hreflang");
 		if(attributes.get("type")!=null)
@@ -220,10 +220,10 @@ public class A extends DOMelement implements PhrasingContent, InteractiveContent
 
 	/**
 	 * Gets the relationship type for the link.
-	 * @see RelType
+	 * @see RelTypeEnum
 	 * @return RelType
 	 */
-	public final RelType getRel() {
+	public final RelTypeEnum getRel() {
 		return rel;
 	}
 
@@ -231,7 +231,7 @@ public class A extends DOMelement implements PhrasingContent, InteractiveContent
 	 * Sets the relationship type for the link. If the value is null it will be removed.
 	 * @param rel as RelType
 	 */
-	public final void setRel(RelType rel) {
+	public final void setRel(RelTypeEnum rel) {
 		this.rel = rel;
 		if(rel!=null)
 			addAttribute("rel",rel.toString());

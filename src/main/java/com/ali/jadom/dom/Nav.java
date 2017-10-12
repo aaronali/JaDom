@@ -15,7 +15,7 @@ public class Nav extends DOMelement implements PalpableContent, FlowingContent, 
 	 * 
 	 * @param element
 	 */
-	public Nav(DOMelementInterface element){
+	public Nav(IDOMelement element){
 		super((Nav)element);
 	}
 	

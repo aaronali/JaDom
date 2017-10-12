@@ -2,8 +2,10 @@ package com.ali.jadom.dom;
   
  
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.HashMap; 
+import java.util.HashMap;
+import java.util.Map;
 
 import com.ali.jadom.javascript.EventTarget;
 import com.ali.jadom.javascript.EventType;
@@ -13,9 +15,13 @@ import com.ali.jadom.javascript.MouseEventObject;
 import com.ali.jadom.javascript.UiEvent;
 import com.ali.jadom.javascript.XMLHttpRequest;
 import com.ali.java.jaFile.FileReader;
+import com.ali.java.jalo.Logger;
 import com.ali.jadom.javascript.DomEventInterface.EventPhase;
+import com.ali.jadom.dom.superelements.DOMobject;
 import com.ali.jadom.dom.superelements.FlowingContent;
 import com.ali.jadom.dom.superelements.GlobalEventHandlers;
+import com.ali.jadom.dom.superelements.SectioningRoot;
+import com.ali.jadom.annotations.Hidden;
 import com.ali.jadom.codebuilders.StyleBuilder;
 import com.ali.jadom.javascript.DomEventAbstract;
 import com.ali.jadom.javascript.DomEventException; 
@@ -23,7 +29,7 @@ import com.ali.jadom.javascript.EventListener;
 import com.ali.jadom.javascript.DomFunction; 
 
 @SuppressWarnings("serial")
-public abstract class DOMelement extends java.lang.Object  implements  GlobalEventHandlers, EventTarget, DOMelementInterface ,  java.io.Serializable{ 
+public abstract class DOMelement extends java.lang.Object  implements  GlobalEventHandlers, EventTarget, IDOMelement ,  java.io.Serializable{ 
  
 	protected Style style=null; 
 	private DOMelement[] embeddedElements;
@@ -35,9 +41,12 @@ public abstract class DOMelement extends java.lang.Object  implements  GlobalEve
 	protected long tabIndex; 
 	protected String accessKey;  
 	protected boolean spellcheck;
-	protected String contextmenu;
-	  
+	protected String contextmenu;	
+	protected DOMelement document;
+	protected DOMelement parent;
+
 	protected HashMap<String, String> attributes =null;
+	protected HashMap<String, DOMobject> properties =null;
 	protected EventListener[] eventListerners = null;
 
 	/**
@@ -49,7 +58,7 @@ public abstract class DOMelement extends java.lang.Object  implements  GlobalEve
 		nodename = nodeName;
 		this.nodevalue = "";
 		this.tag = nodename; 
-		addAttribute("id",   tag+ApplicationManager.getNextId()); 
+		addAttribute(ApplicationManager.STRING_ID.toLowerCase(),   tag+ApplicationManager.getNextId()); 
 	}
 	
 	/**
@@ -62,7 +71,7 @@ public abstract class DOMelement extends java.lang.Object  implements  GlobalEve
 		nodename = nodeName;
 		this.nodevalue = nodeValue;
 		this.tag = nodename;
-		addAttribute("id",   tag+ApplicationManager.getNextId());
+		addAttribute(ApplicationManager.STRING_ID.toLowerCase(),   tag+ApplicationManager.getNextId());
 	}
 	
 	/**
@@ -77,8 +86,8 @@ public abstract class DOMelement extends java.lang.Object  implements  GlobalEve
 		this.attributes = attributes;
 		this.nodevalue = nodeValue;
 		this.tag = nodeName;
-		if(!attributes.containsKey("id"))
-			addAttribute("id",   tag+ApplicationManager.getNextId());
+		if(!attributes.containsKey(ApplicationManager.STRING_ID.toLowerCase()))
+			addAttribute(ApplicationManager.STRING_ID.toLowerCase(),   tag+ApplicationManager.getNextId());
 	}
 	
 	/**
@@ -96,7 +105,7 @@ public abstract class DOMelement extends java.lang.Object  implements  GlobalEve
 		this.nodevalue = nodeValue;
 		this.tag=nodeName;
 		attributes = new HashMap<String,String>();
-		addAttribute("id", (id!=null)?id : tag+ApplicationManager.getNextId());
+		addAttribute(ApplicationManager.STRING_ID.toLowerCase(), (id!=null)?id : tag+ApplicationManager.getNextId());
 		if(domClass!=null)
 			addAttribute("domClass", domClass);
 		if(getClass()!=Style.class && styles!=ApplicationManager.NULL_NODE_VALUE)
@@ -144,7 +153,16 @@ public abstract class DOMelement extends java.lang.Object  implements  GlobalEve
 		this.nodevalue = "";
 		this.tag = nodename; 
 		this.addDomElement(element);
-		addAttribute("id",   tag+ApplicationManager.getNextId());
+		addAttribute(ApplicationManager.STRING_ID.toLowerCase(),   tag+ApplicationManager.getNextId());
+	}
+
+	public DOMelement(String nodeName, String innerHTML, DOMclass domClass) {
+		super();
+		nodename = nodeName;
+		this.nodevalue = innerHTML;
+		this.tag = nodename;  
+		addAttribute(ApplicationManager.STRING_ID.toLowerCase(),   tag+ApplicationManager.getNextId());
+		addAttribute(DOMclass.class.getSimpleName().toLowerCase(), domClass.Name());
 	}
 
 	public synchronized final String getNodename() {
@@ -221,7 +239,7 @@ public abstract class DOMelement extends java.lang.Object  implements  GlobalEve
 		return styles;
 	}
 
-	public final void setStyle(Style style) {
+	public final void setStyle(Style style) { 
 		this.style = style;
 	}
 
@@ -234,7 +252,7 @@ public abstract class DOMelement extends java.lang.Object  implements  GlobalEve
 	 * Returns the current DomElement as an HTML5 string.
 	 */
 	@Override
-	public String toString(){ 
+/*	public String toString(){ 
 		String s =  "<"+nodename;
 		if(attributes!=null){
 			if(!attributes.containsKey("id")){
@@ -325,7 +343,108 @@ public abstract class DOMelement extends java.lang.Object  implements  GlobalEve
 		temp.trim(); 
 		return temp; 
 	}
-	
+*/public String toString(){ 
+		String tempnv = "  ".concat(nodevalue);
+		tempnv =tempnv.replace(ApplicationManager.STRING_NEWLINE, "\n  ");
+		String s =  "\n<"+nodename;
+		if(attributes!=null){
+			if(!attributes.containsKey("id")){
+				if(!this.isOfType(SectioningRoot.class))
+						addAttribute("id", ApplicationManager.getNextId());
+			}
+			String domclass =null;
+			if(attributes.containsKey(ApplicationManager.STRING_DOMCLASS.toLowerCase()) ||attributes.containsKey(ApplicationManager.STRING_DOMCLASS )){
+				domclass = attributes.get(ApplicationManager.STRING_DOMCLASS.toLowerCase());
+				if(domclass==null) domclass = attributes.get(ApplicationManager.STRING_DOMCLASS);
+				if(!domclass.contains(attributes.get("id"))&& !attributes.get("id").contains(ApplicationManager.FORCE_NO_ATTRIBUTE)) 
+					domclass+=" "+attributes.get("id");
+				//addAttribute("class", domclass);
+			}else{
+				//addAttribute("class", attributes.get("id"));
+				domclass =attributes.get("id");
+			} 
+			java.lang.Object[] keys =   attributes.keySet().toArray();
+			Arrays.sort(keys);
+			for(java.lang.Object key:keys){
+				if(attributes.get(key)!=null && !attributes.get(key).contains(ApplicationManager.FORCE_NO_ATTRIBUTE)){
+					if(key.toString().toLowerCase().equals("jscallout")){
+						s+=" "+attributes.get(key);
+					}else 	if(key.toString().equals("style")){
+						if(!ApplicationManager.INLINE_SYTLES  && attributes.get("id")!=null && attributes.get("style")!=null){
+							this.style =new Style(attributes.get("id"),attributes.get("style")); 
+						}else{
+							s+=" "+key+"=\""+attributes.get(key)+"\"";
+						} 
+					} else if(key.equals("")){
+						s+=" "+attributes.get(key);
+					}
+					else{  
+						if(key.toString().toLowerCase().equals(ApplicationManager.STRING_DOMCLASS.toLowerCase()) )
+							s+=" class=\"".concat(domclass.trim().replace("  ", " ")).concat("\"");
+						else
+							s+=" ".concat(key.toString().trim()).concat("=\""+attributes.get(key).trim().replace("  ", " ")+"\"");
+					} 
+				} 
+			}
+		}
+	//	 s= s+">\n"+((nodevalue.startsWith("nullnodevalue"))? nodevalue.replace("nullnodevalue", "") : nodevalue + "\n</"+nodename+"> " ); 
+	//	s= s+">\n"+((nodevalue.trim().startsWith(ApplicationManager.NULL_NODE_VALUE.toLowerCase()))? nodevalue.replace("nullnodevalue", "")  : ((nodevalue.trim().endsWith(ApplicationManager.STRING_NEWLINE))? nodevalue:nodevalue.concat(ApplicationManager.STRING_NEWLINE))+"</"+nodename+"> " ); 
+	//	s= s+">\n"+((nodevalue.trim().startsWith(ApplicationManager.NULL_NODE_VALUE.toLowerCase()))? nodevalue.replace("nullnodevalue", "")  : ((nodevalue.trim().endsWith(ApplicationManager.STRING_NEWLINE))? nodevalue.replace(ApplicationManager.STRING_NEWLINE, "\n     "):nodevalue.replace(ApplicationManager.STRING_NEWLINE, "\n     ").concat(ApplicationManager.STRING_NEWLINE))+"</"+nodename+"> " ); 
+ 		s= s+">\n"+((nodevalue.trim().startsWith(ApplicationManager.NULL_NODE_VALUE.toLowerCase()))? nodevalue.replace("nullnodevalue", "")  : ((nodevalue.trim().endsWith(ApplicationManager.STRING_NEWLINE))? tempnv:tempnv.concat(ApplicationManager.STRING_NEWLINE))+"</"+nodename+"> " ); 
+			
+		if(this.eventListerners!=null && this.eventListerners.length>0){
+			s=s.concat("\n<script>");
+			for(int i=0;i<eventListerners.length;i++){
+				s =s.concat("\ndocument.getElementById(\"").concat(this.getAttributes().get("id")).concat("\")").concat(eventListerners[i].toString());
+			}
+			s=s.concat("\n</script>");
+		} 
+		int count=0;
+		String temp ="";  
+		if(!this.getClass().getSimpleName().equals(Style.class.getSimpleName())){
+			for(int i = 0; i < s.length();i++){ 
+				temp+=s.charAt(i);
+				String added=null;
+				if(temp.endsWith("%s")){
+					temp =temp.replace("%", "%%");
+					temp = temp.replace("%%s", "%s"); 
+					if(count<embeddedElements.length){
+						DOMelement ele =embeddedElements[count]; 
+						try{ 
+							added = ele.toString() ;
+							temp =String.format(temp+" ",  added+" ");
+							count++;
+						}catch (Exception e){
+								e.printStackTrace();
+						} 
+					}else{
+					  	System.out.print(this.getClass().getCanonicalName());
+						try{
+							DOMelement ele =embeddedElements[count]; 
+							added = ele.toString() ;
+							temp =String.format(temp+" ",  added+" ");
+							count++;
+						}catch (Exception e){
+							e.printStackTrace();
+					} 
+					}
+				}
+			}
+		}else{
+			if(((Style)this).styleScript){
+				Logger.log("Style Found");
+				for(int i=0;i<this.getEmbeddedElements().length;i++) {
+					temp.concat(" \n " + this.embeddedElements[i].toString());
+					Logger.log(temp);
+				}
+				temp = temp.replaceAll(":", " : ");
+				while(temp.contains("  ")) temp = temp.replaceAll("  ", " ");
+				return "<style>\n ".concat(temp).concat(" \n </style>");
+			}
+		} 
+		temp.trim().concat("\n"); 
+		return temp; 
+	}	
 	public void setHTML(String html){
 		this.nodevalue = html;
 	}
@@ -419,6 +538,9 @@ public abstract class DOMelement extends java.lang.Object  implements  GlobalEve
 		return draggable;
 	}
 
+	public Document getDocument(){
+		return (Document) this.document;
+	}
 	/**
 	 * 
 	 * @param element
@@ -439,6 +561,8 @@ public abstract class DOMelement extends java.lang.Object  implements  GlobalEve
 			if (ele==element) return false;
 		}
 		embeddedElements =DOMelement.growElementArray(this.embeddedElements);
+		element.parent = this;
+		element.document =this.document;
 		embeddedElements[embeddedElements.length-1] = element;
 		this.nodevalue+="%s";
 		return true;
@@ -746,6 +870,7 @@ public abstract class DOMelement extends java.lang.Object  implements  GlobalEve
 	 * @param class1
 	 */
 	protected void removeDomElement(Class<?> class1) {
+		if(embeddedElements==null) return; // there are no elements at all
 		int count =0;
 		DOMelement[] els = new DOMelement[embeddedElements.length];
 		for(int i=0; i<embeddedElements.length;i++){
@@ -1616,4 +1741,87 @@ public abstract class DOMelement extends java.lang.Object  implements  GlobalEve
 		FileReader fr = new FileReader();
 		this.nodevalue = fr.readFile(url);
 	}
+	
+	
+	/**
+	 * Adds a property object to the properties map using the name as the key and the Object as the value
+	 * @param name
+	 * @param form
+	  
+	public void addProperty(String name, Object object) {
+		if(this.properties==null) {
+			this.properties = new HashMap<String,DOMobject>();
+		}
+		properties.put(name, (DOMobject)object);
+	}	
+	*/
+	public void addProperty(String name, DOMelement domElement) {
+		if(this.properties==null) {
+			this.properties = new HashMap<String,DOMobject>();
+		}
+		properties.put(name,  domElement);
+	}
+	
+	public void addProperty(String name, DOMobject e) {
+		if(this.properties==null) {
+			this.properties = new HashMap<String,DOMobject>();
+		}
+		properties.put(name,   e);
+	}
+	
+	/**
+	 * Returns all the properties objects as a Map &lt;String,Object&gt; or an empty Map if no properties are found
+	 * @return
+	 */
+	public Map<String,DOMobject> getPropeties() {
+		if(this.properties==null) {
+			this.properties = new HashMap<String,DOMobject>();
+		}
+		return this.properties;
+	}
+	
+	/**
+	 * Retursn the property object associated with the name or returns null if not found
+	 * @param name
+	 * @return
+	 */
+	public DOMobject getProperty(String name) { 
+		if(this.properties==null || !this.properties.containsKey(name))
+			return null ;
+		else return this.properties.get(name);
+	}
+	
+	
+	 public void updateAttributesAndProperties(DOMelement element) { 
+	    	for(Field f: element.getClass().getDeclaredFields()){  
+	    	 	try {
+					if((f.getDeclaredAnnotationsByType(Hidden.class).length>0 
+							&&	f.getDeclaredAnnotation(Hidden.class).value()==true)|| f.get(element)==null)  {
+					}else { 
+						try {
+						if(f.get(element)!=null) {
+							this.addAttribute(f.getName(),(String) f.get(element)); 
+							Logger.log(f.getName().concat(" -> added to attributes for ").concat(this.getClass().getSimpleName()));
+						}
+						}catch(Exception e) {	 
+							try { 
+								this.addProperty(f.getName(),(DOMobject) f.get(element)); 
+								Logger.log(f.getName().concat(" -> added to properties for ").concat(this.getClass().getSimpleName()));							
+							} catch (Exception e1) { 
+					   			Logger.log(f.getName().concat(" -> Error adding propety ").concat(this.getClass().getSimpleName()));
+							}
+						
+						}
+					}
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    	}
+	    	 
+	    }
+	    
 }

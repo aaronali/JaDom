@@ -16,7 +16,7 @@ public class Bdi extends DOMelement implements FlowingContent, PalpableContent, 
     
 	private static final long serialVersionUID = 4147795980858478029L;
 	/** Text direction **/
-	protected Direction textDirection = Direction.LTR;
+	protected DirectionEnum textDirection = DirectionEnum.LTR;
 	
 	/**
 	 * Creates an emoty &ltbdi&gt tag
@@ -29,10 +29,10 @@ public class Bdi extends DOMelement implements FlowingContent, PalpableContent, 
 	
 	/**
 	 * Creates a &ltbdu&gt tag with the given direction 
-	 * @see Direction
+	 * @see DirectionEnum
 	 * @param textDirection Direction
 	 */
-	public Bdi( Direction textDirection) {
+	public Bdi( DirectionEnum textDirection) {
 		super(tag(Bdi.class));
 		this.textDirection = textDirection; 
 		this.addAttribute("textDirection", textDirection.toString());
@@ -40,10 +40,10 @@ public class Bdi extends DOMelement implements FlowingContent, PalpableContent, 
 	 
 	/**
 	 * Creates a &ltbdu&gt tag with the given direction and the given text
-	 * @see Direction
+	 * @see DirectionEnum
 	 * @param textDirection Direction
 	 */
-	public Bdi( Direction textDirection,String bdiHTML) {
+	public Bdi( DirectionEnum textDirection,String bdiHTML) {
 		super(tag(Bdi.class), bdiHTML);
 		this.textDirection = textDirection; 
 		this.addAttribute("textDirection", textDirection.toString());
@@ -52,12 +52,12 @@ public class Bdi extends DOMelement implements FlowingContent, PalpableContent, 
 	/**
 	 * 
 	 * Creates a &ltbdu&gt tag with the given direction and the given text
-	 * @see Direction
+	 * @see DirectionEnum
 	 * @param textDirection Direction 
 	 * @param bdiHTML String
 	 * @param attributes hashMap&ltString,String&gt
 	 */
-	public Bdi( Direction textDirection,String bdiHTML, HashMap<String, String> attributes) {
+	public Bdi( DirectionEnum textDirection,String bdiHTML, HashMap<String, String> attributes) {
 		super(tag(Bdi.class), bdiHTML, attributes); 
 		this.textDirection = textDirection;
 		this.addAttribute("dir", textDirection.toString() );
@@ -71,9 +71,9 @@ public class Bdi extends DOMelement implements FlowingContent, PalpableContent, 
 	 * @param domClass String or null or ApplicationManager.FORCE_NO_ATTRIBUTE
 	 * @param Styles String or null or ApplicationManager.FORCE_NO_ATTRIBUTE
 	 * @param jsCallout String or null or ApplicationManager.FORCE_NO_ATTRIBUTE
-	 * @see Direction
+	 * @see DirectionEnum
 	 */
-	public Bdi( Direction textDirection,  String id, String domClass, String Styles, String jsCallout) {
+	public Bdi( DirectionEnum textDirection,  String id, String domClass, String Styles, String jsCallout) {
 		super(tag(Bdi.class),"", (id!=null)?id:ApplicationManager.getNextId(), domClass, Styles, jsCallout); 
 		this.textDirection =textDirection;  
 		this.addAttribute("textDirection", textDirection.toString());
@@ -83,7 +83,7 @@ public class Bdi extends DOMelement implements FlowingContent, PalpableContent, 
 	 * Gets the text direction of the current Bdi object
 	 * @return String
 	 */
-	public final Direction getTextDirection() {
+	public final DirectionEnum getTextDirection() {
 		return textDirection;
 	} 
 
@@ -91,18 +91,18 @@ public class Bdi extends DOMelement implements FlowingContent, PalpableContent, 
 	 * Flips the direction of the current text
 	 */
 	public void switchTextDirection(){
-		if(this.textDirection==Direction.LTR)
-			setTextDirection(Direction.RTL);
+		if(this.textDirection==DirectionEnum.LTR)
+			setTextDirection(DirectionEnum.RTL);
 		else
-			setTextDirection(Direction.LTR);
+			setTextDirection(DirectionEnum.LTR);
 	}
 	
 	/**
 	 * Sets the direction of the current bdi text
 	 * @param textDirection Direction
-	 * @see Direction
+	 * @see DirectionEnum
 	 */
-	public final void setTextDirection(Direction textDirection) {
+	public final void setTextDirection(DirectionEnum textDirection) {
 		this.textDirection = textDirection;
 		if(textDirection!=null)
 			addAttribute("textDirection",textDirection.toString());

@@ -14,7 +14,7 @@ public class Figure extends DOMelement implements FlowingContent, SectioningCont
 	 * 
 	 * @param element
 	 */
-	public Figure(DOMelementInterface element){
+	public Figure(IDOMelement element){
 		super((Figure)element);
 	}
 	/**

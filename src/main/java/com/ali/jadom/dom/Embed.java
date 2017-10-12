@@ -24,7 +24,7 @@ public class Embed extends DOMelement implements FlowingContent, PalpableContent
 	 * 
 	 * @param element
 	 */
-	public Embed(DOMelementInterface element){ 
+	public Embed(IDOMelement element){ 
 		this(((Embed)element).src, ((Embed)element).type,    ((Embed)element).width,   ((Embed)element).height);
 	}
 	

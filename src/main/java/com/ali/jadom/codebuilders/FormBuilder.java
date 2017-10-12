@@ -15,17 +15,17 @@ public class FormBuilder {
 	}
 	
 	public void inlineTextInput( String label, int labelPercentWidth, int inputPercentWidth, String value, String id, String placeHolder, String groupClass, String inputClass ,String jsCallout){
-		build(InputType.TEXT,  true,  label,true,  labelPercentWidth,  inputPercentWidth,  value,  id, placeHolder, groupClass,  inputClass , jsCallout) ;
+		build(InputType.text,  true,  label,true,  labelPercentWidth,  inputPercentWidth,  value,  id, placeHolder, groupClass,  inputClass , jsCallout) ;
 
 	}
 	public void inlineCheckBox( String label, int labelPercentWidth, int inputPercentWidth, String value, String id, String placeHolder, String groupClass, String inputClass ,String jsCallout){
-		build(InputType.CHECKBOXGROUP,  true,  label,true,  labelPercentWidth,  inputPercentWidth,  value,  id, placeHolder, groupClass,  inputClass , jsCallout) ;
+		build(InputType.checkboxgroup,  true,  label,true,  labelPercentWidth,  inputPercentWidth,  value,  id, placeHolder, groupClass,  inputClass , jsCallout) ;
 
 	}
 	
 	public void inlineCheckBoxGroup( String label, int labelPercentWidth, int inputPercentWidth, String[] values, String id, String placeHolder, String groupClass, String inputClass ,String jsCallout){
 		for(String value:values)
-			build(InputType.CHECKBOX,  true,  label,true,  labelPercentWidth,  inputPercentWidth,  value,  id,  placeHolder, groupClass,  inputClass , jsCallout) ;
+			build(InputType.checkbox,  true,  label,true,  labelPercentWidth,  inputPercentWidth,  value,  id,  placeHolder, groupClass,  inputClass , jsCallout) ;
 		 
 	}
 	
@@ -39,7 +39,7 @@ public class FormBuilder {
 		String inWidth = String.valueOf(inputPercentWidth);
 		if(bootstrap)
 		{
-			htmlCode.append("<div class=\"for-group "+groupClass+" " + (inline && (!type.equals(InputType.CHECKBOXGROUP)) ?   "inline": "") + " "+(inline &&(type.equals(InputType.CHECKBOXGROUP)) ?   "inline": "") + "\" "+ (inline && (type.equals(InputType.CHECKBOXGROUP)) ?   " style='width:\"auto\";'": "") +">\n");
+			htmlCode.append("<div class=\"for-group "+groupClass+" " + (inline && (!type.equals(InputType.checkboxgroup)) ?   "inline": "") + " "+(inline &&(type.equals(InputType.checkboxgroup)) ?   "inline": "") + "\" "+ (inline && (type.equals(InputType.checkboxgroup)) ?   " style='width:\"auto\";'": "") +">\n");
 		}	
 		if(label!=null){
 			htmlCode.append("<label " + ((bootstrap) ?   "for='"+id+"'"  : "")   +"  "+ ((labelInline) ?   String.format("class='block' style='min-width:%s;max-width:%s;' ",lbWidth ,lbWidth): "")+" >"+label);

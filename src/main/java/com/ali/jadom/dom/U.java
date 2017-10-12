@@ -21,7 +21,7 @@ public class U extends DOMelement implements FlowingContent, PalpableContent,Phr
 	 * 
 	 * @param element
 	 */
-	public U(DOMelementInterface element){
+	public U(IDOMelement element){
 		super((DOMelement)element);
 	}
 	/**

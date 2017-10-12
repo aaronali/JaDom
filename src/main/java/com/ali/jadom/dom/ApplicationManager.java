@@ -8,8 +8,7 @@ import java.util.Random;
 import java.util.UUID;
 
 import com.ali.jadom.javascript.EventListener;
-import com.ali.jadom.javascript.EventListenerInterface;
-
+import com.ali.jadom.javascript.EventListenerInterface; 
  
 
 public class ApplicationManager implements Serializable {
@@ -31,6 +30,8 @@ public class ApplicationManager implements Serializable {
 	public static final String DEFAULT_DATE_TIME_PATTERN = "yyyy-MM-dd  hh:mm:ss";
 	
 	public static final boolean AREA_ANCHOR_USE_LINK_MANAGER= false;
+	public static boolean DEFAULT_BUTTON_AUTO_FOCUS = false;
+	public static boolean DEFAULT_BUTTON_DISABLED= false;
 	
 	public static final boolean INLINE_SYTLES = false;
 	/** Specifies the default language for the document object **/
@@ -42,12 +43,41 @@ public class ApplicationManager implements Serializable {
 	public static final boolean JAVASCRIPT_CONDENSE = false;
 	public static final Boolean FORCE_LIST_VALUES = false; 
 	public static final String EVENT_LISTENER_NAME_PLACEHOLDER = "eventListenerNamePlaceHolder";
-	
+	public static final boolean HTML_CONDENSE = false; 
+
+	public static final String HTML="html";
+	public static final String STRING_DOMCLASS="domClass"; 
+	public static final String STRING_HREF = "href";
+	public static final String STRING_DOWNLOAD = "download";
+	public static final String STRING_HREFLANG = "hreflang";
+	public static final String STRING_REL = "rel";
+	public static final String STRING_TYPE = "type";
+	public static final String STRING_NAME = "name";
+	public static final String STRING_TARGET ="target";
+	public static final String STRING_TITLE ="title"; 
+	public static final String STRING_NEWLINE = "\n";
+	public static final String STRING_ADDRESS_SEPERATOR = ", "; 
+	public static final String STRING_ALT = "alt";
+	public static final String STRING_SHAPE = "shape";
+	public static final String STRING_COORDS ="coords";
+	public static final String STRING_DIR ="dir";
+	public static final String STRING_CITE ="cite";
+	public static final String STRING_VALUE ="value";
+	public static final String STRING_OPEN ="open";
+	public static final String STRING_WIDTH ="width"; 
+	public static final String STRING_SCRIPTS ="scripts"; 
+	public static final String STRING_HEIGHT ="height";
+	public static final String STRING_SRC ="src";public static final String STRING_ID ="id";
+	public static final String STRING_SPACE =" ";
+	public static final String STRING_DBLSPACE ="  ";
+	public static final String STRING_CANVAS_NOT_SUPPORTED= "Canvas is not supported by your browser";
+	protected static String PATH_JADOM_SCRIPTS = "scripts";
+	 
 	private static ArrayList<String> autoIds =  null;
 	private static ArrayList<String> autoFunctionName = null;
 	private static HashMap<String,Collection<EventListener>> eventListeners = new HashMap<String,Collection<EventListener>>();
 	
-	public static HashMap<String, DOMelementInterface> GLOBALS = new HashMap<String,DOMelementInterface>();
+	public static HashMap<String, IDOMelement> GLOBALS = new HashMap<String,IDOMelement>();
 	
 	public static Abbr getAbbr(String abbr){
 		return (Abbr) GLOBALS.get(abbr) ;
@@ -56,13 +86,19 @@ public class ApplicationManager implements Serializable {
 		return  (DOMelement) GLOBALS.get(name) ;
 	}
 	
-	public static void addGlobal(String name, DOMelementInterface element){
+	public static void addGlobal(String name, IDOMelement element){
 		if(GLOBALS.containsKey(name))
 			if(GLOBALS.get(name)==element)
 				return;
 		GLOBALS.put(name, element);
 	}
 
+	public static void setScriptPath(String path){
+		PATH_JADOM_SCRIPTS = path;
+	}
+	public static String getScriptPath(){
+		return PATH_JADOM_SCRIPTS;
+	}
   
 
 	public ApplicationManager(){
@@ -110,14 +146,14 @@ public class ApplicationManager implements Serializable {
 	 * @param sessionId String
 	 * @see com.ali.jadom.javascript.EventListener
 	 */
-	public static void addEventListeners(DOMelementInterface element, String sessionId){
+	public static void addEventListeners(IDOMelement element, String sessionId){
 		if(((DOMelement)element).eventListerners!=null){
 			for(EventListenerInterface  eve :((DOMelement)element).eventListerners){
 				addEventListener((EventListener)eve,sessionId); 
 			}
 		}
 		if(((DOMelement)element).getEmbeddedElements()!=null){
-			for(DOMelementInterface ele: ((DOMelement)element).getEmbeddedElements()){
+			for(IDOMelement ele: ((DOMelement)element).getEmbeddedElements()){
 				addEventListeners(ele, sessionId);
 			}
 		}

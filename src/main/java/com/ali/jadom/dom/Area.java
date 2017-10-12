@@ -12,7 +12,7 @@ public class Area extends DOMelement implements PhrasingContent, FlowingContent{
 	public static final long serialVersionUID = 6340721450509436444L;
 	protected String  alt;
 	protected Coord  coords;
-	protected Shape shape;
+	protected ShapeEnum shape;
 	protected String href;
 	protected String download;
 	protected String rel;
@@ -30,7 +30,7 @@ public class Area extends DOMelement implements PhrasingContent, FlowingContent{
 	 * @param Styles
 	 * @param jsCallout
 	 */
-	public Area(String alternateText, Coord  coords, Shape shape, String href, 	String download, String rel,  String id, String domClass, String Styles, String jsCallout) {
+	public Area(String alternateText, Coord  coords, ShapeEnum shape, String href, 	String download, String rel,  String id, String domClass, String Styles, String jsCallout) {
 		super(tag(Area.class), "nullnodevalue", id, domClass, Styles, jsCallout); 
 		if(alternateText!=null){
 			this.alt = alternateText ;
@@ -66,10 +66,10 @@ public class Area extends DOMelement implements PhrasingContent, FlowingContent{
 		this.coords = coords;
 		this.addAttribute("coords", coords.toString());
 		if(this.getAttributes().get("shape")==null){
-			this.shape =Shape.DEFAULT;
+			this.shape =ShapeEnum.DEFAULT;
 			addAttribute("shape", this.shape.toString());
 		}else{ 
-			this.shape =Enum.valueOf(Shape.class,attributes.get("shape"));
+			this.shape =Enum.valueOf(ShapeEnum.class,attributes.get("shape"));
 			addAttribute("shape", this.shape.toString());
 		}
 		if(attributes!=null){
@@ -94,7 +94,7 @@ public class Area extends DOMelement implements PhrasingContent, FlowingContent{
 	public Area() { 
 		super(tag(Area.class), "nullnodevalue");
 		this.coords = new Coord();
-		this.shape = Shape.DEFAULT;
+		this.shape = ShapeEnum.DEFAULT;
 		addAttribute("shape", this.shape.toString());
 	}
 
@@ -162,18 +162,18 @@ public class Area extends DOMelement implements PhrasingContent, FlowingContent{
 	/**
 	 * Gets the current shape of the area
 	 * @return Shape
-	 * @see com.ali.jadom.dom.Shape
+	 * @see com.ali.jadom.dom.ShapeEnum
 	 */
-	public Shape getShape() {
+	public ShapeEnum getShape() {
 		return shape;
 	}
 
 	/**
 	 * Sets the current shape of the area
 	 * @param shape Shape
-	 * @see com.ali.jadom.dom.Shape
+	 * @see com.ali.jadom.dom.ShapeEnum
 	 */
-	public void setShape(Shape shape) {
+	public void setShape(ShapeEnum shape) {
 		this.shape = shape;
 		if(shape!=null)
 			addAttribute("shape", shape.toString());

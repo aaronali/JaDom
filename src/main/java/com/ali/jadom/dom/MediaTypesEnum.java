@@ -1,6 +1,8 @@
 package com.ali.jadom.dom;
 
-public   enum MediaTypes{
+import com.ali.jadom.dom.superelements.DOMobject;
+
+public   enum MediaTypesEnum implements DOMobject{
 	ALL/*" Suitable for all devices.")*/,
     AURAL/* Intended for speech synthesizers. See the section on aural style sheets for details.*/, 
     BRAILLE/*braille  Intended for braille tactile feedback devices.*/ ,

@@ -54,7 +54,7 @@ public class Iframe extends DOMelement implements FlowingContent, PalpableConten
 	 * 
 	 * @param element
 	 */
-	public Iframe(DOMelementInterface element){ 
+	public Iframe(IDOMelement element){ 
 		this(((Iframe)element).src, ((Iframe)element).srcdoc,  ((Iframe)element).name,  ((Iframe)element).sandbox ,  ((Iframe)element).seamless,
 				((Iframe)element).allowfullscreen,  ((Iframe)element).width,   ((Iframe)element).height);
 	}

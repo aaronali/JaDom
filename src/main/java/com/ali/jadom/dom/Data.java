@@ -16,7 +16,7 @@ public class Data extends DOMelement implements FlowingContent, PhrasingContent,
 	 * 
 	 * @param element
 	 */
-	public Data(DOMelementInterface element){
+	public Data(IDOMelement element){
 		super((DOMelement)element);
 		this.value =((Data)element).value;
 	}

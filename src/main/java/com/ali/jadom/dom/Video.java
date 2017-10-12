@@ -30,7 +30,7 @@ public class Video extends DOMelement implements FlowingContent, PalpableContent
 	 * 
 	 * @param element
 	 */
-	public Video(DOMelementInterface element){ 
+	public Video(IDOMelement element){ 
 		this(((Video)element).src, ((Video)element).crossorgin,  ((Video)element).poster,  ((Video)element).preload ,  ((Video)element).autoplay,
 				  ((Video)element).width,   ((Video)element).height);
 	}

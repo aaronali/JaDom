@@ -1,6 +1,8 @@
 package com.ali.jadom.dom;
 
-public enum Shape{
+import com.ali.jadom.dom.superelements.DOMobject;
+
+public enum ShapeEnum  implements DOMobject{
 	CIRCLE,POYLGON,RECTANGLE, DEFAULT;
 	
 	public String toString(){

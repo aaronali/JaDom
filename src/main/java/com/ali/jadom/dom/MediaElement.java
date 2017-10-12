@@ -54,7 +54,7 @@ public abstract class MediaElement extends DOMelement implements FlowingContent,
 	 * 
 	 * @param element
 	 */
-	public MediaElement(DOMelementInterface element){ 
+	public MediaElement(IDOMelement element){ 
 		this(((MediaElement)element).src, ((MediaElement)element).crossorgin,  ((MediaElement)element).poster,  ((MediaElement)element).preload ,  ((MediaElement)element).autoplay,
 				  ((MediaElement)element).width,   ((MediaElement)element).height);
 	}

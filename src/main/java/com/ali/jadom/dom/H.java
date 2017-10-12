@@ -17,9 +17,17 @@ public class H extends DOMelement implements HeadingContent, PalpableContent, Fl
 		this.headerSize = headerSize;
 	}
 	
+
+	
 	public H(int headerSize, String headerText){
 		super(tag(H.class)+headerSize,headerText);
 		this.headerSize = headerSize;
+	}
+	
+	public H(int headerSize, String headerText, DOMclass domClass) {
+		super(tag(H.class)+headerSize,headerText);
+		this.headerSize = headerSize;
+		this.addAttribute(DOMclass.class.getSimpleName().toLowerCase(), domClass.name);
 	}
 	
 	public H(int headerSize, String headerText, String id, String domClass, String jsCallOut){

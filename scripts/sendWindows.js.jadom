@@ -1,0 +1,14 @@
+window.addEventListener("load", sendWindows,true);
+function sendWindows(){ 
+	var s =document.defaultView;
+	var xhttp = new XMLHttpRequest();  
+	var l = window.location;
+	xhttp.open("POST", "/EasyJsp/ ", true); 
+	xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	console.log(s);
+	xhttp.send("newWindow=true&undefined="+s.undefined+"&closed=" + s.closed + "&defaultStatus="+ s.defaultStatus+"&frames="+s.frames+"&fullscreen="+s.fullscreen+"&hoffset="+s.hoffset+"&innerHeight="+s.innerHeight+"&innerwidth="+s.innerWidth+"&length="+s.length+"&mozInnerScreenX="+s.mozInnerScreenX+"&InnerScreenY="+ s.InnerScreenY+"&mozPaintCount="+ s.mozPaintCount+"&name="+s.name+"&opener="+ s.opener +"&pageYOffset="+ s.pageYOffset +"&pageXOffset=" + s.pageXOffset + "&screenX="+s.screenX +"screenY&="+ s.screenY +"&scrollMaxX="+ s.scrollMaxX +"scrollMaxY="+s.scrollMaxY+"&scollX="+ s.scollX+"&scrollY="+ s.scrollY+"&status="+ s.status + "&wOffset="+s.wOffset+"&widHieght="+ s.widHieght+"&wimHeight="+s.wimHeight+"&winWidth="+s.winWidth+"&wimHeight="+s.wimHeight);
+	xhhtp = new XMLHttpRequest(); 
+	xhttp.open("POST", "/EasyJsp/ ", true); 
+	xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	xhttp.send("newLocation=true&scaller="+l.caller+"&name="+l.name+"&hash="+l.hash+"&host="+ encodeURI(l.hostname)+"&href="+encodeURI(l.href)+"&orgin="+ encodeURI(l.orgin)+"&protocal="+ encodeURI(l.protocol)+"&search="+encodeURI(l.search));
+ }

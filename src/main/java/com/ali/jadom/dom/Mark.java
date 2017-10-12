@@ -15,7 +15,7 @@ public class Mark extends DOMelement  implements FlowingContent, PhrasingContent
 		super(tag(Mark.class)); 
 	}
 	
-	public Mark(DOMelementInterface element){
+	public Mark(IDOMelement element){
 		super((Mark)element); 
 	}
 	/**

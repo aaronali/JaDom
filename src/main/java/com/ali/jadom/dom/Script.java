@@ -134,6 +134,21 @@ public class Script extends DOMelement implements FlowingContent, MetadataConten
 		this.forceNoId();
 	}
 
+	/**
+	 * Creates a script tag with the given javascript embedded and returns it
+	 * @param jsCode
+	 * @return
+	 */
+	public static Script createScript(String jsCode){
+		Script s = new Script( ApplicationManager.FORCE_NO_ATTRIBUTE ,
+				false, 
+				ApplicationManager.FORCE_NO_ATTRIBUTE, 
+				ApplicationManager.FORCE_NO_ATTRIBUTE,
+				ApplicationManager.FORCE_NO_ATTRIBUTE,
+				null,null);
+		s.nodevalue=jsCode;
+		return s;
+	}
 	 
 	/**
 	 * Gets the current src value of the link

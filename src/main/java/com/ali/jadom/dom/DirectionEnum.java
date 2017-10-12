@@ -1,6 +1,8 @@
 package com.ali.jadom.dom;
- 
-public enum Direction{
+
+import com.ali.jadom.dom.superelements.DOMobject;
+
+public enum DirectionEnum implements DOMobject{
 	LTR/**left to right**/,
 	RTL;/**right to lef **/
 	

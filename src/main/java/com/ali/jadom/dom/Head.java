@@ -2,9 +2,10 @@ package com.ali.jadom.dom;
 
 import com.ali.jadom.dom.superelements.HeadingContent;
 import com.ali.jadom.dom.superelements.MetadataContent;
+import com.ali.jadom.dom.superelements.SectioningRoot;
 
 @Tag("head")
-public class Head extends DOMelement {
+public class Head extends DOMelement implements SectioningRoot{
 
 
 	 

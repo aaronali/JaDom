@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import com.ali.jadom.dom.ApplicationManager;
 import com.ali.jadom.dom.DOMelement;
-import com.ali.jadom.dom.MediaTypes;
+import com.ali.jadom.dom.MediaTypesEnum;
 import com.ali.jadom.dom.Style; 
 
 public class StyleBuilder {
@@ -48,7 +48,7 @@ public class StyleBuilder {
 	public void addStyle(String styleName, String[] valueNames, String[] values){ 
 		addStyle(new Style(styleName, valueNames,values));
 	}
-	public void addStyle(String styleName, String[] valueNames, String[] values, MediaTypes media){
+	public void addStyle(String styleName, String[] valueNames, String[] values, MediaTypesEnum media){
 		addStyle(new Style(styleName, valueNames,values,media));
 	}
 	public String generateStyleSheet(){

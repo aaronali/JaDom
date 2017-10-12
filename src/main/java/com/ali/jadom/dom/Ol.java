@@ -49,7 +49,7 @@ public class Ol extends DOMelement implements FlowingContent, PalpableContent{
 	 * 
 	 * @param element
 	 */
-	public Ol(DOMelementInterface element){
+	public Ol(IDOMelement element){
 		super((Ol)element);
 		this.start=((Ol)element).start;
 		this.type=((Ol)element).type;

@@ -52,6 +52,10 @@ public class P extends DOMelement implements FlowingContent, PalpableContent{
 	}
 
 	
+	public P(String paragraphText, DOMclass doMclass) {
+		super(tag(P.class), paragraphText, doMclass);  
+	}
+
 	@Override
 	public boolean addDomElement(DOMelement element){
 		if(ApplicationManager.FORCE_HTML_COMPLIANCE && !element.isOfType(FlowingContent.class))

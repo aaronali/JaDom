@@ -1,6 +1,8 @@
 package com.ali.jadom.dom;
 
-public interface DOMelementInterface   {
+import com.ali.jadom.dom.superelements.DOMobject;
+
+public interface IDOMelement  extends DOMobject {
 
 	final String tag = null;
 	/**

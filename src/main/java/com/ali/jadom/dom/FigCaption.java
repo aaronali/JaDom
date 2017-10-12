@@ -16,7 +16,7 @@ public class FigCaption extends DOMelement  implements FlowingContent, PhrasingC
 	 * 
 	 * @param element
 	 */
-	public FigCaption(DOMelementInterface element){
+	public FigCaption(IDOMelement element){
 		super((FigCaption)element);
 	}
 	

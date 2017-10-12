@@ -1,6 +1,8 @@
 package com.ali.jadom.dom;
 
-public enum IframSecurityRestrictions {
+import com.ali.jadom.dom.superelements.DOMobject;
+
+public enum IframSecurityRestrictionsEnum  implements DOMobject{
 	 
 		allowForms,
 		allowModals,

@@ -21,7 +21,7 @@ public class Main extends DOMelement  implements FlowingContent, PhrasingContent
 	 * 
 	 * @param element
 	 */
-	public Main(DOMelementInterface element){
+	public Main(IDOMelement element){
 		super((Main)element);
 	}
 	/**

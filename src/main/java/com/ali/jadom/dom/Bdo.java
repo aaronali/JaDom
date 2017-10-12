@@ -18,7 +18,7 @@ public class Bdo extends DOMelement implements PalpableContent, FlowingContent, 
 	/**
 	 * Direction of the text
 	 */
-	protected Direction textDirection = Direction.LTR;
+	protected DirectionEnum textDirection = DirectionEnum.LTR;
 	
 	/**
 	 * Creates an empty &ltbdo&gt tag
@@ -40,7 +40,7 @@ public class Bdo extends DOMelement implements PalpableContent, FlowingContent, 
 	 * Creates an empty &ltbdo&gt tag in the given direction
 	 * @param textDirection
 	 */
-	public Bdo( Direction textDirection) {
+	public Bdo( DirectionEnum textDirection) {
 		super(tag(Bdo.class));
 		this.textDirection = textDirection; 
 		this.addAttribute("textDirection", textDirection.toString());
@@ -51,7 +51,7 @@ public class Bdo extends DOMelement implements PalpableContent, FlowingContent, 
 	 * @param textDirection Direction
 	 * @param bdoHTML String
 	 */
-	public Bdo( Direction textDirection,String bdoHTML) {
+	public Bdo( DirectionEnum textDirection,String bdoHTML) {
 		super(tag(Bdo.class), bdoHTML);
 		this.textDirection = textDirection; 
 		this.addAttribute("textDirection", textDirection.toString());
@@ -63,7 +63,7 @@ public class Bdo extends DOMelement implements PalpableContent, FlowingContent, 
 	 * @param bdoHTML String
 	 * @param attributes HasMap&ltString,String&gt
 	 */
-	public Bdo( Direction textDirection,String bdoHTML, HashMap<String, String> attributes) {
+	public Bdo( DirectionEnum textDirection,String bdoHTML, HashMap<String, String> attributes) {
 		super(tag(Bdo.class), bdoHTML, attributes); 
 		this.textDirection = textDirection;
 		this.addAttribute("dir", textDirection.toString() ); 
@@ -78,7 +78,7 @@ public class Bdo extends DOMelement implements PalpableContent, FlowingContent, 
 	 * @param Styles String or Null or ApplicationManager.NULL_NODE_VALUE
 	 * @param jsCallout String or Null or ApplicationManager.NULL_NODE_VALUE
 	 */
-	public Bdo( Direction textDirection, String id, String domClass, String Styles, String jsCallout) {
+	public Bdo( DirectionEnum textDirection, String id, String domClass, String Styles, String jsCallout) {
 		super(tag(Bdo.class), "", (id!=null)?id:ApplicationManager.getNextId(), domClass, Styles, jsCallout); 
 		this.textDirection =textDirection;  
 		this.addAttribute("textDirection", textDirection.toString());
@@ -93,7 +93,7 @@ public class Bdo extends DOMelement implements PalpableContent, FlowingContent, 
 	 * @param Styles String or Null or ApplicationManager.NULL_NODE_VALUE
 	 * @param jsCallout String or Null or ApplicationManager.NULL_NODE_VALUE
 	 */
-	public Bdo( Direction textDirection,String bdoHTML, String id, String domClass, String Styles, String jsCallout) {
+	public Bdo( DirectionEnum textDirection,String bdoHTML, String id, String domClass, String Styles, String jsCallout) {
 		super(tag(Bdo.class), bdoHTML, (id!=null)?id:ApplicationManager.getNextId(), domClass, Styles, jsCallout); 
 		this.textDirection =textDirection;  
 		this.addAttribute("textDirection", textDirection.toString());
@@ -102,9 +102,9 @@ public class Bdo extends DOMelement implements PalpableContent, FlowingContent, 
 	/**
 	 * Gets the current text direction
 	 * @return Direction
-	 * @see com.ali.jadom.dom.Direction
+	 * @see com.ali.jadom.dom.DirectionEnum
 	 */
-	public final Direction gettextDirection() {
+	public final DirectionEnum gettextDirection() {
 		return textDirection;
 	}
 
@@ -112,7 +112,7 @@ public class Bdo extends DOMelement implements PalpableContent, FlowingContent, 
 	 * Sets the current text direction
 	 * @param textDirection Direction
 	 */
-	public final void setTextDirection(Direction textDirection) {
+	public final void setTextDirection(DirectionEnum textDirection) {
 		this.textDirection = textDirection;
 		if(textDirection!=null)
 			addAttribute("textDirection",textDirection.toString());

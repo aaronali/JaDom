@@ -1,6 +1,8 @@
 package com.ali.jadom.dom;
 
-public enum RelType {
+import com.ali.jadom.dom.superelements.DOMobject;
+
+public enum RelTypeEnum  implements DOMobject{
 	ALTERNATE, /** Gives alternate representations of the current document **/
 	AUTHOR, /** Gives a link to the author of the current document or article. **/
 	BOOKMARK, /**  	Gives the permalink for the nearest ancestor section **/

@@ -7,7 +7,7 @@ import com.ali.jadom.exceptions.JaDomComplianceError;
 @Tag("title")
 public class Title extends DOMelement implements HeadingContent, MetadataContent { 
 	private static final long serialVersionUID = -529116677843930199L; 
-	public Title(DOMelementInterface element){
+	public Title(IDOMelement element){
 		super((DOMelement)element);
 	}
 	
@@ -48,7 +48,7 @@ public class Title extends DOMelement implements HeadingContent, MetadataContent
 
 	@Override
 	public String toString(){ 
-		return "<".concat(tag(this.getClass())).concat(">").concat(nodevalue).concat("</").concat(tag(this.getClass())).concat(">"); 
+		return "<".concat(tag(this.getClass())).concat(">").concat(nodevalue).concat("</").concat(tag(this.getClass())).concat(">\n"); 
 	}
 	@Override
 	public void addAttribute(String name, String value){

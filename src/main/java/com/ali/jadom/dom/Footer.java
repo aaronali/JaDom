@@ -18,7 +18,7 @@ public class Footer extends DOMelement implements FlowingContent , PalpableConte
 		super(tag(Footer.class)); 
 	}
 	
-	public Footer(DOMelementInterface element){
+	public Footer(IDOMelement element){
 		super((Footer)element);
 	}
 	

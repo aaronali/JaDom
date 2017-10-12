@@ -15,12 +15,12 @@ public class Link extends DOMelement  implements MetadataContent, FlowingContent
 	protected boolean isExternal = false;
 	protected String crossorgin ; 
 	protected String size;
-	protected MediaTypes media;   
+	protected MediaTypesEnum media;   
 	protected boolean ismap;
 	protected String usemap;
 	protected String hreflang;
 	protected String type;
-	protected RelType rel;
+	protected RelTypeEnum rel;
 	protected String title;
 	
 	/**
@@ -38,7 +38,7 @@ public class Link extends DOMelement  implements MetadataContent, FlowingContent
 	 * @param usemap
 	 */
 	public Link(String href, boolean newTab, boolean isExternal, String crossorgin, String hreflang,
-			String size, MediaTypes media, RelType rel, String type, boolean ismap, String usemap) {
+			String size, MediaTypesEnum media, RelTypeEnum rel, String type, boolean ismap, String usemap) {
 		super(tag(Img.class), "nullnodevalue");
 		this.href = href;
 		this.newTab = newTab;
@@ -55,7 +55,7 @@ public class Link extends DOMelement  implements MetadataContent, FlowingContent
 			addAttribute("size",size);
 		this.media = media;
 		if(media!=null) 
-			this.media = Enum.valueOf(MediaTypes.class,attributes.get("media"));
+			this.media = Enum.valueOf(MediaTypesEnum.class,attributes.get("media"));
 		this.ismap = ismap;
 		if(ismap)
 			addAttribute("ismap",String.valueOf(ismap));
@@ -78,7 +78,7 @@ public class Link extends DOMelement  implements MetadataContent, FlowingContent
 	 * 
 	 * @param element DOMelementInterface
 	 */
-	 public Link(DOMelementInterface element){
+	 public Link(IDOMelement element){
 		 super((Link)element);
 		 this.crossorgin =((Link)element).crossorgin;
 		 this.href=((Link)element).href;
@@ -111,9 +111,9 @@ public class Link extends DOMelement  implements MetadataContent, FlowingContent
 			if(attributes.get("crossorgin")!=null)
 				this.crossorgin = attributes.get("crossorgin"); 
 			if(attributes.get("rel")!=null)
-				this.rel = Enum.valueOf(RelType.class, attributes.get("rel"));
+				this.rel = Enum.valueOf(RelTypeEnum.class, attributes.get("rel"));
 			if(attributes.get("media")!=null)
-				this.media = Enum.valueOf(MediaTypes.class,attributes.get("media"));
+				this.media = Enum.valueOf(MediaTypesEnum.class,attributes.get("media"));
 			if(attributes.get("size")!=null)
 				this.type = attributes.get("size");  
 			if(attributes.get("usemap")!=null)
@@ -232,38 +232,38 @@ public class Link extends DOMelement  implements MetadataContent, FlowingContent
 
 	/**
 	 * Gets the link relationship to the page
-	 * @see RelType
+	 * @see RelTypeEnum
 	 * @return
 	 */
-	public final RelType getRel() {
+	public final RelTypeEnum getRel() {
 		return rel;
 	}
 
 	/**
 	 * Sets the relationship of the link to the page.
-	 * @see RelType
+	 * @see RelTypeEnum
 	 * @param rel
 	 */
-	public final void setRel(RelType rel) {
+	public final void setRel(RelTypeEnum rel) {
 		this.rel = rel;
 		addAttribute("rel",rel.toString());
 	}
 
 	/**
 	 * Returns the media type of the link.
-	 * @see MediaTypes
+	 * @see MediaTypesEnum
 	 * @return
 	 */
-	public final MediaTypes getMedia() {
+	public final MediaTypesEnum getMedia() {
 		return media;
 	}
 
 	/**
 	 * Sets the media type of the link.
-	 * @see MediaTypes
+	 * @see MediaTypesEnum
 	 * @param media
 	 */
-	public final void setMedia(MediaTypes media) {
+	public final void setMedia(MediaTypesEnum media) {
 		this.media = media;
 		addAttribute("media", media.toString());
 	}

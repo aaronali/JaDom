@@ -22,7 +22,7 @@ public class Hr extends DOMelement implements FlowingContent{
 	 * 
 	 * @param element
 	 */
-	public Hr(DOMelementInterface element){
+	public Hr(IDOMelement element){
 		super((Hr)element);
 	}
 	 

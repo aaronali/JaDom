@@ -20,7 +20,7 @@ public class Samp extends DOMelement implements FlowingContent, PalpableContent,
 	 * 
 	 * @param element
 	 */
-	public Samp(DOMelementInterface element){
+	public Samp(IDOMelement element){
 		super((Samp)element);
 	}
 	/**

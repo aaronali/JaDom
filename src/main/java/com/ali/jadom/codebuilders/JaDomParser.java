@@ -2,13 +2,13 @@ package com.ali.jadom.codebuilders;
 
 import com.ali.jadom.dom.Br;
 import com.ali.jadom.dom.Code;
-import com.ali.jadom.dom.DOMelementInterface;
+import com.ali.jadom.dom.IDOMelement;
 import com.ali.jadom.dom.Div;
 import com.ali.jadom.dom.P; ;
 
 public class JaDomParser {
  
-	public static DOMelementInterface simpleParse(String domString){
+	public static IDOMelement simpleParse(String domString){
 		//throw new RuntimeException("Method not implmented");
 		Div div = new Div();
 		String[] returnString =   domString.split("\n");

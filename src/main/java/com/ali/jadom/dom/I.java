@@ -29,7 +29,7 @@ public class I extends DOMelement implements FlowingContent, PhrasingContent, Pa
 	 * 
 	 * @param element
 	 */
-	public I(DOMelementInterface element){
+	public I(IDOMelement element){
 		super((I)element);
 	}
 	/**

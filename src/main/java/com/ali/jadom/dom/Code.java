@@ -18,7 +18,7 @@ public class Code extends DOMelement implements FlowingContent, PalpableContent,
 		super(tag(Code.class)); 
 	}
 	
-	public Code(DOMelementInterface code){
+	public Code(IDOMelement code){
 		super((Code)code);
 	}
 

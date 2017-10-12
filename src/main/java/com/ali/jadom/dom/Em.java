@@ -18,7 +18,7 @@ public class Em extends DOMelement  implements FlowingContent, PhrasingContent, 
 		super(tag(Em.class)); 
 	}
 
-	public Em(DOMelementInterface element){
+	public Em(IDOMelement element){
 		super((Em)element);
 	}
 	

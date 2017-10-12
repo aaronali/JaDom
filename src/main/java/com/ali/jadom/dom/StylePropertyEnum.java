@@ -1,11 +1,13 @@
 package com.ali.jadom.dom;
 
+import com.ali.jadom.dom.superelements.DOMobject;
+
 /**
  * A comprehensive list of CSS compliant properties
  * @author aaronali
  *
  */
-public enum StyleProperty {
+public enum StylePropertyEnum implements DOMobject {
    alignContent,
    alignItems,
    alignSelf,

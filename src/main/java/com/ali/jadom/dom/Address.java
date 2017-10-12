@@ -18,7 +18,7 @@ public class Address extends DOMelement implements  PalpableContent, FlowingCont
 		super(tag(Address.class)); 
 	}
 	
-	public Address(DOMelementInterface element){ 
+	public Address(IDOMelement element){ 
 		super((DOMelement)element);
 	}
 	

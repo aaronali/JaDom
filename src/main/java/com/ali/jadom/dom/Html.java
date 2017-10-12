@@ -1,10 +1,12 @@
 package com.ali.jadom.dom;
 
 import java.util.HashMap;
+
+import com.ali.jadom.dom.superelements.SectioningRoot;
  
  
 @Tag("html")
-public class Html extends DOMelement {
+public class Html extends DOMelement implements SectioningRoot{
   
 	private static final long serialVersionUID = 5014174600136364073L;
 	protected String lang = ApplicationManager.DEFAULT_HTML_LANG;
@@ -13,7 +15,7 @@ public class Html extends DOMelement {
 	 * 
 	 * @param element
 	 */
-	public Html(DOMelementInterface element){
+	public Html(IDOMelement element){
 		super((Html)element);
 		this.lang=((Html)element).lang;
 	}
@@ -100,16 +102,23 @@ public class Html extends DOMelement {
 
 	@Override
 	public String toString(){ 
+		if(ApplicationManager.FORCE_HTML_COMPLIANCE) {
+			String id = this.getAttribute(ApplicationManager.STRING_ID);
+			this.removeAttribute(ApplicationManager.STRING_ID);
+			String ret = super.toString();
+			this.addAttribute(ApplicationManager.STRING_ID, id);
+			return ret;
+		}
 		return super.toString();  
 	}
 	 
 	@Override
 	public boolean addDomElement(DOMelement element){
-		if(ApplicationManager.FORCE_HTML_COMPLIANCE &&( !element.isOfType(Body.class) || !element.isOfType(Head.class))){
+		if(ApplicationManager.FORCE_HTML_COMPLIANCE &&( !element.isOfType(SectioningRoot.class))){
 			if(element.isOfType(Body.class) && this.contains(Body.class))
-				throw new RuntimeException(this.getClass().getCanonicalName().concat(" can only have one ").concat(element.getClass().getCanonicalName()));
+				throw new RuntimeException(this.getClass().getCanonicalName().concat(" can only have one  ").concat(element.getClass().getCanonicalName()));
 			if(element.isOfType(Head.class) && this.contains(Head.class))
-				throw new RuntimeException(this.getClass().getCanonicalName().concat(" can only have one ").concat(element.getClass().getCanonicalName()));
+				throw new RuntimeException(this.getClass().getCanonicalName().concat(" can only have one  ").concat(element.getClass().getCanonicalName()));
 			throw new RuntimeException(this.getClass().getCanonicalName().concat(" is not allowed to have a child element of type ").concat(element.getClass().getCanonicalName()).concat("\n Set ApplicationManager.FORCE_HTML_COMPLIANCE to false to override"));
 		}
 		return super.addDomElement(element);

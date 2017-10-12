@@ -32,7 +32,7 @@ public class Object extends DOMelement implements FlowingContent, PalpableConten
 	 * 
 	 * @param element
 	 */
-	public Object(DOMelementInterface element){ 
+	public Object(IDOMelement element){ 
 		this(((Object)element).data, ((Object)element).type, ((Object)element).typemustmatch,((Object)element).name,((Object)element).usemap,
 				((Object)element).form,((Object)element).width,   ((Object)element).height);
 	}

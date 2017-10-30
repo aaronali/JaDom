@@ -1,5 +1,6 @@
 package com.ali.jadom.dom;
  
+import com.ali.jadom.ApplicationManager;
 import com.ali.jadom.dom.superelements.FlowingContent; 
 
 /**

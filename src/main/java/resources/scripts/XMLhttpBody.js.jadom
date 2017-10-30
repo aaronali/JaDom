@@ -1,0 +1,12 @@
+
+{
+var functionName=new XMLHttpRequest();
+functionName.onreadystatechange =function(event ){
+ if (functionName.readyState == 4 && functionName.status == 200) {
+responseBody
+}
+};
+functionName.open("methodName", "./?domlistener=requestURL", true);
+functionName.send();
+}
+

@@ -1,5 +1,6 @@
 package com.ali.jadom.dom;
 
+import com.ali.jadom.ApplicationManager;
 import com.ali.jadom.dom.superelements.HeadingContent;
 import com.ali.jadom.dom.superelements.MetadataContent;
 import com.ali.jadom.exceptions.JaDomComplianceError; 
@@ -33,7 +34,7 @@ public class Title extends DOMelement implements HeadingContent, MetadataContent
 		super(tag(Title.class), titleText); 
 		if(ApplicationManager.FORCE_HTML_COMPLIANCE){
 			if(domClass!=null || id !=null || styles!=null || jsCallout !=null)
-				throw new JaDomComplianceError(JaDomComplianceError.Error.NO_ATTRIBUTES_ALLOWED,null,null);
+				throw new JaDomComplianceError(JaDomComplianceError.ErrorEnum.NO_ATTRIBUTES_ALLOWED,null,null);
 		}
 		super.addAttribute("id", id);
 		super.addAttribute("domClass", domClass);

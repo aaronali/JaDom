@@ -2,6 +2,7 @@ package com.ali.jadom.dom;
 
 import java.util.HashMap;
 
+import com.ali.jadom.ApplicationManager;
 import com.ali.jadom.dom.superelements.FlowingContent;
 import com.ali.jadom.dom.superelements.PalpableContent;
 
@@ -51,9 +52,24 @@ public class P extends DOMelement implements FlowingContent, PalpableContent{
 		super(tag(P.class), paragraphText, id, domClass, Styles, jsCallout); 
 	}
 
-	
-	public P(String paragraphText, DOMclass doMclass) {
+	/**
+	 * 
+	 * @param paragraphText
+	 * @param doMclass
+	 */
+	public P(String paragraphText, DOMclass doMclass ) {
 		super(tag(P.class), paragraphText, doMclass);  
+	}
+	
+	/**
+	 * 
+	 * @param paragraphText
+	 * @param doMclass
+	 * @param id
+	 */
+	public P(String paragraphText, DOMclass doMclass , String id) {
+		super(tag(P.class), paragraphText, doMclass);  
+		if(id!=null) this.addAttribute("id",id);
 	}
 
 	@Override

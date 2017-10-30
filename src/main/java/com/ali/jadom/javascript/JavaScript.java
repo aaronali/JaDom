@@ -1,6 +1,6 @@
 package com.ali.jadom.javascript;
 
-import com.ali.jadom.dom.ApplicationManager;
+import com.ali.jadom.ApplicationManager;
 
 public class JavaScript implements JavaScriptObject{
  

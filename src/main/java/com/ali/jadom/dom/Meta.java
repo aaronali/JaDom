@@ -2,9 +2,10 @@ package com.ali.jadom.dom;
 
 import java.util.HashMap;
 
+import com.ali.jadom.ApplicationManager;
 import com.ali.jadom.dom.superelements.MetadataContent;
 
-@Tag("br")
+@Tag("meta")
 public class Meta extends DOMelement implements MetadataContent{ 
 	 
 	private static final long serialVersionUID = 1258995033018206530L;
@@ -18,7 +19,8 @@ public class Meta extends DOMelement implements MetadataContent{
 	 */
 	public Meta() {
 		super(tag(Meta.class),ApplicationManager.NULL_NODE_VALUE,ApplicationManager.NULL_NODE_VALUE,ApplicationManager.NULL_NODE_VALUE,ApplicationManager.NULL_NODE_VALUE,ApplicationManager.NULL_NODE_VALUE);
-			} 
+		super.forceNoId();
+	} 
 	
 	/**
 	 * 
@@ -42,12 +44,16 @@ public class Meta extends DOMelement implements MetadataContent{
 	 * @param content
 	 * @param charset
 	 */
-	public Meta(String nodeName, String name, String httpEquiv, String content, String charset) {
+	public Meta(String name, String httpEquiv, String content, String charset) {
 		super(tag(Meta.class),ApplicationManager.NULL_NODE_VALUE,ApplicationManager.NULL_NODE_VALUE,ApplicationManager.NULL_NODE_VALUE,ApplicationManager.NULL_NODE_VALUE,ApplicationManager.NULL_NODE_VALUE);
 		this.name = name;
+		attributes.put(ApplicationManager.STRING_NAME, name);
 		this.httpEquiv = httpEquiv;
+		attributes.put(ApplicationManager.String_HTTPEQUIV, httpEquiv);
 		this.content = content;
+		attributes.put(ApplicationManager.STRING_CONTENT, content);
 		this.charset = charset;
+		attributes.put(ApplicationManager.STRING_CHARSET, charset);
 	}
 
 
@@ -125,7 +131,7 @@ public class Meta extends DOMelement implements MetadataContent{
 
 	@Override
 	public void addAttribute(String name, String value){
-		if(ApplicationManager.FORCE_HTML_COMPLIANCE && ((name!="name" || name!="content" || name!="charset" || name!="http_equiv")&& value!=ApplicationManager.NULL_NODE_VALUE)){
+		if(ApplicationManager.FORCE_HTML_COMPLIANCE &&  ((name!="name" || name!="content" || name!="charset" || name!="http_equiv") && value!=ApplicationManager.NULL_NODE_VALUE) && (value.equals(ApplicationManager.NULL_NODE_VALUE))){
 			System.out.println(name+","+value);
 			throw new RuntimeException("The only allowed attributes for this element are  'name', 'charset', 'http-equiv', amd 'content'. Sett ApplicationManager.FORCE_HTML_COMPLIANCE to override");
 		} 

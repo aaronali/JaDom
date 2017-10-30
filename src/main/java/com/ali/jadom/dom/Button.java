@@ -1,6 +1,7 @@
 package com.ali.jadom.dom;
  
 
+import com.ali.jadom.ApplicationManager;
 import com.ali.jadom.dom.superelements.EmbeddedContent;
 import com.ali.jadom.dom.superelements.FlowingContent;
 import com.ali.jadom.dom.superelements.FormAssociated;

@@ -2,6 +2,8 @@ package com.ali.jadom.dom;
 
 import java.util.HashMap;
 
+import com.ali.jadom.ApplicationManager;
+
 @Tag("source")
 public class Source extends DOMelement {
   

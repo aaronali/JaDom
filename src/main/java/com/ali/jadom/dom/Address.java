@@ -2,9 +2,11 @@ package com.ali.jadom.dom;
 
 import java.util.HashMap;
 
+import com.ali.jadom.ApplicationManager;
 import com.ali.jadom.dom.superelements.FlowingContent;
 import com.ali.jadom.dom.superelements.PalpableContent;
 import com.ali.jadom.dom.superelements.SectioningContent;
+import com.ali.jadom.exceptions.JaDomComplianceError;
 
 @Tag("address")
 public class Address extends DOMelement implements  PalpableContent, FlowingContent { 
@@ -54,8 +56,8 @@ public class Address extends DOMelement implements  PalpableContent, FlowingCont
 	 
 	@Override
 	public boolean addDomElement(DOMelement element){
-		if(ApplicationManager.FORCE_HTML_COMPLIANCE && !element.isOfType(SectioningContent.class))
-			throw new RuntimeException(this.getClass().getCanonicalName().concat(" is not allowed to have a child element of type ").concat(element.getClass().getCanonicalName().concat("\n Set ApplicationManager.FORCE_HTML_COMPLIANCE to false to override")));
+		if(ApplicationManager.FORCE_HTML_COMPLIANCE && element.isOfType(SectioningContent.class))
+			throw new RuntimeException(new JaDomComplianceError(this,element));
 		return super.addDomElement(element);
 	}
 	

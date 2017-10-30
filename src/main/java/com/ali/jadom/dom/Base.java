@@ -2,6 +2,7 @@ package com.ali.jadom.dom;
 
 import java.util.HashMap;
 
+import com.ali.jadom.ApplicationManager;
 import com.ali.jadom.dom.superelements.MetadataContent;
  
 /**

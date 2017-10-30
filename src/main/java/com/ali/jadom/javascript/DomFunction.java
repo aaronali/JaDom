@@ -3,7 +3,8 @@ package com.ali.jadom.javascript;
 import java.io.IOException;
 import java.io.Serializable;
 
-import com.ali.jadom.dom.ApplicationManager; 
+import com.ali.jadom.ApplicationManager;
+import com.ali.java.jaFile.FileReader;  
  
 public class DomFunction extends JavaScript implements Serializable, Appendable, JavaScriptObject {
 
@@ -156,6 +157,11 @@ public class DomFunction extends JavaScript implements Serializable, Appendable,
 		array= new String[array.length+1];
 		System.arraycopy(temp, 0, array, 0, temp.length);
 		return array;
+	}
+	public void readFromFile(String filename) {
+		this.body = new StringBuilder();
+		this.body.append( new FileReader().readFile(filename));
+		//System.out.println("body = "+  this.body);
 	}
 	
 	

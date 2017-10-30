@@ -2,6 +2,7 @@ package com.ali.jadom.dom;
 
 import java.util.HashMap;
 
+import com.ali.jadom.ApplicationManager;
 import com.ali.jadom.dom.superelements.SectioningRoot;
  
  
@@ -104,9 +105,9 @@ public class Html extends DOMelement implements SectioningRoot{
 	public String toString(){ 
 		if(ApplicationManager.FORCE_HTML_COMPLIANCE) {
 			String id = this.getAttribute(ApplicationManager.STRING_ID);
-			this.removeAttribute(ApplicationManager.STRING_ID);
+		 	this.removeAttribute(ApplicationManager.STRING_ID);
 			String ret = super.toString();
-			this.addAttribute(ApplicationManager.STRING_ID, id);
+		 	this.addAttribute(ApplicationManager.STRING_ID, id);
 			return ret;
 		}
 		return super.toString();  
@@ -114,11 +115,17 @@ public class Html extends DOMelement implements SectioningRoot{
 	 
 	@Override
 	public boolean addDomElement(DOMelement element){
-		if(ApplicationManager.FORCE_HTML_COMPLIANCE &&( !element.isOfType(SectioningRoot.class))){
-			if(element.isOfType(Body.class) && this.contains(Body.class))
+		if(ApplicationManager.FORCE_HTML_COMPLIANCE ){
+			if(element.isOfType(Body.class ) && this.contains(Body.class))
 				throw new RuntimeException(this.getClass().getCanonicalName().concat(" can only have one  ").concat(element.getClass().getCanonicalName()));
-			if(element.isOfType(Head.class) && this.contains(Head.class))
+			else if(element.isOfType(Body.class)) 
+				return super.addDomElement(element);
+
+			if(element.isOfType(Head.class ) && this.contains(Head.class))
 				throw new RuntimeException(this.getClass().getCanonicalName().concat(" can only have one  ").concat(element.getClass().getCanonicalName()));
+
+			else if(element.isOfType(Head.class))
+				return super.addDomElement(element);
 			throw new RuntimeException(this.getClass().getCanonicalName().concat(" is not allowed to have a child element of type ").concat(element.getClass().getCanonicalName()).concat("\n Set ApplicationManager.FORCE_HTML_COMPLIANCE to false to override"));
 		}
 		return super.addDomElement(element);

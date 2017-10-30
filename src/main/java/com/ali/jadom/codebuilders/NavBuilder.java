@@ -10,6 +10,13 @@ public class NavBuilder {
 	String navId= "";
 	boolean justified = false;
 	boolean jQueryUi = false;
+	
+	
+	/**
+	 * Create a navigation item
+	 * @param bootstrap
+	 * @param jQueryUi
+	 */
 	public  NavBuilder(boolean bootstrap, boolean jQueryUi){
 		this.bootstrap = bootstrap;
 	 	navBuilder.append("<div class='appNavigation'>\n<nav id=\"navId\"   >\n"); 
@@ -171,4 +178,8 @@ public class NavBuilder {
         
         */
 	 
+	
+	public String toString() {
+		return this.getCode();
+	}
 }

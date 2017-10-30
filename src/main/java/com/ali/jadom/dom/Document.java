@@ -3,8 +3,12 @@ package com.ali.jadom.dom;
 import java.io.Serializable; 
 import java.lang.reflect.Field;
 import java.util.Collection;
-import java.util.HashMap; 
+import java.util.HashMap;
 
+import org.w3c.dom.Element;
+
+import com.ali.jadom.ApplicationManager;
+import com.ali.jadom.JadomConfig;
 import com.ali.jadom.annotations.Hidden;
 import com.ali.jadom.codebuilders.StyleBuilder;
 import com.ali.jadom.dom.superelements.DOMobject;
@@ -49,7 +53,7 @@ import com.ali.java.jalo.Logger;
   [LenientThis] attribute EventHandler onreadystatechange
   **/
 @Tag("!doctype")
-public class Document extends DOMelement implements Serializable { 
+public class Document extends DOMelement implements  Serializable { 
 	
 	@Hidden(true)
 	private static final long serialVersionUID = 1L; 
@@ -83,13 +87,17 @@ public class Document extends DOMelement implements Serializable {
     @Hidden(true)
     private String[] allowedDoms =  {com.ali.jadom.dom.Head.class.getSimpleName() ,com.ali.jadom.dom.Body.class.getSimpleName()};
 	
- 
+
+    @Hidden(true)
+    private static String DOC000010 = "DOC000010 : Error Adding Css to Document";
+    
     
 	public Document() {
 		super(tag(Document.class), "nullnodevalue", ApplicationManager.FORCE_NO_ATTRIBUTE, 
 				ApplicationManager.FORCE_NO_ATTRIBUTE, ApplicationManager.FORCE_NO_ATTRIBUTE, ApplicationManager.FORCE_NO_ATTRIBUTE); 
 		addAttribute("",doctype);
-		windowLoader=Script.createScript(fileReader.readFile(ApplicationManager.PATH_JADOM_SCRIPTS.concat("/setWindows.js.jadom")));  
+		System.out.println(ApplicationManager.PATH_JADOM_SCRIPTS);
+		windowLoader=Script.createScript(JadomConfig.Scripts.get(JadomConfig.SCRIPTS.setWindows_js_jadom.toString()));  
 	} 
 	
 	public Document(String doctype) {
@@ -103,7 +111,7 @@ public class Document extends DOMelement implements Serializable {
 				this.addDomElement(html);
 			}
 		}
-		windowLoader=Script.createScript(fileReader.readFile(ApplicationManager.PATH_JADOM_SCRIPTS.concat("/setWindows.js.jadom")));  
+		windowLoader=Script.createScript(JadomConfig.Scripts.get(JadomConfig.SCRIPTS.setWindows_js_jadom.toString()));  
 	}  
 	 
 	 
@@ -114,7 +122,7 @@ public class Document extends DOMelement implements Serializable {
 			super.setAttributes(attributes);
 		if(doctype!=null)
 			addAttribute("",doctype);
-		windowLoader=Script.createScript(fileReader.readFile(ApplicationManager.PATH_JADOM_SCRIPTS.concat("/setWindows.js.jadom")));  
+		windowLoader=Script.createScript(JadomConfig.Scripts.get(JadomConfig.SCRIPTS.setWindows_js_jadom.toString()));  
 	} 
 
 	public Document(Document document) {
@@ -123,7 +131,7 @@ public class Document extends DOMelement implements Serializable {
 		this.recurse= document.recurse; 
 		this.body=document.body;
 		this.head=document.head; 
-		windowLoader=Script.createScript(fileReader.readFile(ApplicationManager.PATH_JADOM_SCRIPTS.concat("/setWindows.js.jadom")));  
+		windowLoader=Script.createScript(JadomConfig.Scripts.get(JadomConfig.SCRIPTS.setWindows_js_jadom.toString()));  
 	}
 	
     
@@ -235,28 +243,58 @@ public class Document extends DOMelement implements Serializable {
 				if(element.isOfType(HeadingContent.class,MetadataContent.class)) {
 					if(head==null) {
 						head= new Head(); 
+						this.embeddedElements[0].addDomElement(head);
 					}
 					if(element.getClass().equals(Title.class)){
 						head.removeDomElement(Title.class);
-						head.addDomElement(element);
+						 head.addDomElement(element);
+						 return this.embeddedElements[0].embeddedElements[0].addDomElement(element);
 					}
+					 
 					return this.getEmbeddedElements()[0].addDomElement(head);
 				}
 				if(element.isOfType(SectioningRoot.class)) {
 					if(element.getClass().equals(Head.class)) {
 						element.document=this;
 						this.head=element;
+						if(this.getEmbeddedElements()==null) {
+							super.addDomElement(new Html());
+							return this.getEmbeddedElements()[0].addDomElement(element);
+						}
+						if(this.getEmbeddedElements()!=null && this.getEmbeddedElements()[0].getEmbeddedElements()!=null)  {
+							if(this.getEmbeddedElements()[0].contains(Head.class) ) {
+								if(element.document!=this)
+									element.document=this;
+								this.getEmbeddedElements()[0].getEmbeddedElements()[0] = element;
+								this.body=element;
+								return  this.getEmbeddedElements()[0].getEmbeddedElements()[0] == element;
+							}
+							
+						}
 						return this.getEmbeddedElements()[0].addDomElement(head);
 					} 
-					if(element.getClass().equals(Body.class)) {
+					if(element.getClass().equals(Body.class)) { 
+						if(this.getEmbeddedElements()!=null && this.getEmbeddedElements()[0].getEmbeddedElements()!=null)  {
+							if(this.getEmbeddedElements()[0].contains(Body.class) ) {
+								if(element.document!=this)
+									element.document=this;
+								this.getEmbeddedElements()[0].getEmbeddedElements()[1] = element;
+								this.body=element;
+								return  this.getEmbeddedElements()[0].getEmbeddedElements()[1] == element;
+							}
+							
+						}else {
+							element.document=this;
+							return setBody(element);
+						}
 						element.document=this;
 						this.body=element;
-						return this.setBody(body);
+						return this.getEmbeddedElements()[0].addDomElement(element);
 					}
 				} 	 
 				
 				if( !element.isOfType(Head.class ) && !element.isOfType(Body.class) && !element.isOfType(Html.class)){
-					throw new RuntimeException(new JaDomComplianceError(JaDomComplianceError.Error.CLASS_NOT_ALLOWED, this,element));
+					throw new RuntimeException(new JaDomComplianceError(JaDomComplianceError.ErrorEnum.CLASS_NOT_ALLOWED, this,element));
 				}
 			}
 			if(element.isOfType(Head.class)&& this.contains(Head.class)){
@@ -448,14 +486,23 @@ public class Document extends DOMelement implements Serializable {
 		return title;
 	}
 
+	/**
+	 * Sets the title of the document
+	 * Adds a head element if there is not one already
+	 * @param title
+	 */
 	public void setTitle(String title) {
 		this.title = title;
-		Title t= new Title(title);
+		if(title.equals(null))this.title="";
+		Title newTitle= new Title(title);
 		if(this.head  ==null){
-			this.head= new Head(); 
-		} 
-		this.head.addDomElement(t);
-		this.getEmbeddedElements()[0].addDomElement(head); 
+			this.head= new Head();   
+			head.addDomElement(newTitle);
+			this.embeddedElements[0].addDomElement(head);
+			return;
+		}  
+		this.embeddedElements[0].embeddedElements[0].addDomElement(newTitle); 
+		return;
 	}
 
 	public String getDir() {
@@ -472,24 +519,43 @@ public class Document extends DOMelement implements Serializable {
 
 	public boolean setBody(DOMelement body) {
 		this.body = body;
-		if(this.getEmbeddedElements()!=null) {
-			if(this.getEmbeddedElements()[0].contains(Body.class)) {
-				this.removeDomElement(Body.class);  
+		if(this.getEmbeddedElements()==null || (ApplicationManager.FORCE_HTML_COMPLIANCE && !this.contains(Html.class))) {
+			this.setEmbeddedElements(new DOMelement[0]);
+			if(ApplicationManager.FORCE_HTML_COMPLIANCE) { 
+				Html html = new Html();
+				Title title = new Title("");
+				Head head = new Head();
+				head.addDomElement(title);
+				html.addDomElement(new Head());
+				html.addDomElement(body);
+				return super.addDomElement(html); 
+			}else {
+				return this.addDomElement(body);
 			}
-			return this.getEmbeddedElements()[0].addDomElement(body);
-		}else {
-			this.addDomElement(new Head());
-			return this.getEmbeddedElements()[0].addDomElement(body);
+		}else if(ApplicationManager.FORCE_HTML_COMPLIANCE && !this.contains(Html.class)) { 
+			super.addDomElement(new Html());
+			this.getEmbeddedElements()[0].addDomElement(body);
 		}
+		if(this.getEmbeddedElements()[0].contains(Body.class) && ApplicationManager.FORCE_HTML_COMPLIANCE) {
+			this.removeDomElement(Body.class);  
+		}
+		return this.getEmbeddedElements()[0].addDomElement(body); 
 		
 	}
 
-	public DOMelement getHead() {
+	public final DOMelement getHead() { 
 		return head;
+	}
+	
+	public void addLinktoHead() {
+		DOMelement element = this.getElementById(head.getElementId());
+		
 	}
 
 	public void setHead(DOMelement head) {
+		this.addDomElement(head);
 		this.head = head;
+		
 	}
 
 	public Collection<DOMelement> getImages() {
@@ -555,9 +621,18 @@ public class Document extends DOMelement implements Serializable {
 	public void setAllowedDoms(String[] allowedDoms) {
 		this.allowedDoms = allowedDoms;
 	}
-	
-	
-	 
 
+	public boolean addCssLink(Link link) {
+		try {
+			return embeddedElements[0].embeddedElements[0].addDomElement(link);
+		}catch(Exception e) {
+			if(JadomConfig.Debug()) {
+				Logger.log(DOC000010);
+				e.printStackTrace();
+			}
+		}
+		return false;
+	} 
+	 
 
 }

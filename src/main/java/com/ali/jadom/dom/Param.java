@@ -1,5 +1,7 @@
 package com.ali.jadom.dom;
 
+import com.ali.jadom.ApplicationManager;
+
 @Tag("param")
 public class Param extends DOMelement{
  

@@ -1,5 +1,7 @@
 package com.ali.jadom.dom;
 
+import com.ali.jadom.ApplicationManager;
+
 public abstract class Track extends DOMelement {
 	 
 	private static final long serialVersionUID = -2675598578034021285L;

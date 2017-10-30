@@ -2,6 +2,7 @@ package com.ali.jadom.dom;
 
 import java.util.HashMap;
 
+import com.ali.jadom.ApplicationManager;
 import com.ali.jadom.dom.superelements.FlowingContent;
 import com.ali.jadom.dom.superelements.MetadataContent;
 import com.ali.jadom.dom.superelements.PhrasingContent;
@@ -150,6 +151,8 @@ public class Script extends DOMelement implements FlowingContent, MetadataConten
 		return s;
 	}
 	 
+	
+	
 	/**
 	 * Gets the current src value of the link
 	 * @return

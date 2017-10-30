@@ -3,7 +3,7 @@ package com.ali.jadom.codebuilders;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.ali.jadom.dom.ApplicationManager;
+import com.ali.jadom.ApplicationManager;
 import com.ali.jadom.dom.DOMelement;
 import com.ali.jadom.dom.MediaTypesEnum;
 import com.ali.jadom.dom.Style; 
@@ -125,10 +125,7 @@ public class StyleBuilder {
 		return styleCode.toString();
 	}
 	
-	 
-	public static void AddStyle(Style style){
-		  
-	}
+	  
 
 	public void addStyle(DOMelement domElement) {
 		

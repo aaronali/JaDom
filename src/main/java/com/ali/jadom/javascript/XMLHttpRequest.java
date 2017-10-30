@@ -10,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.ali.jadom.dom.ApplicationManager; 
+import com.ali.jadom.ApplicationManager; 
 
 public class XMLHttpRequest extends DomFunction implements Serializable, EventTarget { 
 	

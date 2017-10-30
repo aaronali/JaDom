@@ -2,7 +2,7 @@ package com.ali.jadom.dom.superelements;
 
 import java.util.HashMap;
 
-import com.ali.jadom.dom.ApplicationManager;
+import com.ali.jadom.ApplicationManager;
 import com.ali.jadom.dom.DOMelement;
 import com.ali.jadom.dom.superelements.TableElement;
 

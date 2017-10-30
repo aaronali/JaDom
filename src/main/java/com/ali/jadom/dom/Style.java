@@ -3,6 +3,8 @@ package com.ali.jadom.dom;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.ali.jadom.ApplicationManager;
+import com.ali.jadom.annotations.PreferredContructor;
 import com.ali.jadom.dom.superelements.FlowingContent;
 import com.ali.jadom.dom.superelements.MetadataContent;
 import com.ali.java.jalo.Logger;
@@ -25,12 +27,14 @@ public class Style extends DOMelement implements MetadataContent , FlowingConten
 	String mediaValue =null; 
 	
 	/**
-	 * Creates an empty style with he given name. If the given name is 'style' then the style will be created as a complete style script
+	 * Creates an empty style with he given name. If the given name is 'style' then the style will be
+	 *  created as a complete style script
 	 * rather then an individual style.
 	 * @param name
 	 */
+	@PreferredContructor
 	public Style(String name){ 
-		super(tag(Style.class),"",ApplicationManager.FORCE_NO_ATTRIBUTE,
+		super(tag(Style.class),ApplicationManager.STRING_EMPTY,ApplicationManager.FORCE_NO_ATTRIBUTE,
 				ApplicationManager.FORCE_NO_ATTRIBUTE,ApplicationManager.FORCE_NO_ATTRIBUTE,ApplicationManager.FORCE_NO_ATTRIBUTE);
 		this.name=name;
 		if(name.toLowerCase().equals(Style.class.getSimpleName().toLowerCase())){

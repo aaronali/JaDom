@@ -3,6 +3,7 @@ package com.ali.jadom.dom;
 import java.util.HashMap;
 
 import com.ali.jadom.ApplicationManager;
+import com.ali.jadom.annotations.PreferredContructor;
 import com.ali.jadom.dom.superelements.EmbeddedContent;
 import com.ali.jadom.dom.superelements.FlowingContent;
 import com.ali.jadom.dom.superelements.FormContent;
@@ -10,23 +11,28 @@ import com.ali.jadom.dom.superelements.InteractiveContent;
 import com.ali.jadom.dom.superelements.PalpableContent;
 import com.ali.jadom.dom.superelements.PhrasingContent;
  
-
+/**
+ * HTML Img tag
+ * @author Aaron Ali
+ *
+ */
 @Tag("img")
 public class Img extends DOMelement implements FlowingContent, PhrasingContent, EmbeddedContent, PalpableContent, InteractiveContent, FormContent{
+   
  
-
-	private static final long serialVersionUID = 2453715760209284908L;
+	private static final long serialVersionUID = -892860380005107135L;
 	protected String src;
 	protected String alt;
 	protected String srcset; 
 	protected boolean isExternal = false;
-	protected String crossorgin ; 
-	protected String sizes;  
-	protected int width;
-	protected int height;
+	protected String crossorigin ;  
+	protected long width;
+	protected long height;
 	protected boolean ismap;
-	protected String usemap;
-
+	protected String usemap; 
+	protected long naturalWidth;
+	protected long naturalHeight;
+	
 	 
 	 
 	
@@ -34,63 +40,56 @@ public class Img extends DOMelement implements FlowingContent, PhrasingContent, 
 	
 	public Img(String src, String alt, boolean isExternal, String crossorgin,
 			String sizes, String srcset, int width, int height, boolean ismap, String usemap) {
-		super(tag(Img.class), "nullnodevalue");
+		super(tag(Img.class),ApplicationManager.NULL_NODE_VALUE);
 		this.src = src; 
 		this.isExternal = isExternal;
 		this.alt=alt;
 		if(alt!=null)
-			addAttribute("alt",alt);
-		if(isExternal)
-			addAttribute("src",src);
-		else
-			addAttribute("src","Link?page="+src);
-		this.crossorgin = crossorgin;
+			addAttribute(ApplicationManager.STRING_ALT,alt); 
+		addAttribute(ApplicationManager.STRING_SRC,src);
+		 
+		this.crossorigin = crossorgin;
 		if(crossorgin!=null)
-			addAttribute("crossorgin",crossorgin);
-		this.sizes = sizes;
-		if(sizes!=null)
-			addAttribute("sizes",sizes);
+			addAttribute(ApplicationManager.STRING_CROSSORIGIN,crossorgin); 
 		this.srcset = srcset;
 		if(srcset!=null)
-			addAttribute("srcset", srcset);
+			addAttribute(ApplicationManager.STRING_SRCSET, srcset);
 		this.width = width;
 		if(width>0)
-			addAttribute("width",String.valueOf(width)); 
+			addAttribute(ApplicationManager.STRING_WIDTH,String.valueOf(width)); 
 		this.height = height;
 		if(height>0)
-			addAttribute("height",String.valueOf(width)); 
+			addAttribute(ApplicationManager.STRING_HEIGHT,String.valueOf(width)); 
 		this.ismap = ismap;
 		if(ismap)
-			addAttribute("ismap",String.valueOf(ismap));
+			addAttribute(ApplicationManager.STRING_ISMAP,String.valueOf(ismap));
 		this.usemap = usemap;
 		if(usemap!=null)
-			addAttribute("usemap",usemap); 
+			addAttribute(ApplicationManager.STRING_USEMAP,usemap); 
 	}
 
 
 	public Img(String src, String alt, boolean isExternal, HashMap<String, String> attributes) {
-		super(tag(Img.class), "nullnodevalue", attributes); 
+		super(tag(Img.class),ApplicationManager.NULL_NODE_VALUE, attributes); 
 		this.isExternal = isExternal;
 		this.attributes = attributes;
 		this.src = src;
 		if(attributes!=null){ 
-			if(attributes.get("usemap")!=null)
-				this.usemap = attributes.get("usemap");
-			if(attributes.get("srcset")!=null)
-				this.srcset = attributes.get("srcset");
-			if(attributes.get("sizes")!=null)
-				this.sizes = attributes.get("sizes");
-			if(attributes.get("crossorgin")!=null)
-				this.crossorgin = attributes.get("crossorgin");
-			if(attributes.get("ismap")!=null)
-				this.ismap = Boolean.valueOf(attributes.get("ismap"));
-			if(attributes.get("width")!=null)
-				this.width = Integer.valueOf(attributes.get("width"));			
-			if(attributes.get("height")!=null)
-				this.height = Integer.valueOf(attributes.get("height"));
+			if(attributes.get(ApplicationManager.STRING_USEMAP)!=null)
+				this.usemap = attributes.get(ApplicationManager.STRING_USEMAP);
+			if(attributes.get(ApplicationManager.STRING_SRCSET)!=null)
+				this.srcset = attributes.get(ApplicationManager.STRING_SRCSET); 
+			if(attributes.get(ApplicationManager.STRING_CROSSORIGIN)!=null)
+				this.crossorigin = attributes.get(ApplicationManager.STRING_CROSSORIGIN);
+			if(attributes.get(ApplicationManager.STRING_ISMAP)!=null)
+				this.ismap = Boolean.valueOf(attributes.get(ApplicationManager.STRING_ISMAP));
+			if(attributes.get(ApplicationManager.STRING_WIDTH)!=null)
+				this.width = Integer.valueOf(attributes.get(ApplicationManager.STRING_WIDTH));			
+			if(attributes.get(ApplicationManager.STRING_HEIGHT)!=null)
+				this.height = Integer.valueOf(attributes.get(ApplicationManager.STRING_HEIGHT));
 				
 		}
-		this.addAttribute("src",(isExternal)? src: "Link?page="+src);   
+		this.addAttribute(ApplicationManager.STRING_SRC,src);   
 	}
 	
 	/**
@@ -99,44 +98,35 @@ public class Img extends DOMelement implements FlowingContent, PhrasingContent, 
 	 * @param alt
 	 * @param isExternal
 	 */
+	@PreferredContructor
 	public Img(String src, String alt, boolean isExternal){
-		super(tag(Img.class), "nullnodevalue",null,"fullwidth",null,null);
+		super(tag(Img.class),ApplicationManager.NULL_NODE_VALUE,null,ApplicationManager.STRING_FULLWIDTH,null,null);
 		this.isExternal = isExternal;
 		this.src = src;
-		this.addAttribute("src",(isExternal)? src: "Link?page="+src);
+		this.addAttribute(ApplicationManager.STRING_SRC,src);
 		this.alt = alt;
-		addAttribute("alt", alt); 
-		addAttribute("domClass","fullwidth-responsive");
-		//addAttribute("style", "-width:100%;");
+		addAttribute(ApplicationManager.STRING_ALT, alt); 
+		//addAttribute("domClass","fullwidth-responsive");
+		addAttribute("style", "width:100%;");
 	}
-
-	 
-
-
+ 
 
 	public Img(String src, String alt,boolean isExternal, String id, String domClass, String Styles, String jsCallout) {
-		super(tag(Img.class), "nullnodevalue", (id!=null)?id:ApplicationManager.getNextId(), domClass, Styles, jsCallout); 
+		super(tag(Img.class),ApplicationManager.NULL_NODE_VALUE, (id!=null)?id:ApplicationManager.getNextId(), domClass, Styles, jsCallout); 
 		this.src =src; 
 		this.isExternal = isExternal;
-		this.addAttribute("src",(isExternal)? src: "Link?page="+src);
+		this.addAttribute(ApplicationManager.STRING_SRC,src);
 	}
 
-	
 	 
-
-	 
-	
 
 	public final String getSrc() {
 		return src;
 	}
 
-	public final void setSrc(String src) {
-		this.src = src;
-		if(this.isExternal)
-			addAttribute("src",src);
-		else
-			addAttribute("href","Link?page="+src);
+	public final void setSrc(String src) { 
+		this.src=src;
+		addAttribute(ApplicationManager.STRING_SRC,src); 
 	}
 
 	public final boolean isExternal() {
@@ -144,14 +134,7 @@ public class Img extends DOMelement implements FlowingContent, PhrasingContent, 
 	}
 
 	public final void setExternal(boolean isExternal) {
-		this.isExternal = isExternal;
-		if(isExternal){
-			src  = src.replace("Link?page=", "");
-			addAttribute("src",src);
-		}else{
-			if(!src.contains("Link?page="))
-				src.replace("Link?page=", "");
-		}
+		this.isExternal = isExternal; 
 	}
 
 	 
@@ -161,28 +144,20 @@ public class Img extends DOMelement implements FlowingContent, PhrasingContent, 
 
 	public final void setSrcset(String srcset) {
 		this.srcset = srcset;
-		addAttribute("srcset", srcset);
+		addAttribute(ApplicationManager.STRING_SRCSET, srcset);
 	}
  
 	
-	public final String getCrossorgin() {
-		return crossorgin;
+	public final String getCrossorigin() {
+		return crossorigin;
 	}
 
-	public final void setCrossorgin(String crossorgin) {
-		this.crossorgin = crossorgin;
-		addAttribute("crossorgin", crossorgin);
+	public final void setCrossorigin(String crossorigin) {
+		this.crossorigin = crossorigin;
+		addAttribute(ApplicationManager.STRING_CROSSORIGIN, crossorigin);
 	}
 
-	public final String getSizes() {
-		return sizes;
-	}
-
-	public final void setSizes(String sizes) {
-		this.sizes = sizes;
-		addAttribute(sizes, sizes);
-	}
-	
+	 
 	
 
 	public final String getAlt() {
@@ -190,12 +165,12 @@ public class Img extends DOMelement implements FlowingContent, PhrasingContent, 
 	}
 
 
-	public final int getWidth() {
+	public final long getWidth() {
 		return width;
 	}
 
 
-	public final int getHeight() {
+	public final long getHeight() {
 		return height;
 	}
 
@@ -212,35 +187,35 @@ public class Img extends DOMelement implements FlowingContent, PhrasingContent, 
 
 	public final void setAlt(String alt) {
 		this.alt = alt;
-		if(alt==null) removeAttribute("alt");
-		else addAttribute("alt|", alt);
+		if(alt==null) removeAttribute(ApplicationManager.STRING_ALT);
+		else addAttribute(ApplicationManager.STRING_ALT, alt);
 	}
 
 
-	public final void setWidth(int width) {
+	public final void setWidth(long width) {
 		this.width = width;
-		if(width<0) removeAttribute("width");
-		else addAttribute("width", width);
+		if(width<0) removeAttribute(ApplicationManager.STRING_WIDTH);
+		else addAttribute(ApplicationManager.STRING_WIDTH, width);
 	}
 
 
-	public final void setHeight(int height) {
+	public final void setHeight(long height) {
 		this.height = height;
-		if(height<0) removeAttribute("height");
-		else addAttribute("height", height);
+		if(height<0) removeAttribute(ApplicationManager.STRING_HEIGHT);
+		else addAttribute(ApplicationManager.STRING_HEIGHT, height);
 	}
 
 
 	public final void setIsmap(boolean ismap) {
 		this.ismap = ismap; 
-		addAttribute("ismap|", ismap);
+		addAttribute(ApplicationManager.STRING_ISMAP, ismap);
 	}
 
 
 	public final void setUsemap(String usemap) {
 		this.usemap = usemap;
-		if(usemap==null) removeAttribute("usemap");
-		else addAttribute("usemap", usemap);
+		if(usemap==null) removeAttribute(ApplicationManager.STRING_USEMAP);
+		else addAttribute(ApplicationManager.STRING_USEMAP, usemap);
 	}
 
 
@@ -251,7 +226,7 @@ public class Img extends DOMelement implements FlowingContent, PhrasingContent, 
 	@Override
 	public boolean addDomElement(DOMelement element){
 		if(ApplicationManager.FORCE_HTML_COMPLIANCE)
-			throw new RuntimeException(this.getClass().getCanonicalName().concat(" is not allowed to have a child elemen").concat("\n Set ApplicationManager.FORCE_HTML_COMPLIANCE to false to override"));
+			this.throwComplianceError(this, element);
 		return super.addDomElement(element);
 	}
 }  

@@ -1,22 +1,30 @@
 package com.ali.jadom.dom;
 
 import com.ali.jadom.ApplicationManager;
+import com.ali.jadom.JadomConfig;
+import com.ali.jadom.bootstrap.Bootstrap;
 import com.ali.jadom.dom.superelements.HeadingContent;
 import com.ali.jadom.dom.superelements.MetadataContent;
-import com.ali.jadom.dom.superelements.SectioningRoot;
+import com.ali.jadom.dom.superelements.SectioningRoot; 
 
+/**
+ * HTML head tag
+ * @author Aaron Ali
+ *
+ */
 @Tag("head")
 public class Head extends DOMelement implements SectioningRoot{
 
+ 
+ 
+	private static final long serialVersionUID = 3421465668157878952L;
 
-	 
-	private static final long serialVersionUID = -7003735549664657691L;
 
 	/**
 	 * Creates a html5 head element
 	 */
 	public Head() {
-		super(tag(Head.class), "", ApplicationManager.FORCE_NO_ATTRIBUTE, ApplicationManager.FORCE_NO_ATTRIBUTE, null,null);
+		super(tag(Head.class), ApplicationManager.STRING_EMPTY, ApplicationManager.FORCE_NO_ATTRIBUTE, ApplicationManager.FORCE_NO_ATTRIBUTE, null,null);
 	} 
 	
 	/**
@@ -71,7 +79,7 @@ public class Head extends DOMelement implements SectioningRoot{
 	@Override
 	public boolean addDomElement(DOMelement element){ 
 		if(ApplicationManager.FORCE_HTML_COMPLIANCE && (!element.isOfType(HeadingContent.class) && !element.isOfType(MetadataContent.class)))
-			throw new RuntimeException(this.getClass().getCanonicalName().concat(" is not allowed to have a child element of type ").concat(element.getClass().getCanonicalName()).concat(" \n Set ApplicationManager.FORCE_HTML_COMPLIANCE to false to override")); 
+			this.throwComplianceError(this,element); 
 		if(element.isOfType(Title.class)){
 			addTitle(((Title)element).nodevalue);
 			return true;
@@ -82,9 +90,23 @@ public class Head extends DOMelement implements SectioningRoot{
 	
 	@Override
 	public String toString(){ 
+		String prepended = null;
+		if(this.isBootstrapped()) {  
+			Bootstrap bootstrap = new Bootstrap();
+			try {
+				bootstrap.setUseDefaultCarouselCss(Boolean.valueOf(JadomConfig.getInstance().get(JadomConfig.bootstrap_user_default_carousel_css)));
+			}catch(Exception e){
+				bootstrap.setUseDefaultCarouselCss(true);
+			}
+			
+				prepended = bootstrap.getCssIncudes();
+		}
 		String s = super.toString();
 		while(s.contains("\n\n")){
 			s=s.replace("\n\n", "\n").replace("  ", " ").replace(" \n", "\n").replace("  ", " ").replace("\n\n", "\n").replace("\n\n", "\n");  
+		}
+		if(prepended!=null) {
+			s=s.replaceAll(getBasicOpenTag(),this.getBasicOpenTag().concat(ApplicationManager.STRING_NEWLINE).concat(prepended).concat(ApplicationManager.STRING_NEWLINE));
 		}
 		return s;	
 		} 

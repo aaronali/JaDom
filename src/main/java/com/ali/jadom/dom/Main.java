@@ -7,10 +7,17 @@ import com.ali.jadom.dom.superelements.FlowingContent;
 import com.ali.jadom.dom.superelements.PalpableContent;
 import com.ali.jadom.dom.superelements.PhrasingContent;
 
+/**
+ * HTML Main tag
+ * @author AARONAli
+ *
+ */
 @Tag("main")
 public class Main extends DOMelement  implements FlowingContent, PhrasingContent ,PalpableContent{
-  
-	private static final long serialVersionUID = -4476259125987493198L;
+   
+	
+	private static final long serialVersionUID = -5633480074836977529L;
+
 
 	/**
 	 * 
@@ -55,6 +62,9 @@ public class Main extends DOMelement  implements FlowingContent, PhrasingContent
 
 	@Override
 	public String toString(){ 
+		if(this.getAttribute(ApplicationManager.STRING_ROLE)==null) {
+			this.addAttribute(Role.main);
+		}
 		return super.toString();  
 	}
 	 
@@ -62,7 +72,7 @@ public class Main extends DOMelement  implements FlowingContent, PhrasingContent
 	@Override
 	public boolean addDomElement(DOMelement element){
 		if(ApplicationManager.FORCE_HTML_COMPLIANCE && !element.isOfType(FlowingContent.class))
-			throw new RuntimeException(this.getClass().getCanonicalName().concat(" is not allowed to have a child element of type ").concat(element.getClass().getCanonicalName()).concat("\n Set ApplicationManager.FORCE_HTML_COMPLIANCE to false to override"));
+			super.throwComplianceError(this,element);
 		return super.addDomElement(element);
 	}
 }

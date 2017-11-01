@@ -514,6 +514,9 @@ public class Document extends DOMelement implements  Serializable {
 	}
 
 	public DOMelement getBody() {
+		if(body==null) {
+			this.setBody(new Body());
+		}
 		return body;
 	}
 
@@ -543,7 +546,14 @@ public class Document extends DOMelement implements  Serializable {
 		
 	}
 
+	/**
+	 * Return the current head. If the head has not been created yet one will be
+	 * @return
+	 */
 	public final DOMelement getHead() { 
+		if(this.head ==null) {
+			this.addDomElement(new Head());
+		}
 		return head;
 	}
 	

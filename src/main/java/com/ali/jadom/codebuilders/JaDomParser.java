@@ -31,4 +31,26 @@ public class JaDomParser {
 		return div;
 	}
 	
+	public static IDOMelement simpleParse1(String domString){
+		//throw new RuntimeException("Method not implmented");
+		Div div = new Div();
+		String[] returnString =   domString.split("\n");
+		for(int i=0; i < returnString.length ; i++){
+		    switch (returnString[i].replace("<", "").substring(0, returnString[i].indexOf('>'))){
+		    	case "p":
+		    		div.addDomElement(new P(returnString[i]));
+		    		break;
+		    	case "code":
+		    		div.addDomElement(new Code(returnString[i]));
+		    		break;
+		    	default:
+		    		div.addDomElement(new P(returnString[i]));
+		    		break;
+		    		
+		    }
+		    
+			div.addDomElement(new Br());  
+		}
+		return div;
+	}
 }

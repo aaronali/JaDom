@@ -3,7 +3,11 @@ package com.ali.jadom;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.ali.jadom.bootstrap.Bootstrap;
+import com.ali.jadom.bootstrap.Bootstrap400Beta;
 import com.ali.jadom.codebuilders.NavBuilder;
 import com.ali.jadom.codebuilders.StyleBuilder;
 import com.ali.jadom.dom.*;
@@ -80,7 +84,7 @@ extends TestCase
 		document = new Document("html");
 		document.addAttribute("id", "id"); 
 		document.updateAttributesAndProperties(document); 
-		System.out.println(document);
+		//System.out.println(document);
 		assertTrue(!document.toString().contains("id")&& !document.toString().contains("documentReadyState"));
 
 	}
@@ -94,7 +98,7 @@ extends TestCase
 		document.addAttribute("id", "id"); 
 		document.setTitle("my Title");
 		document.updateAttributesAndProperties(document); 
-		System.out.println(document);
+		//System.out.println(document);
 		assertTrue(!document.toString().contains("id=")&& !document.toString().contains("documentReadyState"));
 
 	}
@@ -106,7 +110,7 @@ extends TestCase
 		document = new Document("html");
 		document.addAttribute("id", "id"); 
 		document.setTitle("my Title");
-		// System.out.println(document);
+		// //System.out.println(document);
 		document.updateAttributesAndProperties(document); 
 		assertTrue(document.getHead().toString().contains("<title>my Title</title>"));
 	}
@@ -122,7 +126,7 @@ extends TestCase
 			document.addDomElement(title);
 		}catch(Exception e) { 
 		}
-		// System.out.println(document);
+		// //System.out.println(document);
 		assertTrue(document.getHead().toString().contains("<title>my Title</title>"));
 	}
 
@@ -137,7 +141,7 @@ extends TestCase
 			document.addDomElement(title);
 		}catch(Exception e) { 
 		}
-		//System.out.println(document.toString());
+		////System.out.println(document.toString());
 		assertTrue(document.toString().contains("<body") && document.toString().contains("</body>"));
 	}
 
@@ -152,7 +156,7 @@ extends TestCase
 			document.addDomElement(title);
 		}catch(Exception e) { 
 		}
-		// System.out.println(document);
+		// //System.out.println(document);
 		assertTrue(!document.getHead().toString().contains("<body"));
 	}
 
@@ -167,7 +171,7 @@ extends TestCase
 			document.addDomElement(title);
 		}catch(Exception e) { 
 		}
-		//  System.out.println(document);
+		//  //System.out.println(document);
 		assertTrue(document.getBody().toString().contains("<body") && document.getBody().toString().contains("</body>"));
 	}
 
@@ -183,7 +187,7 @@ extends TestCase
 			document.addDomElement(b);
 		}catch(Exception e) { 
 		}
-		// System.out.println(document);
+		// //System.out.println(document);
 		assertTrue(document.getBody().toString().contains("id="));
 	}
 
@@ -199,7 +203,7 @@ extends TestCase
 			document.addDomElement(b);
 		}catch(Exception e) { 
 		}
-		// System.out.println(document);
+		// //System.out.println(document);
 		assertFalse(document.getBody().toString().contains("<title>my Title</title>"));
 	}
 
@@ -215,7 +219,7 @@ extends TestCase
 			document.addDomElement(b);
 		}catch(Exception e) { 
 		}
-		//System.out.println(document);
+		////System.out.println(document);
 		assertFalse(!document.getBody().toString().contains("test body"));
 	}
 	public void testDocument10() { 
@@ -227,11 +231,11 @@ extends TestCase
 			document.addDomElement(b); 
 		}catch(Exception e) { 
 		}
-		 System.out.println(document);
+		 //System.out.println(document);
 		int i = document.toString().split("<body").length;
 
 
-		//  	 System.out.println(i);
+		//  	 //System.out.println(i);
 		assertTrue(i==2);
 	}
 
@@ -247,8 +251,8 @@ extends TestCase
 			document.addDomElement(new Body());
 		}catch(Exception e) { 
 		}
-		//System.out.println(document);
-		System.out.println("document.toString().split(\"body\").length" + document.toString().split("<body").length);
+		////System.out.println(document);
+		//System.out.println("document.toString().split(\"body\").length" + document.toString().split("<body").length);
 		assertTrue(document.toString().split("<body").length==2 && !document.getBody().toString().contains("test body"));
 	}    
 
@@ -264,8 +268,8 @@ extends TestCase
 		}catch(Exception e) { 
 			e.printStackTrace();
 		}
-		System.out.println(document);
-		System.out.println("document.toString().split(\"body\").length =" + document.toString().split("<body").length);
+		//System.out.println(document);
+		//System.out.println("document.toString().split(\"body\").length =" + document.toString().split("<body").length);
 		assertTrue(document.toString().split("<body").length==2 && !document.toString().contains("test body"));
 	}
 	public void testDocument11_() { 
@@ -276,14 +280,14 @@ extends TestCase
 		try {
 			document.addDomElement(title); 
 			document.addDomElement(b);
-			System.out.println(document);
+			//System.out.println(document);
 			assertTrue(document.toString().split("<body").length==2 && document.getBody().toString().contains("test body"));
 
 			document.addDomElement(new Body());
 		}catch(Exception e) { 
 		}
-		//	 System.out.println(document);
-		//	 System.out.println(document.getBody().toString().split("body").length);
+		//	 //System.out.println(document);
+		//	 //System.out.println(document.getBody().toString().split("body").length);
 		assertTrue(document.toString().split("<body").length==2 && !document.getBody().toString().contains("test body"));
 	}
 
@@ -298,8 +302,8 @@ extends TestCase
 			document.addDomElement(new Body());
 		}catch(Exception e) { 
 		}
-		 	 System.out.println(document);
-		System.out.println(document.getBody().toString().split("body").length);
+		 	 //System.out.println(document);
+		//System.out.println(document.getBody().toString().split("body").length);
 		assertTrue( !document.getBody().toString().contains("test body"));
 	}
 
@@ -308,11 +312,11 @@ extends TestCase
 	 */
 	public void testDocument12_() { 
 		document = new Document("html");
-		System.out.println(document);
+		//System.out.println(document);
 //		document.addAttribute("id", "id"); 
 //		Title title = new Title("my Title");
 //		Body b = new Body("test body");  
-//		System.out.println(b);
+//		//System.out.println(b);
 //		try {
 //			document.addDomElement(title); 
 //		//	document.addDomElement(b);
@@ -320,8 +324,8 @@ extends TestCase
 //			document.addDomElement(b);
 //		}catch(Exception e) { 
 //		}
-//		System.out.println(document);
-//		System.out.println(document.getBody().toString().split("head").length);
+//		//System.out.println(document);
+//		//System.out.println(document.getBody().toString().split("head").length);
 //		assertFalse( document.toString().contains("my Title"));
 	}
 
@@ -340,8 +344,8 @@ extends TestCase
 
 		}catch(Exception e) { 
 		}
-		System.out.println(document);
-		//System.out.println(document.getBody().toString().split("body").length);
+		//System.out.println(document);
+		////System.out.println(document.getBody().toString().split("body").length);
 		assertTrue(document.toString().contains("<a ") && document.toString().contains("</a>"));
 	}
 
@@ -363,6 +367,21 @@ extends TestCase
 		assertTrue(document.toString().contains("<a ") && document.toString().contains("</a>"));
 	}
 
+	
+	/**
+	 * Test adding title
+	 */
+	public void testDocument15() { 
+		document = new Document("html");
+		document.addAttribute("id", "id"); 
+		document.setTitle("my Title");
+		// //System.out.println(document);
+		document.updateAttributesAndProperties(document); 
+		assertTrue(document.toString().contains("<title>my Title</title>"));
+	}
+	
+	 
+	
 	/** Ensure anchor tag is added properly **/
 	public void test_A_1() { 
 		document = new Document("html");
@@ -377,7 +396,7 @@ extends TestCase
 
 		}catch(Exception e) { 
 		}
-		System.out.println(document.getBody()); 
+		//System.out.println(document.getBody()); 
 		assertTrue(document.toString().contains("<a ") && document.toString().contains("<a href="));
 	}
 
@@ -398,8 +417,8 @@ extends TestCase
     	Logger.log("checking basic body structure"); 
     	try {
     		this.document.addDomElement(new Body()); 
-    		 System.out.println("---------------------------");
-       	 System.out.println(document.toString());
+    		 //System.out.println("---------------------------");
+       	 //System.out.println(document.toString());
     		assertTrue(true);
     	}catch(Exception e) { 
     		assertTrue(true);
@@ -413,7 +432,7 @@ extends TestCase
           b.addDomElement(new H(2,"JaDom"));
           document.addDomElement(head);
           document.addDomElement(b);
-          System.out.println(document);
+          //System.out.println(document);
           assertTrue(true);
     } 
 
@@ -467,7 +486,7 @@ extends TestCase
 	public static void test_urlParams_1() {
 		UrlSearchParams p = new UrlSearchParams();
 		p.append("test", "true");
-		System.out.println(p);
+		//System.out.println(p);
 		assertTrue(p.toString().equals("test=true"));
 	}
 
@@ -476,7 +495,7 @@ extends TestCase
 		UrlSearchParams p = new UrlSearchParams();
 		p.append("test", "true");
 		p.append("test1", "false");
-		System.out.println(p);
+		//System.out.println(p);
 		assertTrue(p.toString().equals("test=true&test1=false") && p.size()==2);
 	} 
 
@@ -485,14 +504,14 @@ extends TestCase
 		p.append("test", "true");
 		p.append("test1", "false");
 		p.delete("test");
-		System.out.println(p);
+		//System.out.println(p);
 		assertTrue(p.toString().equals("test1=false") && p.size()==1);
 	}
 
 	public static void test_url_2()
 	{
 		URL url = new URL("http//www.google.com"); 
-		System.out.println(url.toString());
+		//System.out.println(url.toString());
 		assertTrue(url.toString().equals("http//www.google.com"));
 	}     	 
 
@@ -500,7 +519,7 @@ extends TestCase
 	{
 		URL url = new URL("http//www.google.com");
 		url.getSearchParams().append("test", "true");
-		System.out.println("--------------- "+url.toString().replaceAll("\n","").replaceAll(" ", ""));
+		//System.out.println("--------------- "+url.toString().replaceAll("\n","").replaceAll(" ", ""));
 		assertTrue(url.toString().equals("http//www.google.com?test=true"));
 	}
 
@@ -509,7 +528,7 @@ extends TestCase
 		URL url = new URL("http//www.google.com");
 		url.getSearchParams().append("test", "true");
 		url.getSearchParams().append("test2", "false");
-		//	 System.out.println("--------------- "+url.toString().replaceAll("\n","").replaceAll(" ", ""));
+		//	 //System.out.println("--------------- "+url.toString().replaceAll("\n","").replaceAll(" ", ""));
 		assertTrue(url.toString().equals("http//www.google.com?test=true&test2=false"));
 	}
 
@@ -524,7 +543,7 @@ extends TestCase
 		}catch(RuntimeException e) {
 			e1=e;
 		} 
-		System.out.println(e1);
+		//System.out.println(e1);
 		assertTrue(e1!=null);
 	}
 
@@ -536,7 +555,7 @@ extends TestCase
 		url.getSearchParams().append("test2", "false"); 
 		A a = new A("http//www.google.com",true);
 		a.addDomElement(url);
-		System.out.println(a.getNodevalue());
+		//System.out.println(a.getNodevalue());
 
 		assertTrue(a.getNodevalue().equals("%s"));
 	}
@@ -548,7 +567,7 @@ extends TestCase
 		//   		 URL url = new URL("http//www.google.com");
 		//   		 url.getSearchParams().append("test", "true");
 		//   		 url.getSearchParams().append("test2", "false");   
-		System.out.println(a);
+		//System.out.println(a);
 
 		assertTrue(a.getHref().equals("www.address.com")); 
 	} 		
@@ -560,8 +579,8 @@ extends TestCase
 		//   		 URL url = new URL("http//www.google.com");
 		//   		 url.getSearchParams().append("test", "true");
 		//   		 url.getSearchParams().append("test2", "false");   
-		System.out.println(a); 
-		System.out.println(a.getNodevalue());
+		//System.out.println(a); 
+		//System.out.println(a.getNodevalue());
 
 		assertTrue(a.getNodevalue().replaceAll(" ", "").trim().equals("anchorText"));
 
@@ -573,7 +592,7 @@ extends TestCase
 		//		 URL url = new URL("http//www.google.com");
 		//		 url.getSearchParams().append("test", "true");
 		//		 url.getSearchParams().append("test2", "false");   
-		System.out.println(a);
+		//System.out.println(a);
 
 		assertTrue(a.isExternal());
 
@@ -647,7 +666,7 @@ extends TestCase
 		A a= new A("anchorText", "www.address.com", true,null) ; 
 		a.setNewTab(true); 
 		
-		System.out.println(a);
+		//System.out.println(a);
 			assertTrue(true); 
 
 	} 
@@ -656,9 +675,9 @@ extends TestCase
 	public static void test_url_20()
 	{    
 		Abbr abbr= new Abbr("Hyper Language","HTML") ;  
-		System.out.println(abbr);
+		//System.out.println(abbr);
 		abbr.setTitle("HyperText Markup Language"); 
-		System.out.println(abbr);
+		//System.out.println(abbr);
 			assertTrue(abbr.toString().contains(" title=\"HyperText Markup Language\">")
 					&& abbr.toString().contains("<abbr ") 
 					&& abbr.toString().contains("</abbr>")); 
@@ -671,7 +690,7 @@ extends TestCase
 		Address add = new Address();
 		add.innerHtml("55 Maarshal Lane");
 		add.addDomElement(new A("www.google.com",true));
-		System.out.println(add);
+		//System.out.println(add);
 		assertTrue(add.toString().contains("<address ") && add.toString().contains("</address>"));
 	}
 	
@@ -681,7 +700,7 @@ extends TestCase
     	
     	body.addDomElement(new H(1,"Hello from JaDom"));
     	document.setBody(body);
-    	System.out.println(document);
+    	//System.out.println(document);
     	assert(true);
     	
 	}
@@ -693,7 +712,7 @@ extends TestCase
     	document.addDomElement(body);
     	Link link = new Link("applicatiom.css", false, false, null, null, null, null,  RelTypeEnum.STYLESHEET, null, false, null);
     	
-    	System.out.println(link.toString()); 
+    	//System.out.println(link.toString()); 
     	
     	try {
     		link.addDomElement(new P("test"));
@@ -704,14 +723,14 @@ extends TestCase
 	
 	public void test_link2() { 
     	Link link = new Link("href.css", false, false, null, null, null, null,  RelTypeEnum.STYLESHEET, null, false, null);
-    	 System.out.println(link.toString()); 
+    	 //System.out.println(link.toString()); 
     		assertTrue(link.toString().contains("<link ") && link.toString().trim().endsWith(">") && link.getHref().trim().equals("href.css")
     				&& link.toString().contains("href=\"href.css\""));
 }
 	
 	public void test_link3() { 
 		Link link = new Link("href.css", "text/css",false);
-		System.out.println(link.toString());   	
+		//System.out.println(link.toString());   	
 		assertTrue(link.toString().contains("<link ") && link.toString().trim().endsWith(">") && link.getHref().trim().equals("href.css")
 				&& link.toString().contains("href=\"href.css\""));
 
@@ -721,7 +740,7 @@ extends TestCase
 		Link link = new Link("href.css", "text/css",false);
 		Head head = new Head();
 		head.addDomElement(link);
-		System.out.println(head.toString());   	
+		//System.out.println(head.toString());   	
 		assertTrue(head.toString().contains("<link ") && head.toString().trim().endsWith(">") && head.contains(link.getClass())
 				&& head.toString().contains("href=\"href.css\""));
 
@@ -735,10 +754,10 @@ extends TestCase
 		Document d = new Document();
 		d.setHead(head);
 		DOMelement t = link.getElementById(link.Id());
-		System.out.println(t.toString());
-		System.out.println((link.Id()));
-		System.out.println("++++++++++++");
-		System.out.println(head.toString());   	
+		//System.out.println(t.toString());
+		//System.out.println((link.Id()));
+		//System.out.println("++++++++++++");
+		//System.out.println(head.toString());   	
 		assertTrue(link.toString().equals(t.toString()));
 
 	}
@@ -755,10 +774,10 @@ extends TestCase
 		body.addDomElement(p);
 		d.addDomElement(body);
 		DOMelement t = d.getElementById("idtest");
-		System.out.println(t.toString());
-		System.out.println((link.Id()));
-		System.out.println("++++++++++++");
-		System.out.println(head.toString());   	
+		//System.out.println(t.toString());
+		//System.out.println((link.Id()));
+		//System.out.println("++++++++++++");
+		//System.out.println(head.toString());   	
 		assertTrue(d.toString().contains(t.toString()));
 
 	}
@@ -784,7 +803,7 @@ extends TestCase
 		head.addDomElement(link); 
 		Document d = new Document();
 		d.addDomElement(head);
-		System.out.println(d.toString());
+		//System.out.println(d.toString());
 		assertTrue(d.toString().contains(link.toString().trim()));
 
 	}
@@ -793,27 +812,27 @@ extends TestCase
 	public void test_nav1() {
 		NavBuilder  nav = new NavBuilder(false,false);
 		nav.addNavLink("home.html", "home", null);
-		System.out.println(nav.getCode()) ;
+		//System.out.println(nav.getCode()) ;
 		 nav = new NavBuilder(true,false);
 			nav.addNavLink("home.html", "home", null);
-			System.out.println(nav.getCode()) ;
+			//System.out.println(nav.getCode()) ;
 			nav = new NavBuilder(false,true);
 			nav.addNavLink("home.html", "home", null);
-			System.out.println(nav.getCode()) ;
+			//System.out.println(nav.getCode()) ;
 		assertTrue(nav.toString().contains("<nav") && nav.getCode().trim().toString().contains("</nav>"));
 	}
 	
 	public void test_nav2() {
 		NavBuilder  nav = new NavBuilder(true,false);
 		nav.addNavLink("home.html", "home", null);
-		System.out.println(nav.getCode()) ;
+		//System.out.println(nav.getCode()) ;
 		assertTrue(nav.getCode().contains("<nav") && nav.getCode().trim().toString().contains("</nav>"));
 	}
 	
 	public void test_nav3() {
 		NavBuilder  nav = new NavBuilder(false,true);
 		nav.addNavLink("home.html", "home", null);
-		System.out.println(nav.getCode()) ;
+		//System.out.println(nav.getCode()) ;
 		assertTrue(nav.toString().contains("<nav") && nav.getCode().trim().toString().contains(">"));
 	}
 	
@@ -823,17 +842,17 @@ extends TestCase
 	
 	public void test_meta1() {
 		Meta meta = new Meta("viewport",null,"width=device-wdith, initial-scale=1, shrink-to-fit=no",null);
-		System.out.println(meta.toString()); 
+		//System.out.println(meta.toString()); 
 		assertTrue(meta.toString().contains("<meta")&& meta.toString().trim().endsWith(">"));
 	}
 	
 	
 	public void test_meta2() {
 		Meta meta = new Meta("viewport",null,"width=device-wdith, initial-scale=1, shrink-to-fit=no",null);
-		System.out.println(meta.getName()); 
-		System.out.println(meta.getCharset()); 
-		System.out.println(meta.getContent()); 
-		System.out.println(meta.toString()); 
+		//System.out.println(meta.getName()); 
+		//System.out.println(meta.getCharset()); 
+		//System.out.println(meta.getContent()); 
+		//System.out.println(meta.toString()); 
 		assertTrue(meta.getCharset() == null  && meta.getName().trim().equals("viewport")&&
 				meta.getContent().trim().equals("width=device-wdith, initial-scale=1, shrink-to-fit=no"));
  	}
@@ -843,22 +862,22 @@ extends TestCase
 	
 	public void testBoot() {
 		JadomConfig config = JadomConfig.getInstance();
-		System.out.println(config.isBootstrapped());
+		//System.out.println(config.isBootstrapped());
 		assertTrue(config.isBootstrapped()); 
 	}
 	
 
 	public void testBoot1() {
 		JadomConfig config = JadomConfig.getInstance();
-		System.out.println(config.isBootstrapped());
+		//System.out.println(config.isBootstrapped());
 		assertTrue(config.isBootstrapped()); 
 	}
 	
 	
 	public void testBoot2() {
 		JadomConfig config = JadomConfig.getInstance();
-		System.out.println(config.getBootstrapVersion());
-		assertTrue(config.getBootstrapVersion().equals("bootstrap-4_0_0-beta")); 
+		//System.out.println(config.getBootstrapVersion());
+		assertTrue(config.getBootstrapVersion().equals("bootstrap-4.0.0-beta")); 
 	}
 	 
 	
@@ -867,9 +886,329 @@ extends TestCase
 		Document d = new Document();
 		d.setBootstrap(false);
 		Document c = new Document();
-		System.out.println(d.isBootstrapped());
-		System.out.println(c.isBootstrapped());
+		//System.out.println(d.isBootstrapped());
+		//System.out.println(c.isBootstrapped());
 		assertTrue(!d.isBootstrapped() && c.isBootstrapped());
 	}
 	
+	
+	public void testBoot4() {
+		try { 
+			Bootstrap strap = new Bootstrap();
+			assertTrue(true);
+		}catch(Exception e) {
+			assertFalse(true); 
+		}
+	}
+	
+	
+	
+	
+	
+	
+	//	this test should fail under regular operation
+	//Used for testing error handeling
+//	public void testBoot5() {
+//		try {  
+//			Bootstrap strap = new Bootstrap(); 
+//			Head h= new Head();
+//			h.setBootstrap(true);
+//			h.toString();
+//			assertTrue(false);
+//		}catch(Exception e) {
+//			assertTrue(true); 
+//		}
+//	}
+	
+	public void testBoot6() {
+		Bootstrap strap = new Bootstrap("headerincludecode");
+		assertTrue(strap.getCssIncudes().equals("headerincludecode"));
+	}
+	
+	
+	public void testBoot7() {
+		Bootstrap.init();
+		Bootstrap strap = new Bootstrap();
+		//System.out.println(strap.getCssIncudes());
+		assertTrue(strap.getCssIncudes().trim().endsWith("<!--  unit test confirmation boot4beta  -->"));
+	}
+	public void testBoot8() {
+		Bootstrap.init();
+		Bootstrap strap = new Bootstrap();
+		Head  head = new Head(); 
+		//System.out.println(head.toString());
+		assertTrue(head.toString().contains("<!--  unit test confirmation boot4beta  -->"));
+	}
+	
+	public void testBoot9() {
+		JadomConfig.getInstance();
+		Bootstrap.init(); 
+		Head  head = new Head(); 
+		Document d = new Document();
+		d.setHead(head);
+		//System.out.println(d.toString());
+		assertTrue(d.toString().contains("<!--  unit test confirmation boot4beta  -->"));
+	}
+	
+	
+	
+	
+	
+	// This test will fail  when bootstrap is enabled
+//	public void testBoot10() {
+//		JadomConfig.getInstance(); 
+//		 
+//		Head  head = new Head(); 
+//		Document d = new Document();
+//		d.setHead(head);
+//		//System.out.println(d.toString());
+//		assertTrue(!d.toString().contains("<!--  unit test confirmation boot4beta  -->"));
+//	}
+	
+	
+	// test the dom element tag() function
+	public void testtag() {
+		A a = new A("blah",true);
+		P p = new P();
+		//System.out.println(a.getBasicOpenTag());
+		//System.out.println(p.getBasicOpenTag());
+		//System.out.println(a.tag());
+		//System.out.println(p.tag()); 
+		assertTrue(a.tag().equals("a") && p.tag().equals("p") && p.getBasicOpenTag().equals("<p>")
+				&& a.getBasicOpenTag().equals("<a>"));
+	}
+	
+	public void testBoot10() {
+		JadomConfig.getInstance();
+		Bootstrap.init(); 
+		Head  head = new Head(); 
+		Document d = new Document();
+		d.setHead(head);
+		d.setBody(new Body());
+		//System.out.println(d.getBody().toString());
+		assertTrue(d.toString().contains("<!-- unit test comfirmation bootstrap-4.0.0-beta.jadom.js -->") && d.toString().contains("</body>") && d.getBody().toString().contains("<!-- unit test comfirmation bootstrap-4.0.0-beta.jadom.js -->"));
+	}
+	
+	
+	public void testBoot11() {
+		JadomConfig.getInstance();
+		Bootstrap.init(); 
+		Head  head = new Head(); 
+		Document d = new Document();
+		d.setHead(head);
+		d.setBody(new Body());
+		//System.out.println(d.getBody().toString());
+		assertTrue(d.getBody().toString().trim().contains("<!-- unit test comfirmation bootstrap-4.0.0-beta.jadom.js -->"));
+	}
+	
+	
+	public void testBoot12() {
+		JadomConfig.getInstance();
+		Bootstrap.init(); 
+		Head  head = new Head(); 
+		Document d = new Document();
+		d.setHead(head);
+		d.setBody(new Body());
+		//System.out.println(d.toString());
+		assertTrue(d.getBody().toString().trim().indexOf("body>")>d.getBody().toString().trim().indexOf("jadom.js"));
+	}
+	
+	
+	public void testBoot13() {
+ 	Link link = new Link("applicatiom.css", false, false, null, null, null, null,  RelTypeEnum.STYLESHEET, null, false, null);
+    	
+    	
+    	NavBuilder  nav = new NavBuilder(true,true);
+		nav.addNavLink("home.html", "home", null);  
+			nav.addNavLink("home.html", "home", null);  
+			nav.addNavLink("home.html", "home", null); 
+    	Document document = new Document();
+    	Body body = new Body();
+    	List<DOMclass> clist =new ArrayList<DOMclass>();
+    	clist.add(Bootstrap400Beta.carousel.toDomClass());
+    	clist.add(Bootstrap400Beta.slide.toDomClass());
+
+    	
+    	Div div = new Div(clist);
+    	Style style = new Style("center");
+    	style.addAttribute("_center", "text-align:center"); 
+    	body.addDomElement(new H(1,"JaDom"));
+    	body.addDomElement(div);
+    	body.addDomElement(new H(2,"A whole new way to do development", Bootstrap400Beta.text_center.toDomClass()));
+    	body.addDomElement(nav.getAsSpan());
+    	document.setBody(body);
+    	//System.out.println(div.toString());
+    	assertTrue( div.toString().contains("class=\"carousel slide") &&
+    		 document.toString().contains("class=\"carousel slide"));
+	}
+	
+	
+	public void testBoot14() {
+	    	
+	    	NavBuilder  nav = new NavBuilder(true,true);
+			nav.addNavLink("home.html", "home", null);  
+				nav.addNavLink("home.html", "home", null);  
+				nav.addNavLink("home.html", "home", null); 
+	    	Document document = new Document();
+	    	Body body = new Body();
+	    	List<DOMclass> clist =new ArrayList<DOMclass>();
+	    	clist.add(Bootstrap400Beta.carousel.toDomClass());
+	    	clist.add(Bootstrap400Beta.slide.toDomClass());
+
+	    	
+	    	Div div = new Div(clist);
+	    	Style style = new Style("center");
+	    	style.addAttribute("_center", "text-align:center"); 
+	    	body.addDomElement(new H(1,"JaDom"));
+	    	body.addDomElement(div);
+	    	body.addDomElement(new H(2,"A whole new way to do development", Bootstrap400Beta.text_center.toDomClass()));
+	    	body.addDomElement(nav.getAsSpan());
+	    	document.setBody(body);
+	 //   	//System.out.println(document.toString());
+	    	assertTrue( div.toString().contains("class=\"carousel slide") &&
+	    		 document.toString().contains("class=\"carousel slide") &&
+	    		 document.toString().contains("<link href=\"bootstrap-4.0.0-beta.jadom.carousel.default.css\" rel=\"stylesheet\">") 
+	    		  
+	    		 && document.getHead().toString().contains("<link href=\"bootstrap-4.0.0-beta.jadom.carousel.default.css\" rel=\"stylesheet\">"));
+
+		}
+	// This test will fail under normal conditions. Test bootstrap css carousel link
+//	public void testBoot15() {
+//    	
+//    	NavBuilder  nav = new NavBuilder(true,true);
+//		nav.addNavLink("home.html", "home", null);  
+//			nav.addNavLink("home.html", "home", null);  
+//			nav.addNavLink("home.html", "home", null); 
+//    	Document document = new Document();
+//    	Body body = new Body();
+//    	List<DOMclass> clist =new ArrayList<DOMclass>();
+//    	clist.add(Bootstrap400Beta.carousel.toDomClass());
+//    	clist.add(Bootstrap400Beta.slide.toDomClass());
+//
+//    	
+//    	Div div = new Div(clist);
+//    	Style style = new Style("center");
+//    	style.addAttribute("_center", "text-align:center"); 
+//    	body.addDomElement(new H(1,"JaDom"));
+//    	body.addDomElement(div);
+//    	body.addDomElement(new H(2,"A whole new way to do development", Bootstrap400Beta.text_center.toDomClass()));
+//    	body.addDomElement(nav.getAsSpan());
+//    	document.setBody(body);
+//    	//System.out.println(document.toString());
+//    	assertTrue( div.toString().contains("class=\"carousel slide") &&
+//    		 document.toString().contains("class=\"carousel slide") &&
+//    		 !document.toString().contains("<link href=\"bootstrap-4.0.0-beta.jadom.carousel.default.css\" rel=\"stylesheet\">") 
+//    		  
+//    		 && !document.getHead().toString().contains("<link href=\"bootstrap-4.0.0-beta.jadom.carousel.default.css\" rel=\"stylesheet\">"));
+//
+//	}
+	
+	public void testBoot16() {
+		Bootstrap strap = new Bootstrap();
+		//System.out.println(strap.getCssFile("bootstrap-4.0.0-beta.jadom.carousel.default.css"));
+		assertTrue(strap.getCssFile("bootstrap-4.0.0-beta.jadom.carousel.default.css")!=null);
+	}
+	
+	public void testBoot17() {
+		String s ="/* unit test confirmation bootstrap-4.0.0-beta.jadom.carousel.default.css */";
+		Bootstrap strap = new Bootstrap();
+		Document d = new Document();
+		d.setHead(new Head());
+		d.setBody(new Body());
+		//System.out.println(strap.getCssFile("bootstrap-4.0.0-beta.jadom.carousel.default.css"));
+		assertTrue(strap.getCssFile("bootstrap-4.0.0-beta.jadom.carousel.default.css").contains(s) &&
+				d.toString().contains("bootstrap-4.0.0-beta.jadom.carousel.default.css"));
+	}
+	
+    public void  testBoot18() { 
+    	Link link = new Link("applicatiom.css", false, false, null, null, null, null,  RelTypeEnum.STYLESHEET, null, false, null);
+    	
+    	
+    	NavBuilder  nav = new NavBuilder(true,true);
+		nav.addNavLink("home.html", "home", null);  
+			nav.addNavLink("home.html", "home", null);  
+			nav.addNavLink("home.html", "home", null); 
+    	Document document = new Document();
+    	Body body = new Body();
+    	List<DOMclass> clist =new ArrayList<DOMclass>();
+    	clist.add(Bootstrap400Beta.carousel.toDomClass());
+    	clist.add(Bootstrap400Beta.slide.toDomClass());
+
+    	
+    	Div div = new Div(clist);
+    	div.addAttribute("data-ride","carousel");
+  //  	System.out.println(div);
+    	assertTrue(div.toString().contains("data-ride"));
+    }
+    
+    public void  testBoot19() { 
+    	Link link = new Link("applicatiom.css", false, false, null, null, null, null,  RelTypeEnum.STYLESHEET, null, false, null);
+    	
+    	
+    	NavBuilder  nav = new NavBuilder(true,true);
+		nav.addNavLink("home.html", "home", null);  
+			nav.addNavLink("home.html", "home", null);  
+			nav.addNavLink("home.html", "home", null); 
+    	Document document = new Document();
+    	Body body = new Body();
+    	List<DOMclass> clist =new ArrayList<DOMclass>();
+    	clist.add(Bootstrap400Beta.carousel.toDomClass());
+    	clist.add(Bootstrap400Beta.slide.toDomClass());
+
+    	
+    	Div div = new Div(clist);
+    	Div innerDiv=new Div(Bootstrap400Beta.carousel_inner.toDomClass()); 
+    	Div carsouelItem = new Div(Bootstrap400Beta.carousel_item.toDomClass());
+    	
+    	div.addAttribute("data-ride","carousel");
+    	innerDiv.addDomElement(carsouelItem);
+    	div.addDomElement(innerDiv);
+    	
+    	body.addDomElement(div);
+    	document.addDomElement(body);
+    	document.addDomElement(new Head()); 
+    	//System.out.println(document.toString());
+    	assertTrue(innerDiv.toString().contains("carousel-inner") && 
+    			div.toString().contains("data-ride") &&
+    			div.toString().contains("data-ride")  &&
+    			carsouelItem.toString().contains("carousel-item")   &&
+				div.toString().contains("carousel-item"));
+    }
+    
+    public void testImg1() {
+    	Img img = new Img("src", "alt", false);
+    	img.setCrossorigin("crossorigin");
+    	img.setHeight(1000);
+    	img.setWidth(999);
+    	assertTrue(img.getSrc().equals("src") && 
+    			img.getAlt().equals("alt")  &&
+    		!img.isExternal()
+    		&& img.getWidth()==999
+    		&& img.getHeight()==1000
+    		&& img.getCrossorigin().equals("crossorigin"));
+
+    }
+    
+    public void testImg2() {
+    	Img img = new Img("src", "alt", false);
+    	img.setCrossorigin("crossorigin");
+    	img.setHeight(1000);
+    	img.setWidth(999);
+    	//System.out.println(img.toString());
+    	assertTrue(img.toString().contains("<img")  &&
+    	img.toString().contains("alt=\"alt\"")
+    	&& img.toString().contains("src=\"src\"") 
+    	);
+    }
+    
+    public void testMain1() {
+    	Main main = new Main();
+    	System.out.println(main);
+    	assertTrue(main.toString().contains("<main")
+    			&& main.toString().contains(main.getBasicCloseTag())
+    			&& main.toString().contains("role")
+    			); 
+    	
+    }
+	 
 }

@@ -3,9 +3,16 @@ package com.ali.jadom.dom;
 import java.util.HashMap;
 
 import com.ali.jadom.ApplicationManager;
+import com.ali.jadom.annotations.PreferredContructor;
+import com.ali.jadom.bootstrap.Bootstrap;
 import com.ali.jadom.dom.superelements.FlowingContent;
 import com.ali.jadom.dom.superelements.SectioningRoot;
 
+/**
+ * HTML body tag
+ * @author Aaron Ali
+ *
+ */
 @Tag("body")
 public class Body extends DOMelement implements SectioningRoot { 
 	
@@ -15,6 +22,7 @@ public class Body extends DOMelement implements SectioningRoot {
 	/**
 	 * Creates and empty &lthtml&gt body tag
 	 */
+	@PreferredContructor
 	public Body(){
 		super(tag(Body.class));
 	}
@@ -56,7 +64,15 @@ public class Body extends DOMelement implements SectioningRoot {
 
 	@Override
 	public String toString(){ 
-		return super.toString();  
+		Bootstrap strap = null;
+		if(this.isBootstrapped()) {
+			strap = new Bootstrap();
+			strap.getCssIncudes();
+		}
+		if(strap!=null)
+			return super.toString().replace(this.getBasicCloseTag(),strap.getJsInclude()).concat(ApplicationManager.STRING_NEWLINE).concat(this.getBasicCloseTag());
+		else 
+			return super.toString();
 	}
 
 
@@ -80,9 +96,9 @@ public class Body extends DOMelement implements SectioningRoot {
 	
 	 
 	@Override
-	public boolean addDomElement(DOMelement element){
+	public boolean addDomElement(DOMelement element){ 
 		if(ApplicationManager.FORCE_HTML_COMPLIANCE && !element.isOfType(FlowingContent.class))
-			throw new RuntimeException(this.getClass().getCanonicalName().concat(" is not allowed to have a child element of type ").concat(element.getClass().getCanonicalName()).concat("\n Set ApplicationManager.FORCE_HTML_COMPLIANCE to false to override"));
+			this.throwComplianceError(this,element);
 		return super.addDomElement(element);
 	}
 	

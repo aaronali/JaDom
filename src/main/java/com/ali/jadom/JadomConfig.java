@@ -37,8 +37,10 @@ public class JadomConfig {
 	public final static String a_allow_multiple_urls="a_allow_multiple_urls";
 	public final static String a_new_tab_text="a_new_tab_text"; 
 	public final static String bootstrap__4_0_0__beta="bootstrap__4_0_0__beta";
-	public final static String bootstrap__3_3_7__dist="bootstrap__3_3_7__dist"; 
-	
+	public final static String bootstrap__3_3_7__dist="bootstrap__3_3_7__dist";
+	public static final String resources_js = "resources_js";
+	public static final String resources_css = "resources_css";
+	public static final String bootstrap_user_default_carousel_css = "bootstrap_user_default_carousel_css";
 	public enum SCRIPTS{
 		addEventListener_js_jadom,
 		document_getElementById_js_jadom,
@@ -88,8 +90,7 @@ public class JadomConfig {
 				for(Object key : pp.keySet()) {
 					InputStream temp =  JadomConfig.class.getClassLoader().getResourceAsStream(deafultScriptLocation.concat(String.valueOf(File.separatorChar)).concat(key.toString()));;
 					java.util.Scanner s = new java.util.Scanner(temp).useDelimiter("\\A");
-				    String tt =  s.hasNext() ? s.next() : "";
-					System.out.println(tt); ;
+				    String tt =  s.hasNext() ? s.next() : ""; 
 					Scripts.put(key.toString(), tt);
 				}
 			} catch (IOException e) {
@@ -170,7 +171,8 @@ public class JadomConfig {
 	public String getBootstrapVersion() {
 		String prop = properties.getProperty(bootstrap__4_0_0__beta);
 		if(prop!=null && Boolean.valueOf(prop)){
-			 return bootstrap__4_0_0__beta.replaceAll(ApplicationManager.STRING_DOUBLE_UNDERSCORE, ApplicationManager.STRING_UNDERSCORE);
+			 return bootstrap__4_0_0__beta.replaceAll(ApplicationManager.STRING_DOUBLE_UNDERSCORE, ApplicationManager.STRING_HYPHEN)
+					 .replaceAll(ApplicationManager.STRING_UNDERSCORE, ".");
 		}
 		prop = properties.getProperty(bootstrap__3_3_7__dist);
 		if(prop!=null && Boolean.valueOf(prop)){ 

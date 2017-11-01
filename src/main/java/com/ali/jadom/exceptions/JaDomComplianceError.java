@@ -1,8 +1,7 @@
 package com.ali.jadom.exceptions;
 
 import com.ali.jadom.ApplicationManager;
-import com.ali.jadom.dom.superelements.DOMException;
-import org.w3c.dom.html.*;
+import com.ali.jadom.dom.superelements.DOMException; 
 
 public class JaDomComplianceError extends DOMException { 
 	private static final long serialVersionUID = 8761116898654039021L; 

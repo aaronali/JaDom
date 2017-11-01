@@ -9,14 +9,13 @@ import com.ali.jadom.dom.superelements.PhrasingContent;
 
 /**
  * Html link class
- * @author Aaron Ali
- * V 0.0.0-alpha
+ * @author Aaron Ali 
  */
 @Tag("link") 
 public class Link extends DOMelement  implements MetadataContent, FlowingContent, PhrasingContent{
    
- 
-	private static final long serialVersionUID = -8298534952104595136L;
+   
+	private static final long serialVersionUID = -2550311026984548961L;
 	protected String href;
 	protected boolean newTab = false;
 	protected boolean isExternal = false;
@@ -345,5 +344,14 @@ public class Link extends DOMelement  implements MetadataContent, FlowingContent
 		if(ApplicationManager.FORCE_HTML_COMPLIANCE )
 			super.throwComplianceError(this, element);
 		return super.addDomElement(element);
+	}
+	
+	/**
+	 * Returns a basic style sheet link for addind styles to your html
+	 * @param filename
+	 * @return
+	 */
+	public static Link createStyleLink(String filename) {
+			return new Link(filename, false, false, null, null, null, null,  RelTypeEnum.STYLESHEET, null, false, null);	    
 	}
 }  

@@ -259,7 +259,7 @@ public abstract class DOMelement extends   java.lang.Object  implements   Global
 	}
 
 	public String tag(){
-		return tag();
+		return tag;
 	}
 	 
 
@@ -358,7 +358,7 @@ public abstract class DOMelement extends   java.lang.Object  implements   Global
 		temp.trim(); 
 		return temp; 
 	}
-*/public String toString(){ 
+*/public String toString(){  
 		if(nodevalue==null)
 				Logger.warning("node value is null");
 		String tempnv = "  ".concat(nodevalue==null?"":nodevalue);
@@ -430,7 +430,7 @@ public abstract class DOMelement extends   java.lang.Object  implements   Global
 					temp =temp.replace("%", "%%");
 					temp = temp.replace("%%s", "%s"); 
 					if(count<embeddedElements.length){
-						DOMelement ele =embeddedElements[count]; 
+						DOMelement ele =embeddedElements[count];  
 						try{ 
 							added = ele.toString() ;
 							temp =String.format(temp+" ",  added+" ");
@@ -438,8 +438,7 @@ public abstract class DOMelement extends   java.lang.Object  implements   Global
 						}catch (Exception e){
 								e.printStackTrace();
 						} 
-					}else{
-					  	System.out.print(this.getClass().getCanonicalName());
+					}else{ 
 						try{
 							DOMelement ele =embeddedElements[count]; 
 							added = ele.toString() ;
@@ -660,6 +659,13 @@ public abstract class DOMelement extends   java.lang.Object  implements   Global
 	}
 	
 	/**
+	 * Adds an attribute role with the given role
+	 * @param role
+	 */
+	public void addAttribute(Role role) {
+		this.addAttribute(ApplicationManager.STRING_ROLE,role.name());
+	}
+	/**
 	 * Adds or over rights and attribute for the element
 	 * @param name
 	 * @param value
@@ -679,9 +685,9 @@ public abstract class DOMelement extends   java.lang.Object  implements   Global
  				}
 				//if(name.equals(tag(Style.class))){
 					if(this.style==null){
-						if(this.getAttributes().get("domClass")==null)
-							this.addAttribute("domClass", this.getAttributes().get("id"));
-						 this.style = new Style(this.getAttributes().get("domClass"));  
+						if(this.getAttributes().get(DOMclass.class.getSimpleName().toLowerCase())==null)
+							this.addAttribute(DOMclass.class.getSimpleName().toLowerCase(), this.getAttributes().get("id"));
+						 this.style = new Style(this.getAttributes().get(DOMclass.class.getSimpleName().toLowerCase()));  
 					}
 					this.style.addNewStyle(value);
 				 
@@ -695,11 +701,11 @@ public abstract class DOMelement extends   java.lang.Object  implements   Global
 				else{
 					attributes.put(name, attributes.get(name).concat(" ".concat(value)));
 				}
-			}else if(name.toLowerCase().equals("domclass")){
-				if(attributes.containsKey("domClass")){
-					attributes.put("domClass", attributes.get("domClass").concat(" ").concat(value));
+			}else if(name.toLowerCase().equals(DOMclass.class.getSimpleName().toLowerCase())){
+				if(attributes.containsKey(DOMclass.class.getSimpleName().toLowerCase())){
+					attributes.put(DOMclass.class.getSimpleName().toLowerCase(), attributes.get(DOMclass.class.getSimpleName().toLowerCase()).concat(" ").concat(value));
 				} else{
-					attributes.put(name,value);
+					attributes.put(DOMclass.class.getSimpleName().toLowerCase(),value);
 				}
 			} else{
 				attributes.put(name,value);
@@ -1914,5 +1920,15 @@ public abstract class DOMelement extends   java.lang.Object  implements   Global
 	 */
 	public boolean setBootstrap(Boolean boot) {
 		return this.bootstrap=boot;
+	}
+	
+	
+	public String getBasicOpenTag() {
+		return String.format(ApplicationManager.BASIC_OPEN_TAG, this.tag);
+	}
+	
+	
+	public String getBasicCloseTag() {
+		return String.format(ApplicationManager.BASIC_CLOSE_TAG, this.tag);
 	}
 }

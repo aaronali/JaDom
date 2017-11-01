@@ -1,5 +1,6 @@
 package com.ali.jadom;
  
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,13 +41,16 @@ public class ApplicationManager implements Serializable {
 	/** Specifies the default language for the document object **/
 	public static final String DEFAULT_HTML_LANG = "en";
 	/** Species an attribute not to be processed **/
-	public static final String FORCE_NO_ATTRIBUTE = "FORCE_NO_ATTRIBUTE";
 	public static final boolean FORCE_HTML_COMPLIANCE = true;
-	public static final String NULL_NODE_VALUE = "nullnodevalue";
 	public static final boolean JAVASCRIPT_CONDENSE = false;
 	public static final Boolean FORCE_LIST_VALUES = false; 
-	public static final String EVENT_LISTENER_NAME_PLACEHOLDER = "eventListenerNamePlaceHolder";
 	public static final boolean HTML_CONDENSE = false; 
+	
+	public static final String FORCE_NO_ATTRIBUTE = "FORCE_NO_ATTRIBUTE";
+	public static final String NULL_NODE_VALUE = "nullnodevalue";
+	public static final String EVENT_LISTENER_NAME_PLACEHOLDER = "eventListenerNamePlaceHolder";
+	public static final String BASIC_OPEN_TAG ="<%s>";
+	public static final String BASIC_CLOSE_TAG ="</%s>";
 
 	public static final String HTML="html";
 	public static final String STRING_DOMCLASS="domClass"; 
@@ -58,7 +62,7 @@ public class ApplicationManager implements Serializable {
 	public static final String STRING_NAME = "name";
 	public static final String STRING_TARGET ="target";
 	public static final String STRING_TITLE ="title"; 
-	public static final String STRING_NEWLINE = "\n";
+	public static final String STRING_NEWLINE = "\r\n";
 	public static final String STRING_ADDRESS_SEPERATOR = ", "; 
 	public static final String STRING_ALT = "alt";
 	public static final String STRING_SHAPE = "shape";
@@ -84,8 +88,21 @@ public class ApplicationManager implements Serializable {
 	public static final String STRING_CHARSET = "charset";
 	public static final String STRING_CONTENT = "content";
 	public static final String STRING_DOUBLE_UNDERSCORE = "__";
-	public static final String STRING_UNDERSCORE = "_"; 
-	public static String PATH_JADOM_SCRIPTS = "resources/scripts";
+	public static final String STRING_UNDERSCORE = "_";
+	public static final String STRING_HYPHEN = "-"; 
+	public static final String STRING_PERIOD = ".";
+	public static final String EXTENSTION_JADOM_HTML = ".jadom.html";
+	public static final String EXTENSTION_JADOM_CAROUSEL_DEFAULT_CSS = ".jadom.carousel.default.css";
+	public static final String EXTENSTION_JADOM_JS = ".jadom.js";
+	public static final String EXTENSTION_JADOM_CLASSES = ".jadom.classes";
+	public static final String STRING_SRCSET = "srcset";
+	public static final String STRING_FULLWIDTH = "fullwidth";
+	public static final String STRING_ROLE = "role";
+	
+
+	public static String RESOURCES_CSS ="resources".concat(String.valueOf(File.separatorChar)).concat("css").concat(String.valueOf(File.separatorChar)).trim(); 
+	public static String RESOURCES_JS = "resources".concat(String.valueOf(File.separatorChar)).concat("js").concat(String.valueOf(File.separatorChar)).trim(); 
+	public static String PATH_JADOM_SCRIPTS = "resources".concat(String.valueOf(File.separatorChar)).concat("scripts"); 
 	 
 	private static ArrayList<String> autoIds =  null;
 	private static ArrayList<String> autoFunctionName = null;

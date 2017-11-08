@@ -41,6 +41,11 @@ public class JadomConfig {
 	public static final String resources_js = "resources_js";
 	public static final String resources_css = "resources_css";
 	public static final String bootstrap_user_default_carousel_css = "bootstrap_user_default_carousel_css";
+	public static final String title_default = "title_default";
+	
+	
+	
+	
 	public enum SCRIPTS{
 		addEventListener_js_jadom,
 		document_getElementById_js_jadom,
@@ -57,6 +62,7 @@ public class JadomConfig {
 	
 	private ApplicationManager manager = new ApplicationManager(); 
 	public static ConcurrentHashMap<String,String>  Scripts = new ConcurrentHashMap<String,String>();
+	 
 	
 	private JadomConfig(){
 		debug=(properties.getProperty("debug") != null)?Boolean.valueOf(properties.getProperty("debug")):true;

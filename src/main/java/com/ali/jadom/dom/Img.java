@@ -3,7 +3,10 @@ package com.ali.jadom.dom;
 import java.util.HashMap;
 
 import com.ali.jadom.ApplicationManager;
+import com.ali.jadom.JadomConfig;
+import com.ali.jadom.annotations.Hidden;
 import com.ali.jadom.annotations.PreferredContructor;
+import com.ali.jadom.dom.superelements.DOMobject;
 import com.ali.jadom.dom.superelements.EmbeddedContent;
 import com.ali.jadom.dom.superelements.FlowingContent;
 import com.ali.jadom.dom.superelements.FormContent;
@@ -23,7 +26,8 @@ public class Img extends DOMelement implements FlowingContent, PhrasingContent, 
 	private static final long serialVersionUID = -892860380005107135L;
 	protected String src;
 	protected String alt;
-	protected String srcset; 
+	protected String srcset;  
+	@Hidden(ApplicationManager.FORCE_HTML_COMPLIANCE?true:false)
 	protected boolean isExternal = false;
 	protected String crossorigin ;  
 	protected long width;
@@ -105,14 +109,56 @@ public class Img extends DOMelement implements FlowingContent, PhrasingContent, 
 		this.src = src;
 		this.addAttribute(ApplicationManager.STRING_SRC,src);
 		this.alt = alt;
-		addAttribute(ApplicationManager.STRING_ALT, alt); 
-		//addAttribute("domClass","fullwidth-responsive");
-		addAttribute("style", "width:100%;");
+		addAttribute(ApplicationManager.STRING_ALT, alt);  
 	}
  
 
+	/**
+	 * Creates an img tag with the given src and using the given dom class
+	 * @param src
+	 * @param alt
+	 * @param domclass
+	 * @param isExternal
+	 */
+	@PreferredContructor
+	public Img(String src, String alt,DOMclass domclass, boolean isExternal){
+		super(tag(Img.class),ApplicationManager.NULL_NODE_VALUE,null,domclass.toString(),null,null);
+		this.isExternal = isExternal;
+		this.src = src;
+		this.addAttribute(ApplicationManager.STRING_SRC,src);
+		this.alt = alt;
+		addAttribute(ApplicationManager.STRING_ALT, alt);  
+	}
+ 
+	/**
+	 * 
+	 * @param src
+	 * @param alt
+	 * @param isExternal
+	 * @param id
+	 * @param domClass
+	 * @param Styles
+	 * @param jsCallout
+	 */
 	public Img(String src, String alt,boolean isExternal, String id, String domClass, String Styles, String jsCallout) {
 		super(tag(Img.class),ApplicationManager.NULL_NODE_VALUE, (id!=null)?id:ApplicationManager.getNextId(), domClass, Styles, jsCallout); 
+		this.src =src; 
+		this.isExternal = isExternal;
+		this.addAttribute(ApplicationManager.STRING_SRC,src);
+	}
+	
+	/**
+	 * 
+	 * @param src
+	 * @param alt
+	 * @param isExternal
+	 * @param id
+	 * @param domClass
+	 * @param Styles
+	 * @param jsCallout
+	 */
+	public Img(String src, String alt,boolean isExternal, String id, DOMobject domClass, String Styles, String jsCallout) {
+		super(tag(Img.class),ApplicationManager.NULL_NODE_VALUE, (id!=null)?id:ApplicationManager.getNextId(),domClass!=null?domClass.toString():null, Styles, jsCallout); 
 		this.src =src; 
 		this.isExternal = isExternal;
 		this.addAttribute(ApplicationManager.STRING_SRC,src);
@@ -221,12 +267,33 @@ public class Img extends DOMelement implements FlowingContent, PhrasingContent, 
 
 	@Override
 	public String toString(){
-		return super.toString();
+		boolean tempAlt=false;
+		//Create an html alt attribute if  it is missing
+		if(this.alt==null && ApplicationManager.FORCE_HTML_COMPLIANCE) {
+			this.setAlt(this.src.contains("/")?this.src.split("/")[this.src.split("/").length-1]:this.src);
+			if(this.src.contains("\\"))
+				this.setAlt(this.src.contains("\\")?this.src.split("\\")[this.src.split("\\").length-1]:this.src);
+			
+		
+			if(alt.contains(ApplicationManager.STRING_PERIOD))
+				this.setAlt(alt.substring(0, alt.indexOf(ApplicationManager.STRING_PERIOD)));
+			this.setAlt(JadomConfig.getInstance().get(JadomConfig.title_default).concat(ApplicationManager.STRING_SPACE)
+					.concat(alt));
+			tempAlt = true;
+		} 
+		String s = super.toString();
+		if(tempAlt)
+			this.setAlt(null);
+		return s;
 	} 
+	
+	
 	@Override
 	public boolean addDomElement(DOMelement element){
 		if(ApplicationManager.FORCE_HTML_COMPLIANCE)
 			this.throwComplianceError(this, element);
 		return super.addDomElement(element);
 	}
+	
+	 
 }  

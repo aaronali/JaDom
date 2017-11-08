@@ -12,16 +12,13 @@ import com.ali.jadom.dom.superelements.PhrasingContent;
 import com.ali.jadom.exceptions.JaDomComplianceError;
 
 /**
- * HTML Anchor tag class. This class is used to represent an HTML anchor tag. If the link is set as
- * not external a "Link?page=" will be added to the start if the link. Otherwise if the link is external
- * it will remain untouched. This is primarily designed to let developers know when links are going off site or cross origin.
- * @see com.ibm.ca.MainServlet.LinkServlet
+ * Java implementation of the HTML <b>a</b> anchor tag class.  
  * @see PhrasingContent
  * @see InteractiveContent
  * @see PalpableContent
  * @see FlowingContent
  * @author Aaron Ali
- *
+ * @version aplha-0.0.0
  */
 @Tag("a")
 public class A extends HTMLHyperlinkElementUtils implements PhrasingContent, InteractiveContent, PalpableContent, FlowingContent{
@@ -46,31 +43,36 @@ public class A extends HTMLHyperlinkElementUtils implements PhrasingContent, Int
 	protected String type;
 	/** The name of the link (equivalent to the anchors innerHtml or the DOMelements nodeValue)**/
 	protected String name;
+	
+	/** true if src is on the same page.
 	@Hidden(ApplicationManager.FORCE_HTML_COMPLIANCE?true:false)
 	public boolean inpage = false;
 
 	/**
-	 * Creates an anchor tag with the same properties as the given element
+	 * Creates an <b>a</b> anchor tag with the same properties as the given element
 	 * @param ele DOMelementInterface&ltA&gt
 	 */
-	public A(IDOMelement ele){
+	public A(IDOMelement ele){ 
 		super((DOMelement)ele);
-		this.download =((A)ele).download;
-		this.href =((A)ele).href;
-		this.hreflang=((A)ele).hreflang;
-		this.isExternal=((A)ele).isExternal;
-		this.name = ((A)ele).name;
-		this.newTab=((A)ele).newTab;
-		this.rel = ((A)ele).rel;
-		this.target=((A)ele).target;
-		this.type=((A)ele).type;
+		if(ele==null)
+			return;
+	 	this.download =((A)ele).download;
+			this.href =((A)ele).href;
+			this.hreflang=((A)ele).hreflang;
+			this.isExternal=((A)ele).isExternal;
+			this.name = ((A)ele).name;
+			this.newTab=((A)ele).newTab;
+			this.rel = ((A)ele).rel;
+			this.target=((A)ele).target;
+			this.type=((A)ele).type; 
 	}
 
 
 	/**
-	 * Creates an html anchor tag with the link as the label
+	 * Creates an external <b>a</b>
 	 * @param href
 	 * @param isExternal
+	 * @uses resources/jadom.config.properties [external_link_preffix]
 	 */
 	public A( String href, boolean isExternal) {
 		super(tag(A.class), href);

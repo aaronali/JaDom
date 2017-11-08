@@ -28,8 +28,8 @@ public class Style extends DOMelement implements MetadataContent , FlowingConten
 	
 	/**
 	 * Creates an empty style with he given name. If the given name is 'style' then the style will be
-	 *  created as a complete style script
-	 * rather then an individual style.
+	 *  created as a complete style script element
+	 * rather then an individual css style rule
 	 * @param name
 	 */
 	@PreferredContructor
@@ -43,6 +43,12 @@ public class Style extends DOMelement implements MetadataContent , FlowingConten
 		}
 	}
 	
+	
+	public Style(DOMelement element){ 
+		super(tag(Style.class),ApplicationManager.STRING_EMPTY,ApplicationManager.FORCE_NO_ATTRIBUTE,
+				ApplicationManager.FORCE_NO_ATTRIBUTE,ApplicationManager.FORCE_NO_ATTRIBUTE,ApplicationManager.FORCE_NO_ATTRIBUTE);
+		this.name=ApplicationManager.STRING_PERIOD.concat(element.id()); 
+	}
 	
 	public Style(String name, String[]valueNames, String[]values){ 
 		super(tag(Style.class),"",ApplicationManager.FORCE_NO_ATTRIBUTE,
@@ -155,11 +161,14 @@ public class Style extends DOMelement implements MetadataContent , FlowingConten
 	 * @param styleString
 	 */
 	public void addNewStyle(String styleString){
+		if(!styleString.trim().endsWith(ApplicationManager.CHAR_SEMICOLON)) {
+			styleString = styleString.trim().concat(";");
+		}
 		if(styleString!=null && styleString!=ApplicationManager.FORCE_NO_ATTRIBUTE){
 			if(!styleScript){
 				String[] styls = styleString.replace("{", "").replace("}", "").trim().split(";");
 				for(int i=0;i<styls.length;i++){
-					addNewStyle(styls[i].split(":")[0],styls[i].split(":")[1].replace(";", "").concat(";"));
+					addNewStyle(styls[i].split(":")[0],styls[i].split(":")[1].replace(";", ""));
 				}
 			}
 			else {
@@ -189,22 +198,25 @@ public class Style extends DOMelement implements MetadataContent , FlowingConten
 			addDomElement(style);
 			 
 		else{
-			this.valuesNames=style.valuesNames;
-			this.values = style.values;
+			for(int i =0; i <style.values.length-1; i++) {
+				this.valuesNames = this.growStringArray(valuesNames);
+				this.values =this.growStringArray(values); 
+				this.values[values.length-1]=style.values[i];
+				this.valuesNames[valuesNames.length-1]=style.valuesNames[i];
+			} 
 		} 
 	}
 	 
 	
 	@Override
 	public String toString(){ 
-		if(styleScript){
-			 
+		if(styleScript && this.embeddedElements!=null){ 
 			 if(nodevalue!=null && !nodevalue.replace('\n',' ').trim().isEmpty()){
-				String style = " \n<"+tag(Style.class)+">\n" +this.nodevalue;//this.generateStyleSheet();
-			/*	for(int i =0; i< this.getEmbeddedElements().length;i++){
-					style =style.concat(((Style)this.getEmbeddedElements()[i]).toString()+"\n");
+				String style = " \n<"+tag(Style.class)+">\n" ;//+this.nodevalue;//this.generateStyleSheet();
+			 	for(int i =0; i< this.getEmbeddedElements().length;i++){
+					style =style.concat(this.embeddedElements[i].toString()+"\n");
 					
-				}*/
+				} 
 				style =style.concat("</"+tag(Style.class)+">\n");
 				 
 			return style;
@@ -212,9 +224,9 @@ public class Style extends DOMelement implements MetadataContent , FlowingConten
 		}else{
 		try{
 			if(valuesNames!=null){
-				String style = ((isId)?'#':'.')+name+"{\n";
+				String style = ((isId)?'#':ApplicationManager.STRING_EMPTY)+name+"{\n";
 				for(int i=0; i<valuesNames.length;i++){
-					style+="   "+valuesNames[i]+" : " +values[i] +";\n";
+					style+="   "+valuesNames[i]+" : " +values[i] +";\r\n";
 				} 
 			style+="}";
 			return style;
@@ -320,5 +332,19 @@ public class Style extends DOMelement implements MetadataContent , FlowingConten
 			}
 		}
 		return style;
+	}
+	
+	public String toInlineString() {
+		String string ="";
+		for(int i =0; i< this.valuesNames.length;i++) {
+			string = string.concat(this.valuesNames[i].trim()).concat(":").concat(this.values[i].trim().replaceAll("\"", "'")).concat("; ");
+			if( ApplicationManager.HTML_CONDENSE) {
+			 	string = string.replaceAll(":"," : ").replaceAll("  ", " ");
+			}else {
+				string = string.replaceAll("  ", " ").replaceAll("; ",";"); 
+			} 
+				 
+		}
+		return string;
 	}
 }

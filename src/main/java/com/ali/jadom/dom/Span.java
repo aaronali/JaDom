@@ -1,5 +1,6 @@
 package com.ali.jadom.dom;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 import com.ali.jadom.ApplicationManager;
@@ -7,21 +8,35 @@ import com.ali.jadom.dom.superelements.FlowingContent;
 import com.ali.jadom.dom.superelements.PalpableContent;
 import com.ali.jadom.dom.superelements.PhrasingContent;
 
+/**
+ * HTML span tag
+ * @author Aaron Ali
+ *
+ */
 @Tag("span")
 public class Span extends DOMelement  implements PalpableContent, FlowingContent, PhrasingContent { 
-	
  
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = 1417026522618671534L;
+	/**
+	 * Creates an empty span tag
+	 */
 	public Span( ) {
 		super(tag(Span.class)); 
 	} 
+	
+	
+	public Span(DOMclass domClass) {
+		super(tag(Span.class),domClass);  
+	}
+
+	
+	
 	/**
-	 * 
-	 * @param code
+	 * Creates a span with the given classes
+	 * @param bootNavClass
 	 */
-	public Span( String code) {
-		super(tag(Span.class), code); 
+	public Span( Collection<DOMclass> bootNavClass) {
+		super(tag(Span.class), bootNavClass); 
 	}
 	 /**
 	  * 
@@ -43,11 +58,12 @@ public class Span extends DOMelement  implements PalpableContent, FlowingContent
 		super(tag(Span.class), code, id, domClass, Styles, jsCallout); 
 	}
 
-	
+ 
+
 	@Override
 	public boolean addDomElement(DOMelement element){
 		if(ApplicationManager.FORCE_HTML_COMPLIANCE && !element.isOfType(PhrasingContent.class))
-			throw new RuntimeException(this.getClass().getCanonicalName().concat(" is not allowed to have a child element of type ").concat(element.getClass().getCanonicalName()).concat("\n Set ApplicationManager.FORCE_HTML_COMPLIANCE to false to override"));
+			super.throwComplianceError(this, element);
 		return super.addDomElement(element);
 	}
 	@Override

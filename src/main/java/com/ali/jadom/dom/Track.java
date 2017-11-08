@@ -2,7 +2,7 @@ package com.ali.jadom.dom;
 
 import com.ali.jadom.ApplicationManager;
 
-public abstract class Track extends DOMelement {
+public  class Track extends DOMelement {
 	 
 	private static final long serialVersionUID = -2675598578034021285L;
 	public enum States{
@@ -24,6 +24,10 @@ public abstract class Track extends DOMelement {
 	protected String srclang;
 	protected String label;
 	protected boolean default_;
+	
+	public Track() {
+		super(tag(Track.class),ApplicationManager.NULL_NODE_VALUE);
+	}
 	/**
 	 * 
 	 * @param kind

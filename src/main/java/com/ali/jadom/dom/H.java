@@ -19,22 +19,54 @@ public class H extends DOMelement implements HeadingContent, PalpableContent, Fl
 	}
 	
 
-	
+	/**
+	 * 
+	 * @param headerSize
+	 * @param headerText
+	 */
 	public H(int headerSize, String headerText){
 		super(tag(H.class)+headerSize,headerText);
 		this.headerSize = headerSize;
 	}
 	
+	/**
+	 * 
+	 * @param headerSize
+	 * @param headerText
+	 * @param domClass
+	 */
 	public H(int headerSize, String headerText, DOMclass domClass) {
 		super(tag(H.class)+headerSize,headerText);
 		this.headerSize = headerSize;
 		this.addAttribute(DOMclass.class.getSimpleName().toLowerCase(), domClass.name);
 	}
 	
+	/**
+	 * 
+	 * @param headerSize
+	 * @param headerText
+	 * @param id
+	 * @param domClass
+	 * @param jsCallOut
+	 */
 	public H(int headerSize, String headerText, String id, String domClass, String jsCallOut){
 		super(tag(H.class)+headerSize,headerText, id,   domClass,   null, jsCallOut); 
 		this.headerSize = headerSize;
 	}
+	
+	/**
+	 * 
+	 * @param headerSize
+	 * @param headerText
+	 * @param id
+	 * @param domenum
+	 * @param jsCallOut
+	 */
+	public H(int headerSize, String headerText, String id, Enum<?> domenum, String jsCallOut){
+		super(tag(H.class)+headerSize,headerText, id,   domenum.toString(),   null, jsCallOut); 
+		this.headerSize = headerSize;
+	}
+	
 	
 	public H(int headerSize, String headerText, HashMap<String, String> attributes) {
 		super(tag(H.class)+headerSize,headerText, attributes);
@@ -59,5 +91,18 @@ public class H extends DOMelement implements HeadingContent, PalpableContent, Fl
 	public String toString(){
 		return super.toString(); 
 	}
+	
+	@Override
+	public String getBasicOpenTag() {
+		return String.format(ApplicationManager.BASIC_OPEN_TAG,this.getClass().getSimpleName().toLowerCase()).concat(String.valueOf(this.headerSize));
+	}
+	
+	
+	@Override
+	public String getBasicCloseTag() {
+		return "</".concat(this.getClass().getSimpleName().toLowerCase()).concat(String.valueOf(this.headerSize)).concat(">");
+	}
+	
+	
 }
 //

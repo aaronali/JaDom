@@ -1,5 +1,8 @@
 package com.ali.jadom.dom;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import com.ali.jadom.ApplicationManager;
 import com.ali.jadom.JadomConfig;
 import com.ali.jadom.bootstrap.Bootstrap;
@@ -25,6 +28,7 @@ public class Head extends DOMelement implements SectioningRoot{
 	 */
 	public Head() {
 		super(tag(Head.class), ApplicationManager.STRING_EMPTY, ApplicationManager.FORCE_NO_ATTRIBUTE, ApplicationManager.FORCE_NO_ATTRIBUTE, null,null);
+		this.style =null;
 	} 
 	
 	/**
@@ -55,7 +59,7 @@ public class Head extends DOMelement implements SectioningRoot{
 		if(this.getEmbeddedElements()!=null){
 			for(int i=0 ; i < this.getEmbeddedElements().length; i++){
 				if(this.getEmbeddedElements()[i].isOfType(Title.class)){
-					this.getEmbeddedElements()[i].nodevalue =title;
+					this.embeddedElements[i].nodevalue =title;
 					return;
 				} 
 			} 
@@ -87,9 +91,27 @@ public class Head extends DOMelement implements SectioningRoot{
 		return super.addDomElement(element);
 	}
 	
+	 
 	
 	@Override
-	public String toString(){ 
+	public String toString(){  
+
+		if(!ApplicationManager.INLINE_SYTLES) { 
+			Collection<Style> sty = this.document.embeddedElements[0].embeddedElements[1].collectStyles();
+			System.out.println(sty.size());
+			if(style==null) {
+			 	 style =new Style(Style.class.getSimpleName().toLowerCase());
+				for(Style ss : sty) {
+					if(!ss.styleScript) {
+					 	this.style.addNewStyle(ss.name, ss.toInlineString());
+				}
+				// this.setStyle(style);
+				}
+			}else if(style!=null) {
+				this.addDomElement(style);
+			}
+		}
+		//System.out.println(this.style.generateStyles().toString());
 		String prepended = null;
 		if(this.isBootstrapped()) {  
 			Bootstrap bootstrap = new Bootstrap();
@@ -98,8 +120,7 @@ public class Head extends DOMelement implements SectioningRoot{
 			}catch(Exception e){
 				bootstrap.setUseDefaultCarouselCss(true);
 			}
-			
-				prepended = bootstrap.getCssIncudes();
+			prepended = bootstrap.getCssIncudes();
 		}
 		String s = super.toString();
 		while(s.contains("\n\n")){

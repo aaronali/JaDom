@@ -1,6 +1,6 @@
 package com.ali.jadom.dom;
 
-public class DOMclass {
+public class DOMclass implements com.ali.jadom.dom.superelements.DOMobject {
 
 	protected String name;  
 	public static String STRING_CLASS="class";

@@ -2,45 +2,23 @@ package com.ali.jadom.dom;
  
 
 import com.ali.jadom.ApplicationManager;
-import com.ali.jadom.dom.superelements.EmbeddedContent;
+import com.ali.jadom.annotations.Hidden;
 import com.ali.jadom.dom.superelements.FlowingContent;
 import com.ali.jadom.dom.superelements.FormAssociated;
 import com.ali.jadom.dom.superelements.InteractiveContent;
 import com.ali.jadom.dom.superelements.Labelable;
-import com.ali.jadom.dom.superelements.Listed;
-import com.ali.jadom.dom.superelements.PalpableContent;
-import com.ali.jadom.dom.superelements.PhrasingContent;
-import com.ali.jadom.dom.superelements.Reasscociateable;
+import com.ali.jadom.dom.superelements.Listed; 
+import com.ali.jadom.dom.superelements.PhrasingContent; 
 import com.ali.jadom.dom.superelements.Submittable;
 
-/**
- * attribute boolean autofocus;
-           attribute boolean disabled;
-  readonly attribute HTMLFormElement form;
-           attribute DOMString formAction;
-           attribute DOMString formEnctype;
-           attribute DOMString formMethod;
-           attribute DOMString formNoValidate;
-           attribute DOMString formTarget;
-           attribute DOMString name;
-           attribute DOMString type;
-           attribute DOMString value;
-
-  readonly attribute boolean willValidate;
-  readonly attribute ValidityState validity;
-  readonly attribute DOMString validationMessage;
-  boolean checkValidity();
-  void setCustomValidity(in DOMString error);
-
-  readonly attribute NodeList labels; 
- 
- * @author AARONAli
- *
+/**HTML Button tag
+ * @author Aaron Ali
+ * 
  */
 @Tag("button")
 public class Button extends DOMelement implements FlowingContent, PhrasingContent, Labelable, InteractiveContent, Listed,Submittable,  FormAssociated{
-    
-	private static final long serialVersionUID = 6780387456838359054L;
+     
+	private static final long serialVersionUID = 72031289195983746L;
 	protected boolean disabled;
 	 protected DOMelement form; 
 	 protected String formAction;
@@ -50,13 +28,17 @@ public class Button extends DOMelement implements FlowingContent, PhrasingConten
 	 protected String formTarget;  
 	 protected String value; 
 	protected ButtonTypeEnum type = ButtonTypeEnum.submit;  
-	protected String name; 
+	protected String name;  
+	@Hidden(ApplicationManager.FORCE_HTML_COMPLIANCE?true:false)
 	protected boolean willValidate;
 	protected ValidityStateEnum validity = null;
 	protected String validationMessage;
 //	  boolean checkValidity();
 	//  void setCustomValidity(in DOMString error);
  
+	/**
+	 * Creates an empty button tag
+	 */
 	public Button(){
 		super(tag(Button.class));
 	}
@@ -97,15 +79,17 @@ public class Button extends DOMelement implements FlowingContent, PhrasingConten
 	 * @param Styles
 	 * @param jsCallout
 	 */
-	public Button( String id, String domClass, String Styles, String jsCallout) {
-		super(tag(Button.class), "", id, domClass, Styles, jsCallout); 
+	public Button( String id, String domClass, String Styles, String jsCallout,ButtonTypeEnum type) {
+		super(tag(Button.class),ApplicationManager.STRING_EMPTY, id, domClass, Styles, jsCallout); 
+		this.setType(type);
 	}
- 
- 
+  
 	 
- 
-	 
-	 
+	public Button(ButtonTypeEnum type) {
+		super(tag(Button.class),ApplicationManager.STRING_EMPTY);
+		this.setType(type);
+	
+	}
 	public synchronized final String getName() {
 		return name;
 	}
@@ -113,11 +97,78 @@ public class Button extends DOMelement implements FlowingContent, PhrasingConten
 	public synchronized final void setName(String name) {
 		this.name = name;
 		if(name!=null)
-			addAttribute("name",name);
-		else removeAttribute("name");
+			addAttribute(ApplicationManager.STRING_NAME,name);
+		else removeAttribute(ApplicationManager.STRING_NAME);
 	} 
 	
 	
+	public boolean isDisabled() {
+		return disabled;
+	}
+	public void setDisabled(boolean disabled) {
+		this.disabled = disabled;
+		
+	}
+	public String getFormAction() {
+		return formAction;
+	}
+	public void setFormAction(String formAction) {
+		this.formAction = formAction;
+	}
+	public String getFormEnctype() {
+		return formEnctype;
+	}
+	public void setFormEnctype(String formEnctype) {
+		this.formEnctype = formEnctype;
+	}
+	public String getFormMethod() {
+		return formMethod;
+	}
+	public void setFormMethod(String formMethod) {
+		this.formMethod = formMethod;
+	}
+	public String getFormNoValidate() {
+		return formNoValidate;
+	}
+	public void setFormNoValidate(String formNoValidate) {
+		this.formNoValidate = formNoValidate;
+	}
+	public String getFormTarget() {
+		return formTarget;
+	}
+	public void setFormTarget(String formTarget) {
+		this.formTarget = formTarget;
+	}
+	public String getValue() {
+		return value;
+	}
+	public void setValue(String value) {
+		this.value = value;
+	}
+	public ButtonTypeEnum getType() {
+		return type;
+	}
+	public void setType(ButtonTypeEnum type) {
+		this.type = type;
+	}
+	public boolean isWillValidate() {
+		return willValidate;
+	}
+	public void setWillValidate(boolean willValidate) {
+		this.willValidate = willValidate;
+	}
+	public ValidityStateEnum getValidity() {
+		return validity;
+	}
+	public void setValidity(ValidityStateEnum validity) {
+		this.validity = validity;
+	}
+	public String getValidationMessage() {
+		return validationMessage;
+	}
+	public void setValidationMessage(String validationMessage) {
+		this.validationMessage = validationMessage;
+	}
 	public synchronized final Form getForm() {
 		return (Form)form;
 	}
@@ -136,7 +187,7 @@ public class Button extends DOMelement implements FlowingContent, PhrasingConten
 	@Override
 	public boolean addDomElement(DOMelement element){
 		if(ApplicationManager.FORCE_HTML_COMPLIANCE && !element.isOfType(Param.class))
-			throw new RuntimeException(this.getClass().getCanonicalName().concat(" is only  allowed to have the child elements of type ".concat(Param.class.getCanonicalName()).concat(".\n Set ApplicationManager.FORCE_HTML_COMPLIANCE  to override")));
+			super.throwComplianceError(this, element);
 		return super.addDomElement(element);
 	}
 	

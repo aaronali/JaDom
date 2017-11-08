@@ -3,6 +3,7 @@ package com.ali.jadom.bootstrap;
 import java.io.Serializable;
 
 import com.ali.jadom.ApplicationManager;
+import com.ali.jadom.dom.DOMclass;
 
 public enum Bootstrap400Beta implements Serializable, BootEnum{ 
 	active

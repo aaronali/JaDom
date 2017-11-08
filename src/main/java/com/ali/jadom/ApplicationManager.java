@@ -1,8 +1,12 @@
 package com.ali.jadom;
  
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.HashMap; 
 import java.util.Random;
@@ -12,7 +16,8 @@ import com.ali.jadom.dom.Abbr;
 import com.ali.jadom.dom.DOMelement;
 import com.ali.jadom.dom.IDOMelement;
 import com.ali.jadom.javascript.EventListener;
-import com.ali.jadom.javascript.EventListenerInterface; 
+import com.ali.jadom.javascript.EventListenerInterface;
+import com.ali.java.jaFile.FileReader; 
  
 
 public class ApplicationManager implements Serializable {
@@ -46,6 +51,8 @@ public class ApplicationManager implements Serializable {
 	public static final Boolean FORCE_LIST_VALUES = false; 
 	public static final boolean HTML_CONDENSE = false; 
 	
+
+	public static final boolean ALLOW_EMPTY_ELEMENTS = false;
 	public static final String FORCE_NO_ATTRIBUTE = "FORCE_NO_ATTRIBUTE";
 	public static final String NULL_NODE_VALUE = "nullnodevalue";
 	public static final String EVENT_LISTENER_NAME_PLACEHOLDER = "eventListenerNamePlaceHolder";
@@ -74,7 +81,8 @@ public class ApplicationManager implements Serializable {
 	public static final String STRING_WIDTH ="width"; 
 	public static final String STRING_SCRIPTS ="scripts"; 
 	public static final String STRING_HEIGHT ="height";
-	public static final String STRING_SRC ="src";public static final String STRING_ID ="id";
+	public static final String STRING_SRC ="src";
+	public static final String STRING_ID ="id";
 	public static final String STRING_SPACE =" ";
 	public static final String STRING_DBLSPACE ="  ";
 	public static final String STRING_CANVAS_NOT_SUPPORTED= "Canvas is not supported by your browser";
@@ -98,6 +106,8 @@ public class ApplicationManager implements Serializable {
 	public static final String STRING_SRCSET = "srcset";
 	public static final String STRING_FULLWIDTH = "fullwidth";
 	public static final String STRING_ROLE = "role";
+	public static final String STRING_UNTITLED = "untitled";
+	public static final String CHAR_SEMICOLON = ";"; 
 	
 
 	public static String RESOURCES_CSS ="resources".concat(String.valueOf(File.separatorChar)).concat("css").concat(String.valueOf(File.separatorChar)).trim(); 
@@ -191,7 +201,7 @@ public class ApplicationManager implements Serializable {
 	}
 	
 	/**<i>public static <b>String</b> getNextId</i><b>()</b><br>
-	 * Generates an auto id and returns the string
+	 * Generates an unique auto id and returns the string
 	 * @return String alphaNumberic auto id
 	 */
 	public static String getNextId(){ 
@@ -280,29 +290,90 @@ public class ApplicationManager implements Serializable {
 	
 	// ERROR MESSAGE HELPERS
 	private String getClassNotAllowedClass =  " is not allowd to hav a child of type. ";
+	/**
+	 * Returns the custom error string for adding an unsupported element
+	 * @return String Error message String
+	 */
 	public String getClassNotAllowedClass(){
 		return getClassNotAllowedClass;
 	}
-	public void setClassNotAllowedClass(String string){
-		getClassNotAllowedClass = string;
+	
+	private String getElementCreationError =  " failed to create empty class  ";
+	/**
+	 * Returns the custom error string for adding an unsupported element
+	 * @return String Error message String
+	 */
+	public String getElementCreationError(){
+		return getElementCreationError;
 	}
 	
+	/**
+	 * Set the custom error string for adding an unsupported element
+	 * @param string
+	 */
+	public void setClassNotAllowedClass(String string){
+		getClassNotAllowedClass = string;
+	} 
 	
 	private String getClassNotAllowedAttribute =  " is not allowed to have any attributes. ";
+	/**
+	 * Returns the custom error string for adding an unsupported attribute
+	 * @return String Error message
+	 */
 	public String getClassNotAllowedAttribute(){
 		return getClassNotAllowedAttribute;
 	}
+	/**
+	 * Set the custom error string for adding an unsupported attributes
+	 * @param string
+	 */
 	public void setClassNotAllowedAttribute(String string){
 		getClassNotAllowedAttribute = string;
 	}
 	
 	private String genericHelp = " Change ApplicationManager.FORCE_HTML_COMPLIANCE to override.";
+	/**
+	 * Returns the custom helper string for overriding an unsupported elements error
+	 * @return String Error message
+	 */
 	public String getGenericeHelp(){
 		return genericHelp;
 	}
 	
 	private String getClassNotAllowedClasses = " is not allowed to have any child elements.";
+	/**
+	 * Returns the custom error string for no elements allowed
+	 * @return String Error message
+	 */
 	public String getClassNotAllowedClasses() {
 		return getClassNotAllowedClasses;
 	} 
+	
+	 
+	/**
+	 * Converts a file to an encoded Base64 Binary
+	 * @param file
+	 * @return
+	 */
+	public String FileToBase64Binary(File file) { 
+         String encodedfile = null;
+         FileInputStream fileInputStreamReader = null ;
+       try {
+           fileInputStreamReader = new FileInputStream(file);
+           byte[] bytes = new byte[(int)file.length()];
+           fileInputStreamReader.read(bytes);
+           encodedfile = Base64.getEncoder().encodeToString(bytes);
+       } catch (FileNotFoundException e) { 
+           e.printStackTrace();
+       } catch (IOException e) { 
+           e.printStackTrace();
+       }finally {
+    	   try {
+			fileInputStreamReader.close();
+		} catch (IOException e) { 
+			e.printStackTrace();
+		}
+       } 
+       return encodedfile;
+   } 
 }

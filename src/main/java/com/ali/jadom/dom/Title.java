@@ -5,9 +5,18 @@ import com.ali.jadom.dom.superelements.HeadingContent;
 import com.ali.jadom.dom.superelements.MetadataContent;
 import com.ali.jadom.exceptions.JaDomComplianceError; 
 
+/**
+ * HTLM Title Tag
+ * @author Aaron Ali
+ *
+ */
 @Tag("title")
-public class Title extends DOMelement implements HeadingContent, MetadataContent { 
-	private static final long serialVersionUID = -529116677843930199L; 
+public class Title extends DOMelement implements HeadingContent, MetadataContent {  
+	
+ 
+	private static final long serialVersionUID = 1047216784188892921L;
+
+
 	public Title(IDOMelement element){
 		super((DOMelement)element);
 	}
@@ -36,8 +45,8 @@ public class Title extends DOMelement implements HeadingContent, MetadataContent
 			if(domClass!=null || id !=null || styles!=null || jsCallout !=null)
 				throw new JaDomComplianceError(JaDomComplianceError.ErrorEnum.NO_ATTRIBUTES_ALLOWED,null,null);
 		}
-		super.addAttribute("id", id);
-		super.addAttribute("domClass", domClass);
+		super.addAttribute(ApplicationManager.STRING_ID, id);
+		super.addAttribute(DOMclass.class.getSimpleName().toLowerCase(), domClass);
 		super.addAttribute("style",Styles);
 		super.addAttribute("jsCallOut", jsCallout);
 	}
@@ -49,7 +58,8 @@ public class Title extends DOMelement implements HeadingContent, MetadataContent
 
 	@Override
 	public String toString(){ 
-		return "<".concat(tag(this.getClass())).concat(">").concat(nodevalue).concat("</").concat(tag(this.getClass())).concat(">\n"); 
+		return super.getBasicOpenTag().concat(nodevalue).concat(super.getBasicCloseTag());
+		//return "<".concat(tag(this.getClass())).concat(">").concat(nodevalue).concat("</").concat(tag(this.getClass())).concat(">\n"); 
 	}
 	@Override
 	public void addAttribute(String name, String value){
@@ -62,7 +72,7 @@ public class Title extends DOMelement implements HeadingContent, MetadataContent
 	@Override
 	public boolean addDomElement(DOMelement element){
 		if(ApplicationManager.FORCE_HTML_COMPLIANCE)
-			throw new RuntimeException(this.getClass().getCanonicalName().concat(ApplicationManager.appManager.getClassNotAllowedClasses()).concat(ApplicationManager.appManager.getGenericeHelp()));
+			super.throwComplianceError(this, element);
 		return super.addDomElement(element);
 	} 
 }

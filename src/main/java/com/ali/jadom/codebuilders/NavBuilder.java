@@ -1,5 +1,6 @@
 package com.ali.jadom.codebuilders;
 
+import com.ali.jadom.dom.Div;
 import com.ali.jadom.dom.Span;
 
 public class NavBuilder {
@@ -70,7 +71,7 @@ public class NavBuilder {
 		if(!navBuilder.toString().contains("<ul"))
 				navBuilder.append("      <ul id=\"navMenu\" class=\"navMenu navUlClass\">\n");
 		navItems++;
-		 navBuilder.append("            <li role=\"presentation\"   class=\"navLinkClass "+domClass+"\"><a href=\"./Link?page="+link+"\">"+linkText+"</a></li>\n");
+		 navBuilder.append("            <li role=\"presentation\"   class=\"navLinkClass "+domClass+"\"><a href=\""+link+"\">"+linkText+"</a></li>\n");
 	}
 	
 	
@@ -134,8 +135,8 @@ public class NavBuilder {
 		this.navBuilder.append(code);
 	}
 	
-	public Span getAsSpan(){ 
-		return new Span(this.getCode());
+	public Div getAsSpan(){ 
+		return new Div(this.getCode());
 	}
 	
 	

@@ -41,3 +41,5 @@ function assign(){
 	 	xhttp.send("/location=true&undefined="+temp.undefined+"&closed=" + temp.closed + "&defaultStatus="+ temp.defaultStatus+"&frames="+temp.frames+"&fullscreen="+temp.fullscreen+"&hoffset="+temp.hoffset+"&innerHeight="+temp.innerHeight+"&innerwidth="+temp.innerWidth+"&length="+temp.length+"&mozInnerScreenX="+temp.mozInnerScreenX+"&InnerScreenY="+ temp.InnerScreenY+"&mozPaintCount="+ temp.mozPaintCount+"&name="+temp.name+"&opener="+ temp.opener +"&pageYOffset="+ temp.pageYOffset +"&pageXOffset=" + temp.pageXOffset + "&screenX="+temp.screenX +"screenY&="+ temp.screenY +"&scrollMaxX="+ temp.scrollMaxX +"scrollMaxY="+temp.scrollMaxY+"&scollX="+ temp.scollX+"&scrollY="+ temp.scrollY+"&status="+ temp.status + "&wOffset="+temp.wOffset+"&widHieght="+ temp.widHieght+"&wimHeight="+temp.wimHeight+"&winWidth="+temp.winWidth+"&wimHeight="+temp.wimHeight);
 
 }
+
+// unit test comfirmations setWindows.js

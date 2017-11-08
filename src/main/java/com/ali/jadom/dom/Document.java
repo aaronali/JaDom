@@ -17,7 +17,9 @@ import com.ali.jadom.dom.superelements.MetadataContent;
 import com.ali.jadom.dom.superelements.SectioningRoot;
 import com.ali.jadom.exceptions.JaDomComplianceError;
 import com.ali.java.jaFile.FileReader;
-import com.ali.java.jalo.Logger; 
+import com.ali.java.jalo.Logger;
+
+import sun.reflect.generics.reflectiveObjects.NotImplementedException; 
 
 /**
  * DOM Document class
@@ -66,7 +68,9 @@ public class Document extends DOMelement implements  Serializable {
 	 // getter object (DOMString name);
 	protected String title=null;
 	protected String dir=null;
+	@Hidden(true)
 	protected DOMelement body=null;
+	@Hidden(true)
     protected DOMelement head=null;
     protected Collection<DOMelement> images=null;
     protected Collection<DOMelement> embeds=null;
@@ -93,7 +97,7 @@ public class Document extends DOMelement implements  Serializable {
     
     
 	public Document() {
-		super(tag(Document.class), "nullnodevalue", ApplicationManager.FORCE_NO_ATTRIBUTE, 
+		super(tag(Document.class), ApplicationManager.NULL_NODE_VALUE, ApplicationManager.FORCE_NO_ATTRIBUTE, 
 				ApplicationManager.FORCE_NO_ATTRIBUTE, ApplicationManager.FORCE_NO_ATTRIBUTE, ApplicationManager.FORCE_NO_ATTRIBUTE); 
 		addAttribute("",doctype);
 		System.out.println(ApplicationManager.PATH_JADOM_SCRIPTS);
@@ -101,7 +105,7 @@ public class Document extends DOMelement implements  Serializable {
 	} 
 	
 	public Document(String doctype) {
-		super(tag(Document.class), "nullnodevalue", ApplicationManager.FORCE_NO_ATTRIBUTE, 
+		super(tag(Document.class), ApplicationManager.NULL_NODE_VALUE, ApplicationManager.FORCE_NO_ATTRIBUTE, 
 				ApplicationManager.FORCE_NO_ATTRIBUTE, ApplicationManager.FORCE_NO_ATTRIBUTE, ApplicationManager.FORCE_NO_ATTRIBUTE); 
 		this.doctype =doctype;
 		if(doctype!=null) {
@@ -131,7 +135,8 @@ public class Document extends DOMelement implements  Serializable {
 		this.recurse= document.recurse; 
 		this.body=document.body;
 		this.head=document.head; 
-		windowLoader=Script.createScript(JadomConfig.Scripts.get(JadomConfig.SCRIPTS.setWindows_js_jadom.toString()));  
+		if(windowLoader==null)
+			windowLoader=Script.createScript(JadomConfig.Scripts.get(JadomConfig.SCRIPTS.setWindows_js_jadom.toString()));  
 	}
 	
     
@@ -159,7 +164,7 @@ public class Document extends DOMelement implements  Serializable {
 	public void addHeaderStyle(String src){ 
 		if(this.getEmbeddedElements()==null)
 			this.addDomElement(new Head());
-		src =src.replace(ApplicationManager.STRING_NEWLINE, "").trim();
+		src =src.replace(ApplicationManager.STRING_NEWLINE, ApplicationManager.STRING_EMPTY).trim();
 		src = src.replace("{","{\n" ).trim();
 		src = src.replace(";}",";\n}\n").trim();
 		src.replace("}", "}\n\n").trim();
@@ -233,9 +238,22 @@ public class Document extends DOMelement implements  Serializable {
 		 }
 	} */
  	 	@Override
-		public boolean addDomElement(DOMelement element)  { 
+		public boolean addDomElement(DOMelement element)  {
+ 	 		JadomConfig config = JadomConfig.getInstance();
 			if(this.document==null)
 				this.document= this; 
+			if(element.getClass().equals(Body.class)) {
+				if(this.embeddedElements==null && ApplicationManager.FORCE_HTML_COMPLIANCE) {
+					this.addDomElement(new Html());
+				}
+				if(ApplicationManager.FORCE_HTML_COMPLIANCE && !this.embeddedElements[0].contains(Head.class)) {
+					Head head = new Head();
+					Title title = new Title(config.get(JadomConfig.title_default)!=null?config.get(JadomConfig.title_default):ApplicationManager.STRING_UNTITLED);
+					head.addDomElement(title);
+					this.embeddedElements[0].addDomElement(head);
+				}
+				setBody(element);
+			}
 			element.document =this;
 			assignBody(element);
 			assignParent(element);
@@ -262,15 +280,20 @@ public class Document extends DOMelement implements  Serializable {
 							return this.getEmbeddedElements()[0].addDomElement(element);
 						}
 						if(this.getEmbeddedElements()!=null && this.getEmbeddedElements()[0].getEmbeddedElements()!=null)  {
-							if(this.getEmbeddedElements()[0].contains(Head.class) ) {
+					System.out.println("pss");
+							if(this.embeddedElements[0].contains(Head.class) ) {
 								if(element.document!=this)
 									element.document=this;
-								this.getEmbeddedElements()[0].getEmbeddedElements()[0] = element;
+								this.embeddedElements[0].embeddedElements[0] = element;
 								this.body=element;
-								return  this.getEmbeddedElements()[0].getEmbeddedElements()[0] == element;
+								return  this.embeddedElements[0].embeddedElements[0] == element;
 							}
 							
 						}
+//						if(this.embeddedElements[0].embeddedElements[0].getClass().equals(Head.class)) {
+//							this.embeddedElements[0].embeddedElements[0]=element;
+//							return true;
+//						}
 						return this.getEmbeddedElements()[0].addDomElement(head);
 					} 
 					if(element.getClass().equals(Body.class)) { 
@@ -337,25 +360,17 @@ public class Document extends DOMelement implements  Serializable {
 	 * @param title
 	 */
 	public void changeTitle(String title){
-		if(!this.contains(Head.class)){
+		if(!this.embeddedElements[0].contains(Head.class)){
 			Head head=new Head();
 			head.addTitle(title);
 			this.addDomElement(head);
 		}else{
-			DOMelement ele =this.getEmbeddedElements()[0];
-			if(ele!=null)
-				if(ele.isOfType(Head.class)){
-					if(ele.contains(Title.class)){
-						for(int i=0;i<ele.getEmbeddedElements().length;i++){
-							if(ele.getEmbeddedElements()[i].isOfType(Title.class)){
-								ele.getEmbeddedElements()[i].nodevalue=title;
-								return;
-							}
-						}
-						(ele).addDomElement(new Title(title));
-						return;
-					}
-				} 
+			DOMelement ele =this.embeddedElements[0].embeddedElements[0];  
+			if(ele.contains(Title.class) && ApplicationManager.FORCE_HTML_COMPLIANCE) {
+				this.embeddedElements[0].embeddedElements[0].removeDomElement(Title.class);
+			}
+			this.embeddedElements[0].embeddedElements[0].addDomElement(new Title(title)); 
+				 
 		} 
 	}
 	
@@ -380,6 +395,20 @@ public class Document extends DOMelement implements  Serializable {
 	
 	@Override
 	public String toString(){ 
+		if(ApplicationManager.FORCE_HTML_COMPLIANCE) { 
+			if(!this.embeddedElements[0].contains(Head.class)) {
+				Head head = new Head();
+				head.addTitle("untitled");
+				this.embeddedElements[0].addDomElement(this.createDefaultHead());
+			}else {
+				if(!this.embeddedElements[0].embeddedElements[0].contains(Title.class)) {
+					this.embeddedElements[0].embeddedElements[0].addDomElement(new Title("JaDom"));
+				}
+			}
+			if(!this.embeddedElements[0].contains(Body.class)) {
+				this.embeddedElements[0].addDomElement(new Body());
+			}
+		}
 		/*String s = super.toString();
 		if(ApplicationManager.INLINE_SYTLES || recurse){
 			return s;  
@@ -398,26 +427,33 @@ public class Document extends DOMelement implements  Serializable {
 		this.nodename = tag.concat(ApplicationManager.STRING_SPACE).concat(this.doctype);
 		String s = super.toString(); 
 		this.nodename = tag;
-		if(ApplicationManager.INLINE_SYTLES || recurse){
+	//	if(ApplicationManager.INLINE_SYTLES || recurse){
+		if( recurse){
 			return s;  
 		}   
-		StyleBuilder styleBuilder = new StyleBuilder();
-		styleBuilder.addStyle(this); 
-		Style tempStyle=new Style(tag(Style.class));
-		tempStyle.setNodevalue(styleBuilder.generateStyleSheet()); 
+	//	StyleBuilder styleBuilder = new StyleBuilder();
+	//	styleBuilder.addStyle(this); 
+	//	Style tempStyle=new Style(tag(Style.class));
+	//	tempStyle.setNodevalue(styleBuilder.generateStyleSheet()); 
 		 Document doc = new Document(this); 
 		 if(doc.getEmbeddedElements()!= null && doc.getEmbeddedElements()[0].getEmbeddedElements()!=null){
-			 doc.getEmbeddedElements()[0].getEmbeddedElements()[0].addDomElement(tempStyle); 
-			 doc.getEmbeddedElements()[0].getEmbeddedElements()[0].addDomElement(windowLoader);
+			 if(ApplicationManager.INLINE_SYTLES) {
+				// doc.embeddedElements[0].embeddedElements[0].addDomElement(tempStyle); 
+			 }
+			 doc.embeddedElements[0].embeddedElements[0].addDomElement(windowLoader);
 		 }
-	 	 if(tempStyle.getEmbeddedElements()!=null && tempStyle.getEmbeddedElements().length>0){
-				doc.getEmbeddedElements()[0].addDomElement(tempStyle); 
-				 doc.getEmbeddedElements()[0].addDomElement(windowLoader);
-	 	 }
+//		 else
+//	 	 if(tempStyle.getEmbeddedElements()!=null && tempStyle.getEmbeddedElements().length>0){
+//			 if(ApplicationManager.INLINE_SYTLES) {
+//				//doc.getEmbeddedElements()[0].addDomElement(tempStyle); 
+//			 }
+//			 doc.embeddedElements[0].addDomElement(windowLoader);
+//	 	 }
+	 	 else
 	 	 if(this.getEmbeddedElements()!=null && this.getEmbeddedElements().length>0) {
 		 	 for(int i=0; i<this.getEmbeddedElements().length;i++){
 		 		 if(this.getEmbeddedElements()[i].isOfType(Script.class)){
-		 			 doc.getEmbeddedElements()[0].addDomElement(this.getEmbeddedElements()[i]);
+		 			 doc.embeddedElements[0].addDomElement(this.getEmbeddedElements()[i]);
 		 		 }
 		 	 }
 	 	 }
@@ -521,28 +557,35 @@ public class Document extends DOMelement implements  Serializable {
 	}
 
 	public boolean setBody(DOMelement body) {
-		this.body = body;
+		body.document=this;
+		this.body = body; 
 		if(this.getEmbeddedElements()==null || (ApplicationManager.FORCE_HTML_COMPLIANCE && !this.contains(Html.class))) {
 			this.setEmbeddedElements(new DOMelement[0]);
 			if(ApplicationManager.FORCE_HTML_COMPLIANCE) { 
 				Html html = new Html();
-				Title title = new Title("");
-				Head head = new Head();
-				head.addDomElement(title);
-				html.addDomElement(new Head());
+				html.document=this;
+				
+				head = this.createDefaultHead();
+				html.addDomElement(head);
 				html.addDomElement(body);
 				return super.addDomElement(html); 
 			}else {
 				return this.addDomElement(body);
 			}
 		}else if(ApplicationManager.FORCE_HTML_COMPLIANCE && !this.contains(Html.class)) { 
-			super.addDomElement(new Html());
-			this.getEmbeddedElements()[0].addDomElement(body);
+			Html html = new Html(); 
+			html.addDomElement(this.createDefaultHead());
+			html.addDomElement(body);
+			return super.addDomElement(html); 
 		}
 		if(this.getEmbeddedElements()[0].contains(Body.class) && ApplicationManager.FORCE_HTML_COMPLIANCE) {
-			this.removeDomElement(Body.class);  
+			this.embeddedElements[0].embeddedElements[1]=body; 
+			return true;
+		}else if(ApplicationManager.FORCE_HTML_COMPLIANCE && !this.embeddedElements[0].contains(Head.class)) {
+			this.head= new Head();
+			this.embeddedElements[0].addDomElement(head);
 		}
-		return this.getEmbeddedElements()[0].addDomElement(body); 
+		return this.embeddedElements[0].addDomElement(body); 
 		
 	}
 
@@ -559,12 +602,36 @@ public class Document extends DOMelement implements  Serializable {
 	
 	public void addLinktoHead() {
 		DOMelement element = this.getElementById(head.getElementId());
+		throw new NotImplementedException();
 		
 	}
 
-	public void setHead(DOMelement head) {
-		this.addDomElement(head);
+	public boolean setHead(DOMelement head) {
+		head.document=this;
 		this.head = head;
+		if(this.getEmbeddedElements()==null || (ApplicationManager.FORCE_HTML_COMPLIANCE && !this.contains(Html.class))) {
+			this.setEmbeddedElements(new DOMelement[0]);
+			if(ApplicationManager.FORCE_HTML_COMPLIANCE) { 
+				Html html = new Html();
+				html.document=this;
+				if(!head.contains(Title.class)) {
+					head.addDomElement(new Title(""));
+					this.head=head;
+				}  
+				html.addDomElement(head);
+				html.addDomElement(new Body());
+				return super.addDomElement(html); 
+			}else {
+				return this.addDomElement(head);
+			}
+		}else if(ApplicationManager.FORCE_HTML_COMPLIANCE && !this.contains(Html.class)) { 
+			super.addDomElement(new Html());
+			this.getEmbeddedElements()[0].addDomElement(head);
+		}
+		if(this.getEmbeddedElements()[0].contains(Head.class) && ApplicationManager.FORCE_HTML_COMPLIANCE) {
+			this.removeDomElement(Head.class);  
+		}
+		return this.getEmbeddedElements()[0].addDomElement(head); 
 		
 	}
 
@@ -644,5 +711,18 @@ public class Document extends DOMelement implements  Serializable {
 		return false;
 	} 
 	 
+	
+	/**
+	 * CReates a default head and returns it
+	 * @return
+	 */
+	private Head createDefaultHead() { 
+		JadomConfig config = JadomConfig.getInstance();
+		Head head = new Head();
+		head.document=this;
+		Title title = new Title(config.get(JadomConfig.title_default)!=null?config.get(JadomConfig.title_default):ApplicationManager.STRING_UNTITLED);
+		head.addDomElement(title); 
+		return head;
+	}
 
 }

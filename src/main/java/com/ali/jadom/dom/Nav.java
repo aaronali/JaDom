@@ -1,8 +1,9 @@
 package com.ali.jadom.dom;
 
-import java.util.HashMap;
+import java.util.Collection;
+import java.util.HashMap; 
 
-import com.ali.jadom.ApplicationManager;
+import com.ali.jadom.ApplicationManager; 
 import com.ali.jadom.dom.superelements.FlowingContent;
 import com.ali.jadom.dom.superelements.PalpableContent;
 import com.ali.jadom.dom.superelements.SectioningContent;
@@ -10,21 +11,25 @@ import com.ali.jadom.dom.superelements.SectioningContent;
 @Tag("nav")
 public class Nav extends DOMelement implements PalpableContent, FlowingContent, SectioningContent{
  
-	 
-	private static final long serialVersionUID = 4569043272607536805L;
+	  
 	/**
 	 * 
-	 * @param element
 	 */
-	public Nav(IDOMelement element){
-		super((Nav)element);
+	private static final long serialVersionUID = 5100626194202254691L;
+
+	/**
+	 * 
+	 * @param bootNavClass
+	 */
+	public Nav(Collection<DOMclass> bootNavClass){
+		super(tag(Nav.class), bootNavClass);
 	}
 	
 	/**
 	 * 
 	 */
 	public Nav(){
-		super(tag(Nav.class), ""); 
+		super(tag(Nav.class),ApplicationManager.STRING_EMPTY); 
 	}
 	
 	/**
@@ -82,8 +87,8 @@ public class Nav extends DOMelement implements PalpableContent, FlowingContent, 
 	}
 	@Override
 	public boolean addDomElement(DOMelement element){
-		if(ApplicationManager.FORCE_HTML_COMPLIANCE && (!element.isOfType(FlowingContent.class) || element.isOfType(Main.class)))
-			throw new RuntimeException(this.getClass().getCanonicalName().concat(" is not allowed to have a child element of type ").concat(element.getClass().getCanonicalName()).concat("\n Set ApplicationManager.FORCE_HTML_COMPLIANCE to false to override"));
+		if(ApplicationManager.FORCE_HTML_COMPLIANCE && (!element.isOfType(FlowingContent.class)  &&  !element.isOfType(SectioningContent.class)  && !element.isOfType(PalpableContent.class)  && !element.isOfType(Main.class)))
+			super.throwComplianceError(this, element);
 		return super.addDomElement(element);
 	}
 	 

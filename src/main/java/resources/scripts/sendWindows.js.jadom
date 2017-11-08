@@ -12,3 +12,4 @@ function sendWindows(){
 	xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 	xhttp.send("newLocation=true&scaller="+l.caller+"&name="+l.name+"&hash="+l.hash+"&host="+ encodeURI(l.hostname)+"&href="+encodeURI(l.href)+"&orgin="+ encodeURI(l.orgin)+"&protocal="+ encodeURI(l.protocol)+"&search="+encodeURI(l.search));
  }
+ // unittest comfirmation sendwindow.js //

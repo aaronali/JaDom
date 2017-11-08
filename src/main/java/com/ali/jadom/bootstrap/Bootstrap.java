@@ -2,14 +2,24 @@ package com.ali.jadom.bootstrap;
   
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.ali.jadom.ApplicationManager;
 import com.ali.jadom.JadomConfig;
+import com.ali.jadom.dom.A;
+import com.ali.jadom.dom.Button;
+import com.ali.jadom.dom.ButtonTypeEnum;
+import com.ali.jadom.dom.DOMclass;
+import com.ali.jadom.dom.DOMelement;
 import com.ali.jadom.dom.Link;
 import com.ali.jadom.dom.Meta;
+import com.ali.jadom.dom.Nav;
 import com.ali.jadom.dom.RelTypeEnum;
+import com.ali.jadom.dom.Span;
 import com.ali.jadom.exceptions.JaDomBootstrapConfigurationError; 
 import com.ali.java.jalo.Logger;
 
@@ -235,6 +245,44 @@ public class Bootstrap {
 	 public boolean updateCssFile(String filename, String fileString) { 
 		 cssFileMapping.put(filename,fileString);
 		 return cssFileMapping.get(filename)!=null;
+	 }
+	 
+	 private Collection<DOMclass> bootNavClass = new ArrayList<DOMclass>();
+	 
+	 private Nav buildNav(String brandName, boolean useBrandAnchor) {
+		 bootNavClass.add(Bootstrap400Beta.navbar.toDomClass());
+		 bootNavClass.add(Bootstrap400Beta.navbar_expand_lg.toDomClass());
+		 bootNavClass.add(Bootstrap400Beta.navbar_light.toDomClass());
+		 bootNavClass.add(Bootstrap400Beta.bg_light.toDomClass()); 
+		 Nav nav = new Nav(bootNavClass);
+		 if(brandName!=null && useBrandAnchor)
+			 nav.addDomElement(setNavBranding(brandName,"href"));
+		 else if(brandName!=null && !useBrandAnchor)
+			 nav.addDomElement(new Span(Bootstrap400Beta.navbar_brand.toDomClass()));
+		 return nav;
+	 }
+	 private  A setNavBranding(String name, String href) {
+		 A a = new A(href,false);
+		 a.setAnchorText(name);
+		 a.addAttribute(Bootstrap400Beta.navbar_brand.toDomClass());
+		 return a;
+	 }
+	 
+	 public Nav getNav(String brandName, String href,boolean useBrandAnchor) {
+		 return buildNav(brandName,useBrandAnchor);
+	 }
+	 
+	 
+	 private Collection<DOMclass> cls = null;
+	 
+	 public void setNavClass(Collection<DOMclass> cls) {
+		 this.cls=cls;
+	 }
+	 public void setResponsiveToggleButton(DOMelement element) {
+		 if(element==null) {
+			 Button button = new Button(ButtonTypeEnum.button);
+			 
+		 }
 	 }
 }
 	  

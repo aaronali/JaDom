@@ -51,7 +51,7 @@ public class Div extends DOMelement implements FlowingContent, PalpableContent{
 	 */
 	@PreferredContructor
 	public Div(String divHTML, String id, DOMclass domClass) { 
-		super(tag(Div.class),divHTML, id,   domClass.toString(),   null, null); 
+		super(tag(Div.class),divHTML, id,  domClass!=null ? domClass.toString() : null,   null, null); 
 	}
 	
 	
